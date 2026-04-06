@@ -1,6 +1,10 @@
-# VantaCode Taxonomies
+<p align="center">
+  <img src="docs/logo.png" alt="VantaCode" width="420" />
+</p>
 
-**Machine-readable taxonomies for AI threat classification, repo governance, and critical infrastructure mapping. MISP-compatible.**
+<h1 align="center">VantaCode Taxonomies</h1>
+
+<p align="center"><strong>Machine-readable taxonomies for AI threat classification, repo governance, and critical infrastructure mapping. MISP-compatible.</strong></p>
 
 [![License: CC0-1.0](https://img.shields.io/badge/License-CC0_1.0-lightgrey.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
 [![Validate Taxonomies](https://github.com/vantacode/vantacode-taxonomies/actions/workflows/validate.yml/badge.svg)](https://github.com/vantacode/vantacode-taxonomies/actions/workflows/validate.yml)
