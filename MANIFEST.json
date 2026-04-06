@@ -1,0 +1,44 @@
+{
+  "version": "20260406",
+  "license": "CC0-1.0",
+  "description": "Manifest file of VantaCode taxonomies available.",
+  "url": "https://raw.githubusercontent.com/vantacode/vantacode-taxonomies/main/",
+  "path": "machinetag.json",
+  "taxonomies": [
+    {
+      "name": "vantacode-domain",
+      "version": 1,
+      "description": "Classification of code repositories by functional security domain."
+    },
+    {
+      "name": "vantacode-sector",
+      "version": 1,
+      "description": "Mapping of repositories to CISA critical infrastructure sectors and emerging sectors."
+    },
+    {
+      "name": "vantacode-threat",
+      "version": 1,
+      "description": "Mapping of repositories to MITRE ATT&CK tactics."
+    },
+    {
+      "name": "vantacode-mbt",
+      "version": 1,
+      "description": "Malicious Behaviors Taxonomy for AI and ML system threats."
+    },
+    {
+      "name": "vantacode-status",
+      "version": 1,
+      "description": "Repository lifecycle status classification."
+    },
+    {
+      "name": "vantacode-sensitivity",
+      "version": 1,
+      "description": "Data sensitivity and classification markings for repositories."
+    },
+    {
+      "name": "vantacode-governance",
+      "version": 1,
+      "description": "Governance baseline compliance scoring for repositories."
+    }
+  ]
+}

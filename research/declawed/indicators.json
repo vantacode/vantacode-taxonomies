@@ -1,0 +1,127 @@
+{
+  "name": "DECLAWED Indicator Types",
+  "version": 1,
+  "source": "https://declawed.io",
+  "last_updated": "2026-04-06",
+  "feed_protocol": "TAXII 2.1",
+  "feed_format": "STIX 2.1",
+  "update_interval": "15 minutes",
+  "_metadata": {
+    "author": "DarkCode LLC",
+    "author_contact": "cory@darkcode.ai",
+    "author_handle": "NoDataFound",
+    "project": "VantaCode",
+    "project_url": "https://github.com/vantacode",
+    "license": "CC0-1.0"
+  },
+  "indicator_types": [
+    {
+      "id": "IND-01",
+      "type": "ipv4-addr",
+      "stix_type": "indicator",
+      "name": "Exposed Instance IP (IPv4)",
+      "description": "IPv4 addresses hosting exposed AI agent instances discovered by DECLAWED scanning.",
+      "count_context": "46,200+ unique IPs tracked",
+      "enrichment": ["geolocation", "asn", "whois", "reputation_score"]
+    },
+    {
+      "id": "IND-02",
+      "type": "ipv6-addr",
+      "stix_type": "indicator",
+      "name": "Exposed Instance IP (IPv6)",
+      "description": "IPv6 addresses hosting exposed AI agent instances.",
+      "count_context": "Subset of total unique IPs",
+      "enrichment": ["geolocation", "asn", "whois", "reputation_score"]
+    },
+    {
+      "id": "IND-03",
+      "type": "vulnerability",
+      "stix_type": "vulnerability",
+      "name": "CVE Detection",
+      "description": "Known CVE identifiers detected on exposed AI agent instances through version fingerprinting and vulnerability assessment.",
+      "count_context": "2,500,000+ CVE detections across all instances",
+      "enrichment": ["cvss_score", "cisa_kev_status", "exploit_available", "patch_available"]
+    },
+    {
+      "id": "IND-04",
+      "type": "file:hashes",
+      "stix_type": "indicator",
+      "name": "Malicious Skill Hash",
+      "description": "Cryptographic hashes (SHA-256, MD5) of confirmed malicious ClawHub skills.",
+      "count_context": "5 confirmed malicious skills",
+      "enrichment": ["skill_name", "c2_infrastructure", "behavior_description", "first_seen"]
+    },
+    {
+      "id": "IND-05",
+      "type": "domain-name",
+      "stix_type": "indicator",
+      "name": "C2 Domain",
+      "description": "Command-and-control domain names used by confirmed malicious ClawHub skills for callbacks, data exfiltration, or command retrieval.",
+      "count_context": "Mapped per malicious skill",
+      "enrichment": ["registrar", "registration_date", "hosting_ip", "ssl_cert_info"]
+    },
+    {
+      "id": "IND-06",
+      "type": "ipv4-addr",
+      "stix_type": "indicator",
+      "name": "C2 Infrastructure IP",
+      "description": "IP addresses of command-and-control infrastructure associated with malicious ClawHub skills.",
+      "count_context": "Mapped per malicious skill",
+      "enrichment": ["geolocation", "asn", "hosting_provider", "related_domains"]
+    },
+    {
+      "id": "IND-07",
+      "type": "vulnerability",
+      "stix_type": "vulnerability",
+      "name": "CISA KEV Entry",
+      "description": "CISA Known Exploited Vulnerabilities flagged on exposed instances. Indicates vulnerabilities actively being exploited in the wild.",
+      "count_context": "37,000+ instances with CISA KEV matches",
+      "enrichment": ["kev_date_added", "kev_due_date", "kev_product", "kev_vendor"]
+    },
+    {
+      "id": "IND-08",
+      "type": "autonomous-system",
+      "stix_type": "observed-data",
+      "name": "ASN/Network Data",
+      "description": "Autonomous system number and network ownership data for hosting infrastructure of exposed instances.",
+      "count_context": "Per instance",
+      "enrichment": ["asn_name", "asn_country", "asn_registry", "network_cidr"]
+    },
+    {
+      "id": "IND-09",
+      "type": "x-declawed-geolocation",
+      "stix_type": "observed-data",
+      "name": "Instance Geolocation",
+      "description": "Country-level geolocation of exposed AI agent instances derived from IP geolocation databases.",
+      "count_context": "82 countries represented",
+      "enrichment": ["country_code", "country_name", "region", "city"]
+    },
+    {
+      "id": "IND-10",
+      "type": "x-declawed-fingerprint",
+      "stix_type": "observed-data",
+      "name": "Platform Fingerprint",
+      "description": "Version and configuration fingerprint of the AI agent platform (OpenClaw/MoltBot/ClawdBot). Includes platform version, installed skills, authentication state, and exposed endpoints.",
+      "count_context": "Per instance",
+      "enrichment": ["platform_version", "platform_brand", "auth_enabled", "exposed_endpoints", "installed_skills"]
+    },
+    {
+      "id": "IND-11",
+      "type": "x-declawed-breach-link",
+      "stix_type": "observed-data",
+      "name": "Breach Linkage",
+      "description": "Association between an exposed AI agent instance's hosting infrastructure and previously reported data breaches.",
+      "count_context": "56,600+ instances with breach linkage",
+      "enrichment": ["breach_name", "breach_date", "breach_records", "breach_type"]
+    },
+    {
+      "id": "IND-12",
+      "type": "x-declawed-apt-link",
+      "stix_type": "observed-data",
+      "name": "APT Activity Association",
+      "description": "Association between an exposed AI agent instance's hosting infrastructure and known APT (Advanced Persistent Threat) activity.",
+      "count_context": "70,000+ instances with APT associations",
+      "enrichment": ["apt_group", "apt_country", "activity_type", "confidence"]
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/vantacode/vantacode-taxonomies/main/schema/taxonomy.schema.json",
+  "title": "MISP Taxonomy machinetag.json Schema",
+  "description": "JSON Schema for validating MISP-compatible taxonomy machinetag.json files.",
+  "type": "object",
+  "required": ["namespace", "description", "version", "predicates"],
+  "additionalProperties": false,
+  "properties": {
+    "namespace": {
+      "type": "string",
+      "description": "The taxonomy namespace. Used as the first element in the triple tag format namespace:predicate=\"value\".",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of the taxonomy."
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Version number of the taxonomy. Must be incremented on changes."
+    },
+    "exclusive": {
+      "type": "boolean",
+      "description": "If true, only one predicate value pair can be applied from this taxonomy."
+    },
+    "refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      },
+      "description": "Reference URLs for the taxonomy."
+    },
+    "predicates": {
+      "type": "array",
+      "minItems": 1,
+      "description": "The predicate definitions for this taxonomy.",
+      "items": {
+        "type": "object",
+        "required": ["value", "expanded"],
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "string",
+            "description": "Machine-readable predicate name.",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "expanded": {
+            "type": "string",
+            "description": "Human-readable predicate name."
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed description of the predicate."
+          },
+          "exclusive": {
+            "type": "boolean",
+            "description": "If true, values under this predicate are mutually exclusive."
+          },
+          "numerical_value": {
+            "type": "integer",
+            "description": "Numerical value for scoring or ranking."
+          },
+          "colour": {
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$",
+            "description": "Hex color code for display."
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid",
+            "description": "UUID v4 identifier."
+          }
+        }
+      }
+    },
+    "values": {
+      "type": "array",
+      "description": "Value definitions grouped by predicate.",
+      "items": {
+        "type": "object",
+        "required": ["predicate", "entry"],
+        "additionalProperties": false,
+        "properties": {
+          "predicate": {
+            "type": "string",
+            "description": "The predicate this set of values belongs to."
+          },
+          "entry": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["value", "expanded"],
+              "additionalProperties": false,
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "description": "Machine-readable value."
+                },
+                "expanded": {
+                  "type": "string",
+                  "description": "Human-readable value."
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Detailed description of the value."
+                },
+                "numerical_value": {
+                  "type": "integer",
+                  "description": "Numerical value for scoring or ranking."
+                },
+                "colour": {
+                  "type": "string",
+                  "pattern": "^#[0-9a-fA-F]{6}$",
+                  "description": "Hex color code for display."
+                },
+                "uuid": {
+                  "type": "string",
+                  "format": "uuid",
+                  "description": "UUID v4 identifier."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

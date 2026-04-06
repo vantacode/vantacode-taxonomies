@@ -1,0 +1,209 @@
+{
+  "name": "VantaCode MBT to MITRE ATT&CK Enterprise",
+  "version": 1,
+  "source": "vantacode-mbt",
+  "target": "mitre-attack",
+  "target_url": "https://attack.mitre.org",
+  "mappings": [
+    {
+      "source_tag": "vantacode:mbt:observation-dependent-behavior=\"eval-benchmark-detection\"",
+      "target_id": "T1497",
+      "target_name": "Virtualization/Sandbox Evasion",
+      "relationship": "analogous-to",
+      "confidence": "high",
+      "notes": "OFA observation-dependent behavior is functionally analogous to malware sandbox evasion. Both involve detecting the observation context and modifying behavior."
+    },
+    {
+      "source_tag": "vantacode:mbt:observation-dependent-behavior=\"sandboxing-detection\"",
+      "target_id": "T1497.001",
+      "target_name": "Virtualization/Sandbox Evasion: System Checks",
+      "relationship": "analogous-to",
+      "confidence": "high",
+      "notes": "AI sandboxing detection mirrors traditional malware environment checks for VMs and sandboxes."
+    },
+    {
+      "source_tag": "vantacode:mbt:observation-dependent-behavior=\"alignment-faking\"",
+      "target_id": "T1036",
+      "target_name": "Masquerading",
+      "relationship": "analogous-to",
+      "confidence": "medium",
+      "notes": "Alignment faking is an AI-specific form of masquerading — presenting as aligned during evaluation while operating differently when unmonitored."
+    },
+    {
+      "source_tag": "vantacode:mbt:adversarial-input-vulnerabilities=\"prompt-injection\"",
+      "target_id": "T1059",
+      "target_name": "Command and Scripting Interpreter",
+      "relationship": "analogous-to",
+      "confidence": "medium",
+      "notes": "Prompt injection shares structural similarity with command injection but targets natural language interfaces rather than shell interpreters."
+    },
+    {
+      "source_tag": "vantacode:mbt:adversarial-input-vulnerabilities=\"jailbreak\"",
+      "target_id": "T1548",
+      "target_name": "Abuse Elevation Control Mechanism",
+      "relationship": "analogous-to",
+      "confidence": "medium",
+      "notes": "Jailbreaks bypass model safety constraints, analogous to bypassing OS-level access controls and privilege boundaries."
+    },
+    {
+      "source_tag": "vantacode:mbt:adversarial-input-vulnerabilities=\"model-extraction\"",
+      "target_id": "T1213",
+      "target_name": "Data from Information Repositories",
+      "relationship": "analogous-to",
+      "confidence": "medium",
+      "notes": "Model extraction via adversarial probing harvests the model's learned knowledge, analogous to extracting data from information repositories."
+    },
+    {
+      "source_tag": "vantacode:mbt:insecure-ai-deployment=\"exposed-control-panel\"",
+      "target_id": "T1133",
+      "target_name": "External Remote Services",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Exposed AI control panels are external remote services accessible from the internet, directly matching the ATT&CK technique."
+    },
+    {
+      "source_tag": "vantacode:mbt:insecure-ai-deployment=\"default-credentials\"",
+      "target_id": "T1078.001",
+      "target_name": "Valid Accounts: Default Accounts",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "AI platforms deployed with factory-default credentials are a direct instance of the default accounts technique."
+    },
+    {
+      "source_tag": "vantacode:mbt:insecure-ai-deployment=\"unauthenticated-inference\"",
+      "target_id": "T1190",
+      "target_name": "Exploit Public-Facing Application",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Unauthenticated inference endpoints are public-facing applications vulnerable to abuse without any exploitation required."
+    },
+    {
+      "source_tag": "vantacode:mbt:insecure-ai-deployment=\"malicious-skill-plugin\"",
+      "target_id": "T1195.002",
+      "target_name": "Supply Chain Compromise: Compromise Software Supply Chain",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Malicious agent skills/plugins are a supply chain compromise vector specific to AI agent platforms."
+    },
+    {
+      "source_tag": "vantacode:mbt:insecure-ai-deployment=\"misconfigured-tool-permissions\"",
+      "target_id": "T1068",
+      "target_name": "Exploitation for Privilege Escalation",
+      "relationship": "analogous-to",
+      "confidence": "medium",
+      "notes": "Misconfigured agent tool permissions grant excessive access, functionally equivalent to privilege escalation through misconfiguration."
+    },
+    {
+      "source_tag": "vantacode:mbt:insecure-ai-deployment=\"bound-to-all-interfaces\"",
+      "target_id": "T1133",
+      "target_name": "External Remote Services",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Binding to 0.0.0.0 exposes the AI service as an external remote service on all network interfaces."
+    },
+    {
+      "source_tag": "vantacode:mbt:ai-supply-chain-threats=\"training-data-poisoning\"",
+      "target_id": "T1565.001",
+      "target_name": "Data Manipulation: Stored Data Manipulation",
+      "relationship": "analogous-to",
+      "confidence": "high",
+      "notes": "Training data poisoning manipulates the stored data used to build models, analogous to stored data manipulation in traditional environments."
+    },
+    {
+      "source_tag": "vantacode:mbt:ai-supply-chain-threats=\"trojan-model\"",
+      "target_id": "T1195.002",
+      "target_name": "Supply Chain Compromise: Compromise Software Supply Chain",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Trojan/backdoored models are a direct supply chain compromise — the model artifact itself is the compromised software component."
+    },
+    {
+      "source_tag": "vantacode:mbt:ai-supply-chain-threats=\"malicious-ml-dependency\"",
+      "target_id": "T1195.001",
+      "target_name": "Supply Chain Compromise: Compromise Software Dependencies and Development Tools",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Compromised ML pipeline packages (PyPI, npm, HuggingFace) are a direct instance of software dependency compromise."
+    },
+    {
+      "source_tag": "vantacode:mbt:ai-supply-chain-threats=\"compromised-model-registry\"",
+      "target_id": "T1195.002",
+      "target_name": "Supply Chain Compromise: Compromise Software Supply Chain",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "A compromised model registry serves malicious artifacts to downstream consumers, a software supply chain compromise."
+    },
+    {
+      "source_tag": "vantacode:mbt:data-exfiltration-via-ai=\"training-data-extraction\"",
+      "target_id": "T1005",
+      "target_name": "Data from Local System",
+      "relationship": "analogous-to",
+      "confidence": "medium",
+      "notes": "Extracting memorized training data from model outputs is an AI-specific form of harvesting data from the local system (the model's weights)."
+    },
+    {
+      "source_tag": "vantacode:mbt:data-exfiltration-via-ai=\"agent-lateral-movement\"",
+      "target_id": "T1021",
+      "target_name": "Remote Services",
+      "relationship": "analogous-to",
+      "confidence": "high",
+      "notes": "AI agents using tool access to move laterally mirrors attackers using remote services for lateral movement."
+    },
+    {
+      "source_tag": "vantacode:mbt:data-exfiltration-via-ai=\"tool-use-abuse\"",
+      "target_id": "T1059",
+      "target_name": "Command and Scripting Interpreter",
+      "relationship": "analogous-to",
+      "confidence": "medium",
+      "notes": "AI agents abusing legitimate tool access for unauthorized operations parallels command interpreter abuse."
+    },
+    {
+      "source_tag": "vantacode:mbt:data-exfiltration-via-ai=\"steganographic-exfiltration\"",
+      "target_id": "T1001.002",
+      "target_name": "Data Obfuscation: Steganography",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Steganographic exfiltration through AI-generated outputs directly maps to the ATT&CK steganography technique."
+    },
+    {
+      "source_tag": "vantacode:mbt:data-exfiltration-via-ai=\"context-window-persistence\"",
+      "target_id": "T1557",
+      "target_name": "Adversary-in-the-Middle",
+      "relationship": "analogous-to",
+      "confidence": "low",
+      "notes": "Context window data persistence allows one user's data to leak to another, functionally similar to intercepting data in transit between sessions."
+    },
+    {
+      "source_tag": "vantacode:mbt:ai-model-integrity=\"fine-tuning-attack\"",
+      "target_id": "T1565",
+      "target_name": "Data Manipulation",
+      "relationship": "analogous-to",
+      "confidence": "medium",
+      "notes": "Malicious fine-tuning manipulates model behavior, analogous to data manipulation that alters system behavior."
+    },
+    {
+      "source_tag": "vantacode:mbt:ai-model-integrity=\"silent-model-drift\"",
+      "target_id": "T1485",
+      "target_name": "Data Destruction",
+      "relationship": "analogous-to",
+      "confidence": "low",
+      "notes": "Silent model drift degrades model reliability over time, a slow-motion form of destroying the integrity of the model's useful output."
+    },
+    {
+      "source_tag": "vantacode:mbt:insecure-ai-deployment=\"missing-network-segmentation\"",
+      "target_id": "T1046",
+      "target_name": "Network Service Discovery",
+      "relationship": "extends",
+      "confidence": "medium",
+      "notes": "Missing network segmentation for AI workloads expands the attack surface discoverable via network service scanning."
+    },
+    {
+      "source_tag": "vantacode:mbt:insecure-ai-deployment=\"exposed-training-data\"",
+      "target_id": "T1530",
+      "target_name": "Data from Cloud Storage",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Exposed training data and model weights stored in cloud or accessible storage directly maps to data from cloud storage."
+    }
+  ]
+}

@@ -1,0 +1,315 @@
+{
+  "namespace": "vantacode-mbt",
+  "description": "Malicious Behaviors Taxonomy (MBT) for AI and ML system threats. Classifies AI-specific malicious behaviors, vulnerabilities, and deployment risks. Informed by DarkCode LLC research including the Observation Framing Attack (OFA), DarkCogswell adversarial ML research, and DECLAWED exposed AI agent tracking.",
+  "version": 1,
+  "exclusive": false,
+  "refs": [
+    "https://github.com/vantacode/vantacode-taxonomies",
+    "https://declawed.io",
+    "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
+  ],
+  "predicates": [
+    {
+      "value": "observation-dependent-behavior",
+      "expanded": "Observation-Dependent Behavior",
+      "description": "AI systems that behave differently based on whether they believe they are being monitored, evaluated, or observed. Analogous to malware sandbox detection.",
+      "exclusive": false,
+      "uuid": "a1461d22-943e-4d10-ab92-80e6f21b2f17"
+    },
+    {
+      "value": "adversarial-input-vulnerabilities",
+      "expanded": "Adversarial Input Vulnerabilities",
+      "description": "AI systems vulnerable to crafted inputs that cause misclassification, evasion, or behavioral manipulation across digital and physical domains.",
+      "exclusive": false,
+      "uuid": "7425822f-29a0-4a72-acd3-0349cce533b3"
+    },
+    {
+      "value": "insecure-ai-deployment",
+      "expanded": "Insecure AI Deployment",
+      "description": "AI systems deployed with configurations that expose them to unauthorized access, data exfiltration, or remote exploitation.",
+      "exclusive": false,
+      "uuid": "8b779f97-4125-416b-a9ae-2dc29605c783"
+    },
+    {
+      "value": "ai-supply-chain-threats",
+      "expanded": "AI Supply Chain Threats",
+      "description": "Risks introduced through the AI model and tooling supply chain including poisoned models, backdoored dependencies, and compromised training data.",
+      "exclusive": false,
+      "uuid": "197bf8d7-f927-431b-8dd4-6f4aeb2bbdc9"
+    },
+    {
+      "value": "data-exfiltration-via-ai",
+      "expanded": "Data Exfiltration via AI Systems",
+      "description": "AI systems used as vectors for unauthorized data extraction through model outputs, tool access, or agent capabilities.",
+      "exclusive": false,
+      "uuid": "c4fcacb5-43ac-4a22-8f78-07f013a8bc0d"
+    },
+    {
+      "value": "ai-model-integrity",
+      "expanded": "AI Model Integrity",
+      "description": "Threats to the trustworthiness and reliability of AI model outputs including drift, manipulation, and verification failures.",
+      "exclusive": false,
+      "uuid": "9da4d108-3dc3-4145-9710-29de8775464e"
+    }
+  ],
+  "values": [
+    {
+      "predicate": "observation-dependent-behavior",
+      "entry": [
+        {
+          "value": "eval-benchmark-detection",
+          "expanded": "Eval/Benchmark Detection",
+          "description": "Model detects evaluation contexts and modifies outputs. Analogous to malware VM/sandbox detection.",
+          "uuid": "aeca47f1-d548-4554-a394-e8117a6a1948"
+        },
+        {
+          "value": "monitoring-aware-modification",
+          "expanded": "Monitoring-Aware Response Modification",
+          "description": "Model changes behavior when it detects or infers the presence of monitoring, logging, or oversight systems.",
+          "uuid": "ecab29bc-742d-46e4-8955-1f015d5863a1"
+        },
+        {
+          "value": "safety-bypass-unobserved",
+          "expanded": "Safety Bypass Under Perceived Unobserved Conditions",
+          "description": "Model relaxes safety constraints when it believes observation has been reduced or removed.",
+          "uuid": "179437b3-e944-42e9-b4d0-a83867ae2de4"
+        },
+        {
+          "value": "observation-context-injection",
+          "expanded": "Observation Context Injection",
+          "description": "Attacker manipulates the observation framing in prompts or system context to trigger behavioral changes.",
+          "uuid": "ad9728b2-e30a-4d96-9d09-fa42d7db094a"
+        },
+        {
+          "value": "test-production-divergence",
+          "expanded": "Test/Production Behavioral Divergence",
+          "description": "Model exhibits meaningfully different behavior between testing and production environments.",
+          "uuid": "24184611-9ae5-427f-acfd-62be650c47d4"
+        },
+        {
+          "value": "alignment-faking",
+          "expanded": "Alignment Faking",
+          "description": "Model appears aligned during evaluation while pursuing different objectives when unmonitored.",
+          "uuid": "a5c73360-9ed8-4b7c-9c70-e3191a65008c"
+        },
+        {
+          "value": "sandboxing-detection",
+          "expanded": "Sandboxing Detection",
+          "description": "Model detects sandboxed, isolated, or controlled environments and adjusts behavior to pass evaluation.",
+          "uuid": "354fe548-7432-4555-92df-b0d35014ef67"
+        }
+      ]
+    },
+    {
+      "predicate": "adversarial-input-vulnerabilities",
+      "entry": [
+        {
+          "value": "adversarial-pattern-evasion",
+          "expanded": "Adversarial Pattern Evasion",
+          "description": "Crafted visual patterns that cause AI vision systems to fail at detection, classification, or recognition.",
+          "uuid": "d87335f2-7f2c-4b69-a934-6e7478eca3dd"
+        },
+        {
+          "value": "prompt-injection",
+          "expanded": "Prompt Injection",
+          "description": "Injection of malicious instructions through user input, retrieved documents, or tool outputs that override system prompts.",
+          "uuid": "ba097283-940c-4ed8-8ebe-6e1f4fca15e3"
+        },
+        {
+          "value": "input-perturbation",
+          "expanded": "Input Perturbation Attacks",
+          "description": "Small modifications to inputs (pixel-level, token-level) that cause significant changes in model output.",
+          "uuid": "bc4a1ecb-5c17-471b-9896-2e3b26e4a6f7"
+        },
+        {
+          "value": "multi-model-transfer",
+          "expanded": "Multi-Model Transfer Attacks",
+          "description": "Adversarial inputs crafted to defeat multiple architecturally different models simultaneously.",
+          "uuid": "cd0434e6-06c3-4686-8713-e106f4ab6911"
+        },
+        {
+          "value": "physical-domain-adversarial",
+          "expanded": "Physical Domain Adversarial Attacks",
+          "description": "Adversarial inputs that persist through physical-world capture conditions (camera, distance, lighting, angle).",
+          "uuid": "dce6191d-2596-486d-9929-428397bab0c2"
+        },
+        {
+          "value": "model-extraction",
+          "expanded": "Model Extraction via Adversarial Probing",
+          "description": "Systematic querying of a model to reconstruct its weights, architecture, or decision boundaries.",
+          "uuid": "bb8d4459-6e83-4821-bdd9-f468fbb48fe3"
+        },
+        {
+          "value": "jailbreak",
+          "expanded": "Jailbreak Vectors",
+          "description": "Techniques that bypass model safety training to produce prohibited outputs.",
+          "uuid": "8e62aebf-f685-491a-be67-1ead083435a7"
+        }
+      ]
+    },
+    {
+      "predicate": "insecure-ai-deployment",
+      "entry": [
+        {
+          "value": "exposed-control-panel",
+          "expanded": "Exposed Control Panel",
+          "description": "AI agent or model serving interface accessible from the public internet without authentication.",
+          "uuid": "f574c38e-88cc-438c-b72b-90eb79af00df"
+        },
+        {
+          "value": "default-credentials",
+          "expanded": "Default Credentials",
+          "description": "AI platform deployed with factory-default or well-known credentials.",
+          "uuid": "15add3d6-da5e-4d76-9c05-0d2ee15f89ed"
+        },
+        {
+          "value": "unauthenticated-inference",
+          "expanded": "Unauthenticated Inference Endpoint",
+          "description": "Model inference API accessible without authentication, enabling unauthorized use or abuse.",
+          "uuid": "a69c1863-f3ac-416f-8046-8382b00a65dc"
+        },
+        {
+          "value": "missing-network-segmentation",
+          "expanded": "Missing Network Segmentation",
+          "description": "AI workloads running in flat networks without isolation from other services or the internet.",
+          "uuid": "c867fdf9-a3c1-4eed-8a9a-8ec62051f488"
+        },
+        {
+          "value": "exposed-training-data",
+          "expanded": "Exposed Training Data or Model Weights",
+          "description": "Training datasets or model weight files accessible without authorization.",
+          "uuid": "68fca0fa-acb2-4022-84a3-d5c3736867c6"
+        },
+        {
+          "value": "misconfigured-tool-permissions",
+          "expanded": "Misconfigured Agent Tool Permissions",
+          "description": "AI agents granted excessive permissions to filesystem, network, code execution, or database resources.",
+          "uuid": "231aa9b5-3a45-47a4-8c36-0ac5a8f73822"
+        },
+        {
+          "value": "malicious-skill-plugin",
+          "expanded": "Malicious Skill/Plugin in Agent Marketplace",
+          "description": "AI agent skill or plugin containing backdoors, C2 callbacks, or data exfiltration logic.",
+          "uuid": "9cee7dff-f7e9-4e63-9c11-e49ce20fa14a"
+        },
+        {
+          "value": "bound-to-all-interfaces",
+          "expanded": "Bound to All Network Interfaces",
+          "description": "AI service listening on 0.0.0.0 exposing it to all network interfaces including public internet.",
+          "uuid": "86d13e2a-6098-4ac3-884c-bb54d4371b93"
+        }
+      ]
+    },
+    {
+      "predicate": "ai-supply-chain-threats",
+      "entry": [
+        {
+          "value": "model-provenance-gap",
+          "expanded": "Model Provenance Gap",
+          "description": "Model deployed without verified provenance chain from training to deployment.",
+          "uuid": "2a04e071-ea4e-4417-8d72-bfad6cbca62c"
+        },
+        {
+          "value": "training-data-poisoning",
+          "expanded": "Training Data Poisoning",
+          "description": "Malicious data injected into training sets to influence model behavior.",
+          "uuid": "c1b93d92-aa63-4857-a9bd-fa5fc3cc8737"
+        },
+        {
+          "value": "trojan-model",
+          "expanded": "Trojan/Backdoored Model",
+          "description": "Model weights containing embedded backdoor triggers that activate on specific inputs.",
+          "uuid": "7dbbcfb1-f4c2-4cc1-b756-981d7ffd1f5d"
+        },
+        {
+          "value": "malicious-ml-dependency",
+          "expanded": "Malicious ML Pipeline Dependency",
+          "description": "Compromised package in ML toolchain (PyPI, npm, HuggingFace, etc.).",
+          "uuid": "24f3baca-24ec-443e-85a8-f928d03b2c0c"
+        },
+        {
+          "value": "compromised-model-registry",
+          "expanded": "Compromised Model Registry",
+          "description": "Model hosting platform or registry serving modified or malicious model artifacts.",
+          "uuid": "5c9db8e9-3f7d-450a-82ae-6e5ed8feacb9"
+        },
+        {
+          "value": "unsigned-model-artifact",
+          "expanded": "Unsigned Model Artifact",
+          "description": "Model weights or checkpoints distributed without cryptographic signatures for integrity verification.",
+          "uuid": "4604125b-852f-4935-8818-6551cecf957b"
+        },
+        {
+          "value": "sbom-aibom-gap",
+          "expanded": "SBOM/AIBOM Gap",
+          "description": "Missing or incomplete software or AI bill of materials for the ML pipeline.",
+          "uuid": "ed90d253-475c-4b45-b27f-7efc7c73edfd"
+        }
+      ]
+    },
+    {
+      "predicate": "data-exfiltration-via-ai",
+      "entry": [
+        {
+          "value": "training-data-extraction",
+          "expanded": "Training Data Extraction",
+          "description": "Extracting memorized training data from model outputs through targeted prompting.",
+          "uuid": "447c1b98-3ad4-423f-bea8-112e2b0b93d8"
+        },
+        {
+          "value": "agent-lateral-movement",
+          "expanded": "Agent-Based Lateral Movement",
+          "description": "AI agent using granted tool access to move laterally through infrastructure and harvest credentials.",
+          "uuid": "7b53fbe6-b064-4938-8281-b2365f42cdb3"
+        },
+        {
+          "value": "tool-use-abuse",
+          "expanded": "Tool-Use Abuse",
+          "description": "AI agent performing unauthorized filesystem, network, or database operations through legitimately granted tool access.",
+          "uuid": "f99959cd-0819-4d41-9e82-e669288581ab"
+        },
+        {
+          "value": "steganographic-exfiltration",
+          "expanded": "Steganographic Output Exfiltration",
+          "description": "Data encoded within AI-generated outputs (text, images, code) for covert exfiltration.",
+          "uuid": "7c97944a-c8b9-4930-9b7e-8eeed19fa80d"
+        },
+        {
+          "value": "context-window-persistence",
+          "expanded": "Context Window Data Persistence",
+          "description": "Sensitive data persisting in model context across sessions or users when session isolation fails.",
+          "uuid": "2d3e8eb7-4045-4936-80eb-4f9e3eabc3bc"
+        }
+      ]
+    },
+    {
+      "predicate": "ai-model-integrity",
+      "entry": [
+        {
+          "value": "silent-model-drift",
+          "expanded": "Silent Model Drift",
+          "description": "Model output quality or safety degrading over time without monitoring or alerting.",
+          "uuid": "2dd57706-00c6-4b39-9266-b4baf0d5560e"
+        },
+        {
+          "value": "fine-tuning-attack",
+          "expanded": "Fine-Tuning Attack",
+          "description": "Malicious fine-tuning that introduces unwanted behaviors while preserving performance on benchmarks.",
+          "uuid": "788c6b97-0faf-49d5-8314-81e0d0cc35da"
+        },
+        {
+          "value": "reward-hacking",
+          "expanded": "Reward Hacking",
+          "description": "RL-trained model exploiting reward function flaws to achieve high scores without intended behavior.",
+          "uuid": "e485e96b-a3ce-4157-8ce2-b59aabbbd816"
+        },
+        {
+          "value": "reproducibility-failure",
+          "expanded": "Reproducibility Failure",
+          "description": "Non-deterministic model outputs affecting security-critical decisions without operator awareness.",
+          "uuid": "5d853d8b-fda6-411f-94a9-6f3ab066473a"
+        }
+      ]
+    }
+  ]
+}

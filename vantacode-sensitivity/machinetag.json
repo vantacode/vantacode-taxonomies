@@ -1,0 +1,54 @@
+{
+  "namespace": "vantacode-sensitivity",
+  "description": "Data sensitivity and classification markings for repositories. Determines handling requirements and access controls.",
+  "version": 1,
+  "exclusive": true,
+  "predicates": [
+    {
+      "value": "classification",
+      "expanded": "Data Classification",
+      "description": "Sensitivity level of the repository contents.",
+      "exclusive": true,
+      "uuid": "d4f93b8a-3aae-4cbe-8e2e-a35303cf9355"
+    }
+  ],
+  "values": [
+    {
+      "predicate": "classification",
+      "entry": [
+        {
+          "value": "public",
+          "expanded": "Public",
+          "description": "Open source or publicly shareable. No access restrictions.",
+          "numerical_value": 0,
+          "colour": "#2ecc71",
+          "uuid": "06f48fdd-f84c-469f-9ef7-3589de00fd46"
+        },
+        {
+          "value": "internal",
+          "expanded": "Internal",
+          "description": "Available to org members. Not for public distribution.",
+          "numerical_value": 1,
+          "colour": "#3498db",
+          "uuid": "36ace85c-63e5-4e6f-8222-938de97f2568"
+        },
+        {
+          "value": "confidential",
+          "expanded": "Confidential",
+          "description": "Restricted to specific teams. Contains sensitive business or security data.",
+          "numerical_value": 2,
+          "colour": "#f39c12",
+          "uuid": "5a6ec4e6-e775-4845-81f9-c1f0947df45f"
+        },
+        {
+          "value": "restricted",
+          "expanded": "Restricted",
+          "description": "Highest sensitivity. Contains exploit code, credentials, PII, or active operation data. Need-to-know access only.",
+          "numerical_value": 3,
+          "colour": "#e74c3c",
+          "uuid": "7f75af66-e972-4827-8943-0feb877dd409"
+        }
+      ]
+    }
+  ]
+}

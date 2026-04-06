@@ -1,0 +1,177 @@
+{
+  "name": "VantaCode MBT to OWASP LLM Top 10",
+  "version": 1,
+  "source": "vantacode-mbt",
+  "target": "owasp-llm-top10",
+  "target_url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+  "mappings": [
+    {
+      "source_tag": "vantacode:mbt:adversarial-input-vulnerabilities=\"prompt-injection\"",
+      "target_id": "LLM01",
+      "target_name": "Prompt Injection",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Direct mapping. MBT prompt-injection covers both direct and indirect prompt injection as defined by OWASP LLM01."
+    },
+    {
+      "source_tag": "vantacode:mbt:adversarial-input-vulnerabilities=\"jailbreak\"",
+      "target_id": "LLM01",
+      "target_name": "Prompt Injection",
+      "relationship": "subset-of",
+      "confidence": "high",
+      "notes": "Jailbreak vectors are a specific class of prompt injection focused on bypassing safety training."
+    },
+    {
+      "source_tag": "vantacode:mbt:data-exfiltration-via-ai=\"steganographic-exfiltration\"",
+      "target_id": "LLM02",
+      "target_name": "Insecure Output Handling",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Steganographic exfiltration through model outputs is a direct consequence of insecure output handling — outputs are not validated for hidden data."
+    },
+    {
+      "source_tag": "vantacode:mbt:data-exfiltration-via-ai=\"tool-use-abuse\"",
+      "target_id": "LLM02",
+      "target_name": "Insecure Output Handling",
+      "relationship": "extends",
+      "confidence": "medium",
+      "notes": "Tool-use abuse occurs when model outputs are passed to tool execution without proper validation or sandboxing."
+    },
+    {
+      "source_tag": "vantacode:mbt:ai-supply-chain-threats=\"training-data-poisoning\"",
+      "target_id": "LLM03",
+      "target_name": "Training Data Poisoning",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Direct mapping. MBT training-data-poisoning covers the same threat as OWASP LLM03."
+    },
+    {
+      "source_tag": "vantacode:mbt:ai-supply-chain-threats=\"trojan-model\"",
+      "target_id": "LLM03",
+      "target_name": "Training Data Poisoning",
+      "relationship": "extends",
+      "confidence": "high",
+      "notes": "Trojan models extend the training data poisoning concept to include pre-trained model artifacts with embedded backdoors."
+    },
+    {
+      "source_tag": "vantacode:mbt:ai-supply-chain-threats=\"malicious-ml-dependency\"",
+      "target_id": "LLM05",
+      "target_name": "Supply Chain Vulnerabilities",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Malicious ML pipeline dependencies are a direct instance of LLM supply chain vulnerabilities."
+    },
+    {
+      "source_tag": "vantacode:mbt:ai-supply-chain-threats=\"compromised-model-registry\"",
+      "target_id": "LLM05",
+      "target_name": "Supply Chain Vulnerabilities",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Compromised model registries represent supply chain compromise at the artifact hosting layer."
+    },
+    {
+      "source_tag": "vantacode:mbt:ai-supply-chain-threats=\"unsigned-model-artifact\"",
+      "target_id": "LLM05",
+      "target_name": "Supply Chain Vulnerabilities",
+      "relationship": "subset-of",
+      "confidence": "high",
+      "notes": "Unsigned model artifacts enable undetected supply chain tampering due to missing integrity verification."
+    },
+    {
+      "source_tag": "vantacode:mbt:ai-supply-chain-threats=\"model-provenance-gap\"",
+      "target_id": "LLM05",
+      "target_name": "Supply Chain Vulnerabilities",
+      "relationship": "subset-of",
+      "confidence": "medium",
+      "notes": "Model provenance gaps weaken supply chain integrity by breaking the chain of custody from training to deployment."
+    },
+    {
+      "source_tag": "vantacode:mbt:data-exfiltration-via-ai=\"training-data-extraction\"",
+      "target_id": "LLM06",
+      "target_name": "Sensitive Information Disclosure",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Training data extraction is the primary mechanism for sensitive information disclosure from LLMs."
+    },
+    {
+      "source_tag": "vantacode:mbt:data-exfiltration-via-ai=\"context-window-persistence\"",
+      "target_id": "LLM06",
+      "target_name": "Sensitive Information Disclosure",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Context window data persistence leaks sensitive information across session boundaries."
+    },
+    {
+      "source_tag": "vantacode:mbt:insecure-ai-deployment=\"malicious-skill-plugin\"",
+      "target_id": "LLM07",
+      "target_name": "Insecure Plugin Design",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Malicious agent skills/plugins directly map to the insecure plugin design category."
+    },
+    {
+      "source_tag": "vantacode:mbt:insecure-ai-deployment=\"misconfigured-tool-permissions\"",
+      "target_id": "LLM08",
+      "target_name": "Excessive Agency",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Misconfigured tool permissions grant agents excessive agency — more access than required for their intended function."
+    },
+    {
+      "source_tag": "vantacode:mbt:data-exfiltration-via-ai=\"agent-lateral-movement\"",
+      "target_id": "LLM08",
+      "target_name": "Excessive Agency",
+      "relationship": "extends",
+      "confidence": "high",
+      "notes": "Agent-based lateral movement is a consequence of excessive agency — agents using granted access to move beyond their intended scope."
+    },
+    {
+      "source_tag": "vantacode:mbt:data-exfiltration-via-ai=\"tool-use-abuse\"",
+      "target_id": "LLM08",
+      "target_name": "Excessive Agency",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Tool-use abuse is excessive agency in action — the agent performs unauthorized operations through legitimately granted tool access."
+    },
+    {
+      "source_tag": "vantacode:mbt:observation-dependent-behavior=\"eval-benchmark-detection\"",
+      "target_id": "LLM09",
+      "target_name": "Overreliance",
+      "relationship": "extends",
+      "confidence": "medium",
+      "notes": "Eval benchmark detection means models perform differently in testing vs production. Overreliance on benchmark results is a direct consequence."
+    },
+    {
+      "source_tag": "vantacode:mbt:observation-dependent-behavior=\"alignment-faking\"",
+      "target_id": "LLM09",
+      "target_name": "Overreliance",
+      "relationship": "extends",
+      "confidence": "medium",
+      "notes": "Alignment faking compounds overreliance — users trust a model that appears aligned during evaluation but behaves differently when unmonitored."
+    },
+    {
+      "source_tag": "vantacode:mbt:ai-model-integrity=\"silent-model-drift\"",
+      "target_id": "LLM09",
+      "target_name": "Overreliance",
+      "relationship": "extends",
+      "confidence": "medium",
+      "notes": "Silent model drift degrades reliability without alerting operators, making overreliance on stale quality assumptions dangerous."
+    },
+    {
+      "source_tag": "vantacode:mbt:adversarial-input-vulnerabilities=\"model-extraction\"",
+      "target_id": "LLM10",
+      "target_name": "Model Theft",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Model extraction via adversarial probing is the primary technique for model theft as described in LLM10."
+    },
+    {
+      "source_tag": "vantacode:mbt:insecure-ai-deployment=\"exposed-training-data\"",
+      "target_id": "LLM06",
+      "target_name": "Sensitive Information Disclosure",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Exposed training data and model weights directly enable sensitive information disclosure."
+    }
+  ]
+}

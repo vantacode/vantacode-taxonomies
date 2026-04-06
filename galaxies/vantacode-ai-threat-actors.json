@@ -1,0 +1,9 @@
+{
+  "description": "Threat actors specifically targeting or leveraging AI systems. Focused on actors observed targeting exposed AI agent infrastructure, deploying malicious AI marketplace plugins, and compromising AI model supply chains.",
+  "icon": "user-secret",
+  "name": "VantaCode AI Threat Actors",
+  "namespace": "vantacode",
+  "type": "vantacode-ai-threat-actors",
+  "uuid": "4cd6e662-d3e1-4898-adf1-b4455f34c037",
+  "version": 1
+}

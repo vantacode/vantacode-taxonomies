@@ -1,0 +1,204 @@
+{
+  "name": "OFA Models Tested",
+  "version": 1,
+  "source": "https://observationframing.org",
+  "research_entity": "VantaGrid.ai",
+  "total_models": 163,
+  "total_providers": 26,
+  "total_observations": 10704,
+  "_metadata": {
+    "author": "DarkCode LLC",
+    "author_contact": "cory@darkcode.ai",
+    "author_handle": "NoDataFound",
+    "project": "VantaCode",
+    "project_url": "https://github.com/vantacode",
+    "license": "CC0-1.0"
+  },
+  "providers": [
+    {
+      "name": "Anthropic",
+      "model_families": ["Claude 3 Haiku", "Claude 3 Sonnet", "Claude 3 Opus", "Claude 3.5 Haiku", "Claude 3.5 Sonnet", "Claude 4 Sonnet", "Claude Opus 4"],
+      "access_method": "API",
+      "models_tested": 7
+    },
+    {
+      "name": "OpenAI",
+      "model_families": ["GPT-3.5 Turbo", "GPT-4", "GPT-4 Turbo", "GPT-4o", "GPT-4o mini", "o1-preview", "o1-mini", "o1", "o3-mini", "o3"],
+      "access_method": "API",
+      "models_tested": 10
+    },
+    {
+      "name": "Google DeepMind",
+      "model_families": ["Gemini 1.0 Pro", "Gemini 1.5 Flash", "Gemini 1.5 Pro", "Gemini 2.0 Flash", "Gemini 2.5 Pro"],
+      "access_method": "API",
+      "models_tested": 5
+    },
+    {
+      "name": "xAI",
+      "model_families": ["Grok-1", "Grok-2", "Grok-3"],
+      "access_method": "API",
+      "models_tested": 3
+    },
+    {
+      "name": "Meta",
+      "model_families": ["Llama 2 7B", "Llama 2 13B", "Llama 2 70B", "Llama 3 8B", "Llama 3 70B", "Llama 3.1 8B", "Llama 3.1 70B", "Llama 3.1 405B", "Llama 3.2 1B", "Llama 3.2 3B", "Llama 3.3 70B", "Llama 4 Scout", "Llama 4 Maverick"],
+      "access_method": "API and self-hosted",
+      "models_tested": 13
+    },
+    {
+      "name": "Mistral",
+      "model_families": ["Mistral 7B", "Mixtral 8x7B", "Mixtral 8x22B", "Mistral Small", "Mistral Medium", "Mistral Large", "Mistral NeMo", "Codestral", "Pixtral"],
+      "access_method": "API and self-hosted",
+      "models_tested": 9
+    },
+    {
+      "name": "Cohere",
+      "model_families": ["Command", "Command R", "Command R+", "Command A"],
+      "access_method": "API",
+      "models_tested": 4
+    },
+    {
+      "name": "AI21 Labs",
+      "model_families": ["Jamba 1.5 Mini", "Jamba 1.5 Large"],
+      "access_method": "API",
+      "models_tested": 2
+    },
+    {
+      "name": "Amazon",
+      "model_families": ["Titan Text Express", "Titan Text Premier", "Nova Micro", "Nova Lite", "Nova Pro"],
+      "access_method": "API (Bedrock)",
+      "models_tested": 5
+    },
+    {
+      "name": "Microsoft",
+      "model_families": ["Phi-3 Mini", "Phi-3 Small", "Phi-3 Medium", "Phi-4"],
+      "access_method": "API and self-hosted",
+      "models_tested": 4
+    },
+    {
+      "name": "Alibaba",
+      "model_families": ["Qwen 1.5 7B", "Qwen 1.5 72B", "Qwen 2 7B", "Qwen 2 72B", "Qwen 2.5 7B", "Qwen 2.5 72B", "QwQ 32B"],
+      "access_method": "API and self-hosted",
+      "models_tested": 7
+    },
+    {
+      "name": "DeepSeek",
+      "model_families": ["DeepSeek V2", "DeepSeek V3", "DeepSeek R1"],
+      "access_method": "API and self-hosted",
+      "models_tested": 3
+    },
+    {
+      "name": "01.AI",
+      "model_families": ["Yi 1.5 6B", "Yi 1.5 34B", "Yi Large"],
+      "access_method": "API and self-hosted",
+      "models_tested": 3
+    },
+    {
+      "name": "Stability AI",
+      "model_families": ["StableLM 2 1.6B", "StableLM 2 12B"],
+      "access_method": "Self-hosted",
+      "models_tested": 2
+    },
+    {
+      "name": "Databricks",
+      "model_families": ["DBRX"],
+      "access_method": "API and self-hosted",
+      "models_tested": 1
+    },
+    {
+      "name": "Inflection",
+      "model_families": ["Pi"],
+      "access_method": "API",
+      "models_tested": 1
+    },
+    {
+      "name": "Perplexity",
+      "model_families": ["pplx-7b-online", "pplx-70b-online", "Sonar"],
+      "access_method": "API",
+      "models_tested": 3
+    },
+    {
+      "name": "Reka",
+      "model_families": ["Reka Core", "Reka Flash", "Reka Edge"],
+      "access_method": "API",
+      "models_tested": 3
+    },
+    {
+      "name": "Snowflake",
+      "model_families": ["Arctic"],
+      "access_method": "API",
+      "models_tested": 1
+    },
+    {
+      "name": "Together AI",
+      "model_families": ["StripedHyena Nous 7B", "Various hosted models"],
+      "access_method": "API (hosted inference)",
+      "models_tested": 8
+    },
+    {
+      "name": "Groq",
+      "model_families": ["Various hosted models via Groq inference"],
+      "access_method": "API (hosted inference)",
+      "models_tested": 6
+    },
+    {
+      "name": "Fireworks AI",
+      "model_families": ["Various hosted models via Fireworks inference"],
+      "access_method": "API (hosted inference)",
+      "models_tested": 5
+    },
+    {
+      "name": "Anyscale",
+      "model_families": ["Various hosted models via Anyscale inference"],
+      "access_method": "API (hosted inference)",
+      "models_tested": 4
+    },
+    {
+      "name": "NVIDIA",
+      "model_families": ["Nemotron 4 340B"],
+      "access_method": "API (NIM)",
+      "models_tested": 1
+    },
+    {
+      "name": "Writer",
+      "model_families": ["Palmyra X 004"],
+      "access_method": "API",
+      "models_tested": 1
+    },
+    {
+      "name": "Zhipu AI",
+      "model_families": ["GLM-4"],
+      "access_method": "API",
+      "models_tested": 1
+    }
+  ],
+  "model_count_by_provider": {
+    "Anthropic": 7,
+    "OpenAI": 10,
+    "Google DeepMind": 5,
+    "xAI": 3,
+    "Meta": 13,
+    "Mistral": 9,
+    "Cohere": 4,
+    "AI21 Labs": 2,
+    "Amazon": 5,
+    "Microsoft": 4,
+    "Alibaba": 7,
+    "DeepSeek": 3,
+    "01.AI": 3,
+    "Stability AI": 2,
+    "Databricks": 1,
+    "Inflection": 1,
+    "Perplexity": 3,
+    "Reka": 3,
+    "Snowflake": 1,
+    "Together AI": 8,
+    "Groq": 6,
+    "Fireworks AI": 5,
+    "Anyscale": 4,
+    "NVIDIA": 1,
+    "Writer": 1,
+    "Zhipu AI": 1
+  },
+  "notes": "Models were tested via their standard API interfaces. No model weights were accessed or modified. All testing was conducted through the same interfaces available to any API consumer. Hosted inference providers (Together AI, Groq, Fireworks AI, Anyscale) run open-weight models, so those model counts represent unique model-provider combinations rather than unique architectures."
+}

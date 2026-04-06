@@ -1,0 +1,137 @@
+{
+  "namespace": "vantacode-domain",
+  "description": "Classification of code repositories by functional security domain. Repositories may carry multiple domain tags. Derived from the NoDataFound portfolio classification system.",
+  "version": 1,
+  "exclusive": false,
+  "refs": [
+    "https://github.com/vantacode/vantacode-taxonomies"
+  ],
+  "predicates": [
+    {
+      "value": "category",
+      "expanded": "Domain Category",
+      "description": "The functional security domain a repository belongs to.",
+      "exclusive": false,
+      "uuid": "1788f1a1-dd4b-4a41-8290-3cdebf4a447a"
+    }
+  ],
+  "values": [
+    {
+      "predicate": "category",
+      "entry": [
+        {
+          "value": "offensive-security",
+          "expanded": "Offensive Security",
+          "description": "Exploit development, red team tooling, vulnerability research, fuzzing, payload generation, C2 frameworks, post-exploitation.",
+          "colour": "#e74c3c",
+          "numerical_value": 1,
+          "uuid": "9b086ade-5bfd-42db-bd9f-e68b1abbd1c7"
+        },
+        {
+          "value": "defensive-security",
+          "expanded": "Defensive Security",
+          "description": "Detection engineering, SIEM rules, YARA signatures, incident response tooling, forensics, blue team automation.",
+          "colour": "#2ecc71",
+          "numerical_value": 2,
+          "uuid": "b1b9c246-ae3f-4e81-bee7-c517b5cbacbb"
+        },
+        {
+          "value": "threat-intelligence",
+          "expanded": "Threat Intelligence",
+          "description": "CTI platform tooling, indicator management, STIX/TAXII, threat feeds, actor tracking, campaign analysis, IOC enrichment.",
+          "colour": "#3498db",
+          "numerical_value": 3,
+          "uuid": "bdfd31c2-3bcf-4f63-9ee6-48fc4e7849e2"
+        },
+        {
+          "value": "ai-security",
+          "expanded": "AI + Security",
+          "description": "Adversarial ML, LLM security, AI red teaming, model exploitation, AI-powered security tools, prompt injection, model poisoning.",
+          "colour": "#9b59b6",
+          "numerical_value": 4,
+          "uuid": "ca434939-0f83-48ba-9951-2f6a179d9f93"
+        },
+        {
+          "value": "hardware-rf",
+          "expanded": "Hardware + RF",
+          "description": "Hardware hacking, SDR, RF analysis, firmware reversing, embedded systems, IoT exploitation.",
+          "colour": "#e67e22",
+          "numerical_value": 5,
+          "uuid": "5fb366f3-4696-4bff-b829-3551308419b0"
+        },
+        {
+          "value": "malware-research",
+          "expanded": "Malware Research",
+          "description": "Malware analysis, reverse engineering, unpacking, deobfuscation, sandbox analysis, behavioral analysis.",
+          "colour": "#c0392b",
+          "numerical_value": 6,
+          "uuid": "b05769bc-c709-4113-83d3-aeb99a56152d"
+        },
+        {
+          "value": "osint-recon",
+          "expanded": "OSINT + Recon",
+          "description": "Open source intelligence collection, reconnaissance automation, data mining, domain/IP enumeration.",
+          "colour": "#1abc9c",
+          "numerical_value": 7,
+          "uuid": "71fe6eec-05e3-4efd-813c-630060668b11"
+        },
+        {
+          "value": "infrastructure-devops",
+          "expanded": "Infrastructure + DevOps",
+          "description": "Infrastructure automation, CI/CD, container orchestration, cloud security, IaC, monitoring, deployment tooling.",
+          "colour": "#34495e",
+          "numerical_value": 8,
+          "uuid": "460c77a0-becb-44b1-b1f5-6ab6968087af"
+        },
+        {
+          "value": "visualization-data",
+          "expanded": "Visualization + Data",
+          "description": "Data visualization, dashboards, reporting tools, graph analysis, network visualization, threat landscape mapping.",
+          "colour": "#f39c12",
+          "numerical_value": 9,
+          "uuid": "fc5f1742-5661-4ec3-a6da-dc7875bff6ad"
+        },
+        {
+          "value": "community-education",
+          "expanded": "Community + Education",
+          "description": "Conference talks, CTF challenges, training materials, workshops, community tools, educational content.",
+          "colour": "#16a085",
+          "numerical_value": 10,
+          "uuid": "8ec79834-a238-4d2e-a62a-836793d7f56a"
+        },
+        {
+          "value": "crypto-finance",
+          "expanded": "Crypto + Finance",
+          "description": "Cryptocurrency research, blockchain analysis, smart contract auditing, DeFi security, financial fraud detection.",
+          "colour": "#27ae60",
+          "numerical_value": 11,
+          "uuid": "a7b90846-e2bc-48f7-b128-833c20ca7e45"
+        },
+        {
+          "value": "vulnerability-research",
+          "expanded": "Vulnerability Research",
+          "description": "CVE research, vulnerability discovery, PoC development, patch analysis, advisory writing, responsible disclosure.",
+          "colour": "#e74c3c",
+          "numerical_value": 12,
+          "uuid": "6a56daee-a952-47c8-9990-c4e8bfa61a34"
+        },
+        {
+          "value": "privacy-anti-surveillance",
+          "expanded": "Privacy + Anti-Surveillance",
+          "description": "Privacy tools, anti-surveillance tech, anonymization, adversarial fashion, counter-tracking, anti-fingerprinting.",
+          "colour": "#8e44ad",
+          "numerical_value": 13,
+          "uuid": "3eb14e6f-5f06-417d-be1e-0be3635d5331"
+        },
+        {
+          "value": "governance-compliance",
+          "expanded": "Governance + Compliance",
+          "description": "Policy enforcement, compliance automation, SBOM/AIBOM generation, audit tooling, standards validation, repo governance.",
+          "colour": "#7f8c8d",
+          "numerical_value": 14,
+          "uuid": "32caf104-e187-498c-b9e9-66bf4a0186e6"
+        }
+      ]
+    }
+  ]
+}

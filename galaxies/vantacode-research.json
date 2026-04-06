@@ -1,0 +1,9 @@
+{
+  "description": "VantaCode research outputs including published findings, active research programs, and methodologies for AI security threat intelligence.",
+  "icon": "flask",
+  "name": "VantaCode Research",
+  "namespace": "vantacode",
+  "type": "vantacode-research",
+  "uuid": "2563494b-1a34-4cc3-aef8-5f7b60aa2bcb",
+  "version": 1
+}

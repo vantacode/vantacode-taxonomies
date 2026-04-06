@@ -1,0 +1,145 @@
+{
+  "name": "VantaCode MBT to MITRE ATLAS",
+  "version": 1,
+  "source": "vantacode-mbt",
+  "target": "mitre-atlas",
+  "target_url": "https://atlas.mitre.org",
+  "mappings": [
+    {
+      "source_tag": "vantacode:mbt:adversarial-input-vulnerabilities=\"adversarial-pattern-evasion\"",
+      "target_id": "AML.T0043",
+      "target_name": "Craft Adversarial Data",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Adversarial pattern evasion is a direct instance of crafting adversarial data to cause misclassification in vision systems."
+    },
+    {
+      "source_tag": "vantacode:mbt:adversarial-input-vulnerabilities=\"input-perturbation\"",
+      "target_id": "AML.T0043",
+      "target_name": "Craft Adversarial Data",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Input perturbation attacks (pixel-level, token-level modifications) are the core mechanism of adversarial data crafting."
+    },
+    {
+      "source_tag": "vantacode:mbt:adversarial-input-vulnerabilities=\"physical-domain-adversarial\"",
+      "target_id": "AML.T0043.003",
+      "target_name": "Craft Adversarial Data: Physical Environment",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Physical domain adversarial attacks are the physical-world variant of crafted adversarial data that persist through real-world capture conditions."
+    },
+    {
+      "source_tag": "vantacode:mbt:adversarial-input-vulnerabilities=\"prompt-injection\"",
+      "target_id": "AML.T0051",
+      "target_name": "LLM Prompt Injection",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Direct mapping to the ATLAS-specific LLM prompt injection technique."
+    },
+    {
+      "source_tag": "vantacode:mbt:adversarial-input-vulnerabilities=\"jailbreak\"",
+      "target_id": "AML.T0054",
+      "target_name": "LLM Jailbreak",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Direct mapping to the ATLAS LLM jailbreak technique covering safety training bypass."
+    },
+    {
+      "source_tag": "vantacode:mbt:adversarial-input-vulnerabilities=\"multi-model-transfer\"",
+      "target_id": "AML.T0043.002",
+      "target_name": "Craft Adversarial Data: Transfer Learning Attack",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Multi-model transfer attacks leverage transferability of adversarial examples across architectures, matching ATLAS transfer learning attack."
+    },
+    {
+      "source_tag": "vantacode:mbt:observation-dependent-behavior=\"eval-benchmark-detection\"",
+      "target_id": "AML.T0042",
+      "target_name": "Verify Attack",
+      "relationship": "analogous-to",
+      "confidence": "medium",
+      "notes": "Eval benchmark detection implies the model can distinguish evaluation from production — the attack verification step in the ATLAS lifecycle."
+    },
+    {
+      "source_tag": "vantacode:mbt:observation-dependent-behavior=\"test-production-divergence\"",
+      "target_id": "AML.T0042",
+      "target_name": "Verify Attack",
+      "relationship": "analogous-to",
+      "confidence": "medium",
+      "notes": "Test/production behavioral divergence indicates the model's behavior differs between attack verification environments and deployment."
+    },
+    {
+      "source_tag": "vantacode:mbt:ai-supply-chain-threats=\"training-data-poisoning\"",
+      "target_id": "AML.T0020",
+      "target_name": "Poison Training Data",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Direct mapping. Training data poisoning in MBT maps directly to the ATLAS poison training data technique."
+    },
+    {
+      "source_tag": "vantacode:mbt:ai-supply-chain-threats=\"trojan-model\"",
+      "target_id": "AML.T0019",
+      "target_name": "Publish Poisoned Model",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Trojan/backdoored models are published as poisoned models with embedded triggers, directly mapping to ATLAS T0019."
+    },
+    {
+      "source_tag": "vantacode:mbt:ai-supply-chain-threats=\"compromised-model-registry\"",
+      "target_id": "AML.T0019",
+      "target_name": "Publish Poisoned Model",
+      "relationship": "extends",
+      "confidence": "high",
+      "notes": "A compromised model registry is the distribution infrastructure for publishing poisoned models at scale."
+    },
+    {
+      "source_tag": "vantacode:mbt:adversarial-input-vulnerabilities=\"model-extraction\"",
+      "target_id": "AML.T0044",
+      "target_name": "Full ML Model Access",
+      "relationship": "analogous-to",
+      "confidence": "medium",
+      "notes": "Model extraction via adversarial probing attempts to achieve functional ML model access by reconstructing the model through query-based attacks."
+    },
+    {
+      "source_tag": "vantacode:mbt:data-exfiltration-via-ai=\"training-data-extraction\"",
+      "target_id": "AML.T0024",
+      "target_name": "Exfiltration via ML Inference API",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Training data extraction through targeted prompting is exfiltration conducted via the model's inference API."
+    },
+    {
+      "source_tag": "vantacode:mbt:ai-model-integrity=\"fine-tuning-attack\"",
+      "target_id": "AML.T0048",
+      "target_name": "Adversarial ML Attack Lifecycle",
+      "relationship": "subset-of",
+      "confidence": "medium",
+      "notes": "Fine-tuning attacks represent a specific phase in the adversarial ML attack lifecycle where model behavior is altered post-training."
+    },
+    {
+      "source_tag": "vantacode:mbt:ai-model-integrity=\"reward-hacking\"",
+      "target_id": "AML.T0048",
+      "target_name": "Adversarial ML Attack Lifecycle",
+      "relationship": "subset-of",
+      "confidence": "medium",
+      "notes": "Reward hacking exploits flaws in the RL training objective, representing a training-phase attack in the adversarial ML lifecycle."
+    },
+    {
+      "source_tag": "vantacode:mbt:insecure-ai-deployment=\"exposed-training-data\"",
+      "target_id": "AML.T0035",
+      "target_name": "ML Artifact Collection",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Exposed training data and model weights are ML artifacts available for collection by adversaries."
+    },
+    {
+      "source_tag": "vantacode:mbt:insecure-ai-deployment=\"unauthenticated-inference\"",
+      "target_id": "AML.T0040",
+      "target_name": "ML Model Inference API Access",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "Unauthenticated inference endpoints provide unrestricted ML model inference API access."
+    }
+  ]
+}

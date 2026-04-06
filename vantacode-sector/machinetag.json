@@ -1,0 +1,158 @@
+{
+  "namespace": "vantacode-sector",
+  "description": "Mapping of repositories to CISA PPD-21 critical infrastructure sectors and emerging sectors relevant to cybersecurity research.",
+  "version": 1,
+  "exclusive": false,
+  "refs": [
+    "https://www.cisa.gov/topics/critical-infrastructure-security-and-resilience/critical-infrastructure-sectors",
+    "https://github.com/vantacode/vantacode-taxonomies"
+  ],
+  "predicates": [
+    {
+      "value": "critical-infrastructure",
+      "expanded": "Critical Infrastructure Sector",
+      "description": "CISA PPD-21 designated critical infrastructure sectors.",
+      "exclusive": false,
+      "uuid": "7688c886-397c-40f8-80d0-61a51a7c7832"
+    },
+    {
+      "value": "emerging",
+      "expanded": "Emerging Sector",
+      "description": "Sectors not in PPD-21 but increasingly relevant to cybersecurity.",
+      "exclusive": false,
+      "uuid": "fe8f66a9-a132-4ff1-8648-0690f9091bdf"
+    }
+  ],
+  "values": [
+    {
+      "predicate": "critical-infrastructure",
+      "entry": [
+        {
+          "value": "chemical",
+          "expanded": "Chemical Sector",
+          "description": "Manufacturing, storing, and transporting chemical substances. SRMA: DHS.",
+          "uuid": "03acb18c-83bf-4f8c-84c0-0cdea0a09366"
+        },
+        {
+          "value": "commercial-facilities",
+          "expanded": "Commercial Facilities Sector",
+          "description": "Sites drawing large crowds for shopping, business, entertainment, or lodging. SRMA: DHS.",
+          "uuid": "58527bf5-41ad-43ab-bab3-ce0f1f456b96"
+        },
+        {
+          "value": "communications",
+          "expanded": "Communications Sector",
+          "description": "Infrastructure for telecommunications, broadcasting, cable, and internet services. SRMA: DHS.",
+          "uuid": "0e6c1845-1aba-4989-8d82-712fdd685eb3"
+        },
+        {
+          "value": "critical-manufacturing",
+          "expanded": "Critical Manufacturing Sector",
+          "description": "Production of essential materials and goods like metals, machinery, and vehicles. SRMA: DHS.",
+          "uuid": "70fb8ac6-e52b-4744-84e3-2f898527f361"
+        },
+        {
+          "value": "dams",
+          "expanded": "Dams Sector",
+          "description": "Dam projects, navigation locks, levees, hurricane barriers, mine tailings, and water retention systems. SRMA: DHS.",
+          "uuid": "b9fa05e6-0153-4170-8aac-d8edb1214f1e"
+        },
+        {
+          "value": "defense-industrial-base",
+          "expanded": "Defense Industrial Base Sector",
+          "description": "Research, development, production, delivery, and maintenance of military weapons systems and components. SRMA: DOD.",
+          "uuid": "66209047-5866-467f-9a52-90f8edbc4cbe"
+        },
+        {
+          "value": "emergency-services",
+          "expanded": "Emergency Services Sector",
+          "description": "Resources providing response services during and after incidents. SRMA: DHS.",
+          "uuid": "5790d8d5-1ac6-4fed-bfc8-378d74e13a9a"
+        },
+        {
+          "value": "energy",
+          "expanded": "Energy Sector",
+          "description": "Electricity, oil, and natural gas infrastructure. SRMA: DOE.",
+          "uuid": "38f54877-bfba-42c4-90ce-f69892611d4b"
+        },
+        {
+          "value": "financial-services",
+          "expanded": "Financial Services Sector",
+          "description": "Banks, credit unions, insurance, securities, and investment institutions. SRMA: Treasury.",
+          "uuid": "b9fbb697-e7ad-4cb0-8d43-c093240f9408"
+        },
+        {
+          "value": "food-agriculture",
+          "expanded": "Food + Agriculture Sector",
+          "description": "Farms, restaurants, and food manufacturing, processing, and storage. SRMA: USDA/HHS.",
+          "uuid": "72c77ac1-edda-4fcf-9358-6055f3565fa3"
+        },
+        {
+          "value": "government-facilities",
+          "expanded": "Government Facilities Sector",
+          "description": "Buildings, grounds, and infrastructure owned by federal, state, local, tribal, or territorial governments. SRMA: DHS/GSA.",
+          "uuid": "867f6a4c-8d41-4d6d-ab03-9abc19cbae88"
+        },
+        {
+          "value": "healthcare-public-health",
+          "expanded": "Healthcare + Public Health Sector",
+          "description": "Public and private healthcare providers, health insurance, medical equipment, and public health systems. SRMA: HHS.",
+          "uuid": "c0eb73d9-f4b7-4693-bc65-708161c4b36d"
+        },
+        {
+          "value": "information-technology",
+          "expanded": "Information Technology Sector",
+          "description": "Hardware, software, IT systems, and services including internet infrastructure. SRMA: DHS.",
+          "uuid": "8356ea0f-b0f6-4425-9d99-431c2e7f88f6"
+        },
+        {
+          "value": "nuclear",
+          "expanded": "Nuclear Reactors, Materials, and Waste Sector",
+          "description": "Nuclear power plants, research and test reactors, fuel cycle facilities, radioactive waste. SRMA: DHS.",
+          "uuid": "6111b785-8d00-4bda-836c-1e6c9e0acb12"
+        },
+        {
+          "value": "transportation-systems",
+          "expanded": "Transportation Systems Sector",
+          "description": "Aviation, highway, maritime, mass transit, pipeline, freight rail, and postal shipping. SRMA: DHS/DOT.",
+          "uuid": "c9b22531-6527-4ccb-8fed-f6819146b8ee"
+        },
+        {
+          "value": "water-wastewater",
+          "expanded": "Water + Wastewater Systems Sector",
+          "description": "Drinking water and wastewater treatment and distribution systems. SRMA: EPA.",
+          "uuid": "3b40f9b6-51f4-4b39-9afc-46792b329afd"
+        }
+      ]
+    },
+    {
+      "predicate": "emerging",
+      "entry": [
+        {
+          "value": "education",
+          "expanded": "Education",
+          "description": "K-12 and higher education institutions. Increasingly targeted by ransomware and data theft.",
+          "uuid": "ba2912e0-a0ad-4b96-b730-ddfa85acefdb"
+        },
+        {
+          "value": "space-systems",
+          "expanded": "Space Systems",
+          "description": "Satellite infrastructure, ground stations, and space-based communications. Covered by SPD-5.",
+          "uuid": "5f764bdd-bab2-49c3-949b-8592f089bbd9"
+        },
+        {
+          "value": "cryptocurrency-defi",
+          "expanded": "Cryptocurrency + DeFi",
+          "description": "Cryptocurrency exchanges, DeFi protocols, blockchain infrastructure, and digital asset custody.",
+          "uuid": "729c6b4c-f652-4e2e-9f4f-506ced35f0df"
+        },
+        {
+          "value": "ai-systems",
+          "expanded": "AI Systems + Infrastructure",
+          "description": "AI model hosting, training infrastructure, agent platforms, and ML pipelines as critical infrastructure.",
+          "uuid": "df82cb18-d3d2-43a1-9af9-1e06615bf471"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "description": "Malicious Behaviors Taxonomy techniques for AI and ML systems. Each cluster represents a specific technique with detection methods, mitigations, and cross-references to MITRE ATT&CK, OWASP LLM Top 10, and NIST AI RMF.",
+  "icon": "brain",
+  "kill_chain_order": {
+    "vantacode-mbt": [
+      "observation-dependent-behavior",
+      "adversarial-input-vulnerabilities",
+      "insecure-ai-deployment",
+      "ai-supply-chain-threats",
+      "data-exfiltration-via-ai",
+      "ai-model-integrity"
+    ]
+  },
+  "name": "VantaCode MBT Techniques",
+  "namespace": "vantacode",
+  "type": "vantacode-mbt-techniques",
+  "uuid": "631bcd6f-5837-4ebf-8471-e1aab70f284f",
+  "version": 1
+}

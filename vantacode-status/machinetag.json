@@ -1,0 +1,70 @@
+{
+  "namespace": "vantacode-status",
+  "description": "Repository lifecycle status classification. Indicates the current maintenance and development status of a repository.",
+  "version": 1,
+  "exclusive": true,
+  "predicates": [
+    {
+      "value": "lifecycle",
+      "expanded": "Lifecycle Status",
+      "description": "Current lifecycle stage of the repository.",
+      "exclusive": true,
+      "uuid": "c8b5a48d-af72-4f9d-96ea-4558b2d1e8fa"
+    }
+  ],
+  "values": [
+    {
+      "predicate": "lifecycle",
+      "entry": [
+        {
+          "value": "active",
+          "expanded": "Active Development",
+          "description": "Repository is under active development with regular commits and maintenance.",
+          "numerical_value": 5,
+          "colour": "#2ecc71",
+          "uuid": "146bcf8c-6460-4fa4-b07d-7e7bc3f618b9"
+        },
+        {
+          "value": "maintenance",
+          "expanded": "Maintenance Only",
+          "description": "Repository receives bug fixes and security patches but no new features.",
+          "numerical_value": 4,
+          "colour": "#3498db",
+          "uuid": "3c5260f0-885d-4c83-b45a-0154955fbb6b"
+        },
+        {
+          "value": "experimental",
+          "expanded": "Experimental",
+          "description": "Repository contains experimental or proof-of-concept code. Not production-ready.",
+          "numerical_value": 3,
+          "colour": "#f39c12",
+          "uuid": "1caf8f96-be53-4080-a3d6-9f04ec2c9bba"
+        },
+        {
+          "value": "stale",
+          "expanded": "Stale",
+          "description": "Repository has had no meaningful activity in 90+ days. May need triage.",
+          "numerical_value": 2,
+          "colour": "#e67e22",
+          "uuid": "d50c1a56-f961-4457-b9c8-6c882fb60838"
+        },
+        {
+          "value": "deprecated",
+          "expanded": "Deprecated",
+          "description": "Repository has been superseded. A successor exists. Should not be used for new work.",
+          "numerical_value": 1,
+          "colour": "#e74c3c",
+          "uuid": "4dbfe2b2-6483-44b6-b3eb-75d7ad134405"
+        },
+        {
+          "value": "archived",
+          "expanded": "Archived",
+          "description": "Repository is read-only. Preserved for reference but no longer maintained.",
+          "numerical_value": 0,
+          "colour": "#7f8c8d",
+          "uuid": "6fcb040c-0ffb-456d-9280-949b67ea2a23"
+        }
+      ]
+    }
+  ]
+}

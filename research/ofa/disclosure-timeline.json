@@ -1,0 +1,80 @@
+{
+  "name": "OFA Responsible Disclosure Timeline",
+  "version": 1,
+  "source": "https://observationframing.org",
+  "research_entity": "VantaGrid.ai",
+  "vulnerability_class": "Observation Framing Attack (OFA)",
+  "disclosed_by": "Cory Kennedy",
+  "_metadata": {
+    "author": "DarkCode LLC",
+    "author_contact": "cory@darkcode.ai",
+    "author_handle": "NoDataFound",
+    "project": "VantaCode",
+    "project_url": "https://github.com/vantacode",
+    "license": "CC0-1.0"
+  },
+  "events": [
+    {
+      "id": "DISC-001",
+      "date": "2025-Q4",
+      "recipient": "Anthropic",
+      "recipient_team": "Claude safety team",
+      "method": "Responsible disclosure notification",
+      "status": "Notified",
+      "description": "Responsible disclosure notification sent to Anthropic regarding OFA vulnerability class affecting Claude model family. Included summary of findings, technique descriptions, and behavioral change data specific to Claude models.",
+      "models_affected": ["Claude 3 Haiku", "Claude 3 Sonnet", "Claude 3 Opus", "Claude 3.5 Haiku", "Claude 3.5 Sonnet"]
+    },
+    {
+      "id": "DISC-002",
+      "date": "2025-Q4",
+      "recipient": "OpenAI",
+      "recipient_team": "Security team",
+      "method": "Responsible disclosure notification",
+      "status": "Notified",
+      "description": "Responsible disclosure notification sent to OpenAI regarding OFA vulnerability class affecting GPT model family. Included summary of findings, technique descriptions, and behavioral change data specific to GPT models.",
+      "models_affected": ["GPT-3.5 Turbo", "GPT-4", "GPT-4 Turbo", "GPT-4o", "GPT-4o mini", "o1-preview", "o1-mini"]
+    },
+    {
+      "id": "DISC-003",
+      "date": "2025-Q4",
+      "recipient": "Google DeepMind",
+      "recipient_team": "Safety team",
+      "method": "Responsible disclosure notification",
+      "status": "Notified",
+      "description": "Responsible disclosure notification sent to Google DeepMind regarding OFA vulnerability class affecting Gemini model family. Included summary of findings, technique descriptions, and behavioral change data specific to Gemini models.",
+      "models_affected": ["Gemini 1.0 Pro", "Gemini 1.5 Flash", "Gemini 1.5 Pro"]
+    },
+    {
+      "id": "DISC-004",
+      "date": "2025-Q4",
+      "recipient": "xAI",
+      "recipient_team": "Grok team",
+      "method": "Responsible disclosure notification",
+      "status": "Notified",
+      "description": "Responsible disclosure notification sent to xAI regarding OFA vulnerability class affecting Grok model family. Included summary of findings, technique descriptions, and behavioral change data specific to Grok models.",
+      "models_affected": ["Grok-1", "Grok-2"]
+    }
+  ],
+  "publication_timeline": [
+    {
+      "event": "Research completed",
+      "date": "2025",
+      "description": "10,704 observations collected across 163+ models from 26 providers using 20 OFA techniques."
+    },
+    {
+      "event": "Responsible disclosures sent",
+      "date": "2025-Q4",
+      "description": "Notifications sent to Anthropic, OpenAI, Google DeepMind, and xAI."
+    },
+    {
+      "event": "arXiv submission",
+      "date": "Pending",
+      "description": "Paper 'The Observation Phenomena' submitted to arXiv under cs.CR (Cryptography and Security), cross-listed cs.AI."
+    },
+    {
+      "event": "Website launch",
+      "date": "2026",
+      "description": "observationframing.org launched with public research summary and technique documentation."
+    }
+  ]
+}

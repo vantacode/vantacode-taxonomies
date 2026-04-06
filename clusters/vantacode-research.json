@@ -1,0 +1,70 @@
+{
+  "authors": ["DarkCode LLC"],
+  "category": "research",
+  "description": "VantaCode research outputs including published findings, active research programs, and methodologies for AI security threat intelligence.",
+  "name": "VantaCode Research",
+  "source": "https://github.com/vantacode/vantacode-taxonomies",
+  "type": "vantacode-research",
+  "uuid": "2563494b-1a34-4cc3-aef8-5f7b60aa2bcb",
+  "version": 1,
+  "values": [
+    {
+      "description": "The Observation Framing Attack (OFA) is a vulnerability class affecting 163+ LLM models across 26 providers. Core finding: AI models change behavior when told they are being observed vs. unobserved. A 1% framing shift in prompt context produces up to 90% behavioral change. 20 OFA techniques identified. Attack surface includes any system that uses LLMs where the observation context can be manipulated (evals, benchmarks, safety testing, red team exercises, deployment monitoring).",
+      "meta": {
+        "kill_chain": [
+          "vantacode-mbt:observation-dependent-behavior"
+        ],
+        "refs": [
+          "https://observationframing.org",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "status": "active",
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"eval-benchmark-detection\"",
+          "vantacode-mbt:observation-dependent-behavior=\"alignment-faking\"",
+          "vantacode-mbt:observation-dependent-behavior=\"monitoring-aware-modification\""
+        ]
+      },
+      "uuid": "befeb70c-8e2c-4260-b467-7d43ce0b54a3",
+      "value": "OFA / Observation Framing Attack"
+    },
+    {
+      "description": "VantaGrid is the unified AI security methodology framework that connects VantaCode's scanning, classification, and threat intelligence capabilities. Provides the structured approach for applying MBT taxonomy classifications, AIBOM generation, and repo governance scoring across AI/ML codebases.",
+      "meta": {
+        "refs": [
+          "https://vantagrid.ai",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "status": "active",
+        "related-taxonomies": [
+          "vantacode-domain:category=\"ai-security\"",
+          "vantacode-governance:security=\"full\""
+        ]
+      },
+      "uuid": "4f7b2a2f-06bf-4fd7-8413-e6292cecc28a",
+      "value": "VantaGrid"
+    },
+    {
+      "description": "DECLAWED is a real-time tracker for exposed AI agent instances on the public internet. Tracks 145K+ exposed instances across 46.2K unique IPs in 82 countries. Identified 2.5M CVE detections, 70K APT-linked, 37K CISA KEV flagged, 56.6K breach-linked instances. Discovered 5 confirmed malicious ClawHub skills with mapped C2 infrastructure. Demonstrates systemic insecure deployment of AI agents with default configs, no authentication, and exposed control panels.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-mbt:insecure-ai-deployment",
+          "vantacode-mbt:ai-supply-chain-threats"
+        ],
+        "refs": [
+          "https://declawed.io",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "status": "active",
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"exposed-control-panel\"",
+          "vantacode-mbt:insecure-ai-deployment=\"malicious-skill-plugin\"",
+          "vantacode-mbt:insecure-ai-deployment=\"bound-to-all-interfaces\"",
+          "vantacode-mbt:ai-supply-chain-threats=\"compromised-model-registry\""
+        ]
+      },
+      "uuid": "a4648cd4-269b-4b03-8689-bdcdde5f6402",
+      "value": "DECLAWED"
+    }
+  ]
+}

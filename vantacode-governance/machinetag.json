@@ -1,0 +1,217 @@
+{
+  "namespace": "vantacode-governance",
+  "description": "Governance baseline compliance scoring for repositories. Measures adherence to VantaCode repository standards across multiple governance areas.",
+  "version": 1,
+  "exclusive": false,
+  "refs": [
+    "https://github.com/vantacode/vantacode-taxonomies"
+  ],
+  "predicates": [
+    {
+      "value": "documentation",
+      "expanded": "Documentation",
+      "description": "Presence and quality of README, CONTRIBUTING, SECURITY, LICENSE, CODEOWNERS, and other standard documentation.",
+      "exclusive": true,
+      "uuid": "bbe1cc3b-d5a7-411f-90d4-6025ae4014a8"
+    },
+    {
+      "value": "branch-protection",
+      "expanded": "Branch Protection",
+      "description": "Branch protection rules, review requirements, and merge policies.",
+      "exclusive": true,
+      "uuid": "deaf9af3-0535-4c78-a5ed-8fa687167ae9"
+    },
+    {
+      "value": "ci-cd",
+      "expanded": "CI/CD",
+      "description": "Continuous integration and deployment pipeline configuration and enforcement.",
+      "exclusive": true,
+      "uuid": "8d465dda-7ce2-4ffb-85c4-f3481d98395c"
+    },
+    {
+      "value": "security",
+      "expanded": "Security Posture",
+      "description": "Dependabot, secret scanning, push protection, SAST, SBOM generation.",
+      "exclusive": true,
+      "uuid": "c42e0209-5766-4945-9112-3cc0886e0ff6"
+    },
+    {
+      "value": "code-quality",
+      "expanded": "Code Quality",
+      "description": "Linting, formatting, testing, type checking, and code hygiene.",
+      "exclusive": true,
+      "uuid": "c0feab62-6857-42d9-83d6-19e28d8b9b3c"
+    }
+  ],
+  "values": [
+    {
+      "predicate": "documentation",
+      "entry": [
+        {
+          "value": "full",
+          "expanded": "Full Compliance",
+          "description": "All required documentation present and current.",
+          "numerical_value": 3,
+          "colour": "#2ecc71",
+          "uuid": "40041545-d52b-41e4-b51f-93faa5ab19d6"
+        },
+        {
+          "value": "partial",
+          "expanded": "Partial Compliance",
+          "description": "Some required documentation missing or outdated.",
+          "numerical_value": 2,
+          "colour": "#f39c12",
+          "uuid": "b1644ca8-2c73-4d95-b185-7ecbfeb20833"
+        },
+        {
+          "value": "minimal",
+          "expanded": "Minimal Compliance",
+          "description": "Only basic documentation present (README only).",
+          "numerical_value": 1,
+          "colour": "#e67e22",
+          "uuid": "328ea436-6ddf-47fe-94e1-43a7429843fd"
+        },
+        {
+          "value": "none",
+          "expanded": "Non-Compliant",
+          "description": "No standard documentation present.",
+          "numerical_value": 0,
+          "colour": "#e74c3c",
+          "uuid": "bc0d7c6c-bbcd-4b39-aab4-000eb517071b"
+        }
+      ]
+    },
+    {
+      "predicate": "branch-protection",
+      "entry": [
+        {
+          "value": "full",
+          "expanded": "Full Compliance",
+          "numerical_value": 3,
+          "colour": "#2ecc71",
+          "uuid": "aca528a5-983f-48d8-b4d5-59e51f842dd4"
+        },
+        {
+          "value": "partial",
+          "expanded": "Partial Compliance",
+          "numerical_value": 2,
+          "colour": "#f39c12",
+          "uuid": "4df45a49-b3d5-4b39-b901-da42d76c58a9"
+        },
+        {
+          "value": "minimal",
+          "expanded": "Minimal Compliance",
+          "numerical_value": 1,
+          "colour": "#e67e22",
+          "uuid": "a2efdc9a-925f-455e-9f31-94d3f6f2cc1f"
+        },
+        {
+          "value": "none",
+          "expanded": "Non-Compliant",
+          "numerical_value": 0,
+          "colour": "#e74c3c",
+          "uuid": "1c248642-f78b-4af8-83af-3225fbe5bd0b"
+        }
+      ]
+    },
+    {
+      "predicate": "ci-cd",
+      "entry": [
+        {
+          "value": "full",
+          "expanded": "Full Compliance",
+          "numerical_value": 3,
+          "colour": "#2ecc71",
+          "uuid": "affaa14c-961a-401c-857f-ff64dc2b89f6"
+        },
+        {
+          "value": "partial",
+          "expanded": "Partial Compliance",
+          "numerical_value": 2,
+          "colour": "#f39c12",
+          "uuid": "24dce8c8-9d62-4821-964d-b1ef28e057b1"
+        },
+        {
+          "value": "minimal",
+          "expanded": "Minimal Compliance",
+          "numerical_value": 1,
+          "colour": "#e67e22",
+          "uuid": "67a9178c-0f71-4e2a-8751-af2b36cdafef"
+        },
+        {
+          "value": "none",
+          "expanded": "Non-Compliant",
+          "numerical_value": 0,
+          "colour": "#e74c3c",
+          "uuid": "8ace4378-5463-4706-9abe-246b33c20756"
+        }
+      ]
+    },
+    {
+      "predicate": "security",
+      "entry": [
+        {
+          "value": "full",
+          "expanded": "Full Compliance",
+          "numerical_value": 3,
+          "colour": "#2ecc71",
+          "uuid": "491db154-c618-45b5-a35d-21497b0347f4"
+        },
+        {
+          "value": "partial",
+          "expanded": "Partial Compliance",
+          "numerical_value": 2,
+          "colour": "#f39c12",
+          "uuid": "1eca3ac2-a6f9-4ef5-b762-ebfd451cfbf4"
+        },
+        {
+          "value": "minimal",
+          "expanded": "Minimal Compliance",
+          "numerical_value": 1,
+          "colour": "#e67e22",
+          "uuid": "54c5985d-3eec-4e76-aa70-d2125a420add"
+        },
+        {
+          "value": "none",
+          "expanded": "Non-Compliant",
+          "numerical_value": 0,
+          "colour": "#e74c3c",
+          "uuid": "1199ed82-260e-4327-8a41-b999b215e1ac"
+        }
+      ]
+    },
+    {
+      "predicate": "code-quality",
+      "entry": [
+        {
+          "value": "full",
+          "expanded": "Full Compliance",
+          "numerical_value": 3,
+          "colour": "#2ecc71",
+          "uuid": "b5bad4cd-422f-4b6a-96aa-7d1425468862"
+        },
+        {
+          "value": "partial",
+          "expanded": "Partial Compliance",
+          "numerical_value": 2,
+          "colour": "#f39c12",
+          "uuid": "60c99621-3c9f-4ac2-a6df-6c17ccc9edad"
+        },
+        {
+          "value": "minimal",
+          "expanded": "Minimal Compliance",
+          "numerical_value": 1,
+          "colour": "#e67e22",
+          "uuid": "83454b19-e4be-41f0-bddb-99d92ed6e304"
+        },
+        {
+          "value": "none",
+          "expanded": "Non-Compliant",
+          "numerical_value": 0,
+          "colour": "#e74c3c",
+          "uuid": "b3c478be-e669-4743-adb5-b0083f6e8788"
+        }
+      ]
+    }
+  ]
+}

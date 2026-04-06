@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/vantacode/vantacode-taxonomies/main/schema/galaxy.schema.json",
+  "title": "MISP Galaxy Definition Schema",
+  "description": "JSON Schema for validating MISP-compatible galaxy definition files.",
+  "type": "object",
+  "required": ["description", "icon", "name", "namespace", "type", "uuid", "version"],
+  "additionalProperties": false,
+  "properties": {
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of the galaxy."
+    },
+    "icon": {
+      "type": "string",
+      "description": "Font Awesome icon name for display."
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name of the galaxy."
+    },
+    "namespace": {
+      "type": "string",
+      "description": "Namespace for the galaxy (e.g., 'vantacode')."
+    },
+    "type": {
+      "type": "string",
+      "description": "Type identifier matching the cluster file."
+    },
+    "uuid": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID v4 identifier for the galaxy."
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Version number of the galaxy definition."
+    },
+    "kill_chain_order": {
+      "type": "object",
+      "description": "Optional kill chain ordering. Keys are kill chain names, values are arrays of phase names.",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

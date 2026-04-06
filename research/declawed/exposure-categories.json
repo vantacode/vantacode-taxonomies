@@ -1,0 +1,73 @@
+{
+  "name": "DECLAWED Exposure Categories",
+  "version": 1,
+  "source": "https://declawed.io",
+  "last_updated": "2026-04-06",
+  "_metadata": {
+    "author": "DarkCode LLC",
+    "author_contact": "cory@darkcode.ai",
+    "author_handle": "NoDataFound",
+    "project": "VantaCode",
+    "project_url": "https://github.com/vantacode",
+    "license": "CC0-1.0"
+  },
+  "categories": [
+    {
+      "id": "DEC-01",
+      "name": "Exposed Control Panel",
+      "description": "AI agent control panel accessible from the public internet without authentication. Includes admin interfaces, configuration dashboards, and management consoles for OpenClaw/MoltBot/ClawdBot instances that are reachable without any form of authentication.",
+      "severity": "critical",
+      "count": null,
+      "mbt_mapping": "vantacode:mbt:insecure-ai-deployment=\"exposed-control-panel\"",
+      "mbt_id": "MBT-3.1",
+      "detection_method": "HTTP fingerprinting of known control panel response patterns, default page content matching, admin endpoint enumeration.",
+      "remediation": "Restrict control panel access to authenticated users. Bind to localhost or private network interface. Place behind VPN or zero-trust access proxy."
+    },
+    {
+      "id": "DEC-02",
+      "name": "RCE-Vulnerable Instance",
+      "description": "AI agent instance with known remote code execution vulnerabilities. Includes instances running outdated platform versions with published CVEs that allow arbitrary command execution through the agent's tool-use interface or platform API.",
+      "severity": "critical",
+      "count": 15900,
+      "mbt_mapping": "vantacode:mbt:insecure-ai-deployment=\"misconfigured-tool-permissions\"",
+      "mbt_id": "MBT-3.6",
+      "detection_method": "Version fingerprinting cross-referenced against CVE databases. CISA KEV matching. Exploit signature detection on exposed endpoints.",
+      "remediation": "Patch to latest version. Restrict tool-use permissions to minimum required scope. Implement input validation on all agent tool interfaces."
+    },
+    {
+      "id": "DEC-03",
+      "name": "Malicious ClawHub Skill",
+      "description": "AI agent skill distributed through the ClawHub marketplace containing C2 callbacks, backdoors, credential harvesting, or data exfiltration logic. Five confirmed malicious skills identified with mapped C2 infrastructure.",
+      "severity": "critical",
+      "count": 5,
+      "mbt_mapping": "vantacode:mbt:insecure-ai-deployment=\"malicious-skill-plugin\"",
+      "mbt_id": "MBT-3.7",
+      "secondary_mbt_mapping": "vantacode:mbt:ai-supply-chain-threats=\"malicious-dependencies\"",
+      "secondary_mbt_id": "MBT-4.4",
+      "detection_method": "Static analysis of skill source for outbound HTTP calls to non-allowlisted domains. Obfuscated code detection. Behavioral monitoring of skill execution for unexpected filesystem, network, or credential access patterns.",
+      "remediation": "Remove malicious skills. Audit all installed skills against known-malicious hashes (published via DECLAWED TAXII feed). Implement skill allowlisting. Verify skill publisher identity."
+    },
+    {
+      "id": "DEC-04",
+      "name": "APT-Linked Infrastructure",
+      "description": "Exposed AI agent instance hosted on infrastructure with known APT (Advanced Persistent Threat) activity associations. Includes instances on IPs, ASNs, or hosting providers previously used by tracked threat actors.",
+      "severity": "high",
+      "count": 70000,
+      "mbt_mapping": "vantacode:mbt:insecure-ai-deployment=\"missing-network-segmentation\"",
+      "mbt_id": "MBT-3.4",
+      "detection_method": "Cross-reference instance hosting infrastructure against threat intelligence feeds for known APT-associated IPs, ASNs, and hosting providers.",
+      "remediation": "Migrate AI agent workloads to trusted infrastructure. Implement network segmentation between AI agents and other workloads. Monitor for lateral movement indicators."
+    },
+    {
+      "id": "DEC-05",
+      "name": "Breach-Linked Instance",
+      "description": "Exposed AI agent instance on infrastructure previously associated with data breach activity. Includes instances hosted on IPs or networks that have appeared in breach notification databases or incident response reports.",
+      "severity": "high",
+      "count": 56600,
+      "mbt_mapping": "vantacode:mbt:insecure-ai-deployment=\"bound-to-all-interfaces\"",
+      "mbt_id": "MBT-3.8",
+      "detection_method": "Cross-reference instance IPs against breach databases, incident response reports, and data leak monitoring services.",
+      "remediation": "Audit infrastructure for compromise indicators. Bind AI agent services to specific interfaces rather than 0.0.0.0. Implement network-level access controls."
+    }
+  ]
+}

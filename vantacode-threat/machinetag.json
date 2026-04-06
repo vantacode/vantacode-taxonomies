@@ -1,0 +1,274 @@
+{
+  "namespace": "vantacode-threat",
+  "description": "Mapping of repositories to MITRE ATT&CK Enterprise tactics. Indicates whether a repository implements, detects, or researches adversary behaviors in each tactic phase.",
+  "version": 1,
+  "exclusive": false,
+  "refs": [
+    "https://attack.mitre.org/tactics/enterprise/",
+    "https://github.com/vantacode/vantacode-taxonomies"
+  ],
+  "predicates": [
+    {
+      "value": "implements",
+      "expanded": "Implements",
+      "description": "Repository contains tooling that performs or simulates this tactic (red team, offensive).",
+      "exclusive": false,
+      "uuid": "39940141-447b-4c0c-8863-6a460b8b7b97"
+    },
+    {
+      "value": "detects",
+      "expanded": "Detects",
+      "description": "Repository contains detection logic, signatures, or rules for this tactic (blue team, defensive).",
+      "exclusive": false,
+      "uuid": "2ad56cd9-37a6-4826-b66a-c46f2cf97f48"
+    },
+    {
+      "value": "researches",
+      "expanded": "Researches",
+      "description": "Repository contains analysis, documentation, or research related to this tactic.",
+      "exclusive": false,
+      "uuid": "e24bcc11-6655-4d0d-b32a-d70b3bd77d3a"
+    }
+  ],
+  "values": [
+    {
+      "predicate": "implements",
+      "entry": [
+        {
+          "value": "reconnaissance",
+          "expanded": "Reconnaissance (TA0043)",
+          "description": "Gathering information to plan future operations.",
+          "uuid": "1e6c5190-00c3-4160-876d-675cf4f57a68"
+        },
+        {
+          "value": "resource-development",
+          "expanded": "Resource Development (TA0042)",
+          "description": "Establishing resources to support operations.",
+          "uuid": "cb9a8b7e-8695-4605-949a-c7fee0f455bf"
+        },
+        {
+          "value": "initial-access",
+          "expanded": "Initial Access (TA0001)",
+          "description": "Gaining initial foothold in target environment.",
+          "uuid": "c2f11d24-247f-4101-b896-0fa349ca4100"
+        },
+        {
+          "value": "execution",
+          "expanded": "Execution (TA0002)",
+          "description": "Running adversary-controlled code.",
+          "uuid": "0ce4b1d6-e293-4024-8a49-4edbfdc637ae"
+        },
+        {
+          "value": "persistence",
+          "expanded": "Persistence (TA0003)",
+          "description": "Maintaining foothold across restarts and credential changes.",
+          "uuid": "4e472539-b185-4905-8edb-42ac5be56302"
+        },
+        {
+          "value": "privilege-escalation",
+          "expanded": "Privilege Escalation (TA0004)",
+          "description": "Gaining higher-level permissions.",
+          "uuid": "15a1f463-d41c-4593-9d2b-64119afae657"
+        },
+        {
+          "value": "defense-evasion",
+          "expanded": "Defense Evasion (TA0005)",
+          "description": "Avoiding detection throughout the compromise.",
+          "uuid": "b9f2fd2e-6a58-4635-ad75-2c93bb4c9f52"
+        },
+        {
+          "value": "credential-access",
+          "expanded": "Credential Access (TA0006)",
+          "description": "Stealing account credentials.",
+          "uuid": "84e4829e-ef9c-42a7-aa9e-2af16a104849"
+        },
+        {
+          "value": "discovery",
+          "expanded": "Discovery (TA0007)",
+          "description": "Exploring the environment to gain knowledge.",
+          "uuid": "3f03b6be-0906-4b95-a8db-323c1046b413"
+        },
+        {
+          "value": "lateral-movement",
+          "expanded": "Lateral Movement (TA0008)",
+          "description": "Moving through the environment.",
+          "uuid": "07fe88fe-38d0-4488-8543-bd824b6f3b00"
+        },
+        {
+          "value": "collection",
+          "expanded": "Collection (TA0009)",
+          "description": "Gathering data of interest.",
+          "uuid": "5a8cd38b-df9a-483c-aabf-37e2387d355b"
+        },
+        {
+          "value": "command-and-control",
+          "expanded": "Command and Control (TA0011)",
+          "description": "Communicating with compromised systems.",
+          "uuid": "e4b4dcb1-d7ed-4f98-bf68-d00c039155f2"
+        },
+        {
+          "value": "exfiltration",
+          "expanded": "Exfiltration (TA0010)",
+          "description": "Stealing data from the target environment.",
+          "uuid": "e79c3b76-f0d2-4d14-8cf1-f0a522780327"
+        },
+        {
+          "value": "impact",
+          "expanded": "Impact (TA0040)",
+          "description": "Disrupting availability or compromising integrity.",
+          "uuid": "a0a0a7c2-3f70-413a-8911-3e51ed491b3c"
+        }
+      ]
+    },
+    {
+      "predicate": "detects",
+      "entry": [
+        {
+          "value": "reconnaissance",
+          "expanded": "Reconnaissance (TA0043)",
+          "uuid": "4d090bbc-f7bb-4d81-9f7e-0e9b89d589bf"
+        },
+        {
+          "value": "resource-development",
+          "expanded": "Resource Development (TA0042)",
+          "uuid": "fdaf7a41-c048-4085-bcbe-0d1762952cb5"
+        },
+        {
+          "value": "initial-access",
+          "expanded": "Initial Access (TA0001)",
+          "uuid": "6c52763b-2879-4d57-b5bc-ba1891b7e234"
+        },
+        {
+          "value": "execution",
+          "expanded": "Execution (TA0002)",
+          "uuid": "675fe217-2645-4bed-bd89-e3a70962149f"
+        },
+        {
+          "value": "persistence",
+          "expanded": "Persistence (TA0003)",
+          "uuid": "27769470-a051-4252-b0b8-1a8590574c56"
+        },
+        {
+          "value": "privilege-escalation",
+          "expanded": "Privilege Escalation (TA0004)",
+          "uuid": "4d535a15-c091-4d1b-bcca-27b06554a440"
+        },
+        {
+          "value": "defense-evasion",
+          "expanded": "Defense Evasion (TA0005)",
+          "uuid": "809367ce-8f51-43a0-b47a-d44e34f89504"
+        },
+        {
+          "value": "credential-access",
+          "expanded": "Credential Access (TA0006)",
+          "uuid": "6aceff1e-6629-4f8b-a714-777feb83b3e4"
+        },
+        {
+          "value": "discovery",
+          "expanded": "Discovery (TA0007)",
+          "uuid": "3f79b8e3-b2f9-424e-8da8-5d076418b8d0"
+        },
+        {
+          "value": "lateral-movement",
+          "expanded": "Lateral Movement (TA0008)",
+          "uuid": "8dc3b5c3-170e-4e39-974c-2462955e77be"
+        },
+        {
+          "value": "collection",
+          "expanded": "Collection (TA0009)",
+          "uuid": "50f0ca91-e715-4368-9082-d0c23d600526"
+        },
+        {
+          "value": "command-and-control",
+          "expanded": "Command and Control (TA0011)",
+          "uuid": "abca629d-cc3f-4fd6-ab17-70a54433248c"
+        },
+        {
+          "value": "exfiltration",
+          "expanded": "Exfiltration (TA0010)",
+          "uuid": "75704787-b532-4fcf-abe3-c130e59b522d"
+        },
+        {
+          "value": "impact",
+          "expanded": "Impact (TA0040)",
+          "uuid": "1f1792bb-e73e-4b72-86b3-5f6e0e1f39d7"
+        }
+      ]
+    },
+    {
+      "predicate": "researches",
+      "entry": [
+        {
+          "value": "reconnaissance",
+          "expanded": "Reconnaissance (TA0043)",
+          "uuid": "bc843e72-19b9-4276-8301-c506f89e341a"
+        },
+        {
+          "value": "resource-development",
+          "expanded": "Resource Development (TA0042)",
+          "uuid": "f6b3b33a-b670-4723-984b-4beff1a4abf6"
+        },
+        {
+          "value": "initial-access",
+          "expanded": "Initial Access (TA0001)",
+          "uuid": "d0435077-e8cc-49e1-9487-9450bc9f9129"
+        },
+        {
+          "value": "execution",
+          "expanded": "Execution (TA0002)",
+          "uuid": "79a8f09a-401c-4890-a643-232bc351c595"
+        },
+        {
+          "value": "persistence",
+          "expanded": "Persistence (TA0003)",
+          "uuid": "3aa16747-9803-4351-9fd7-f487f447550a"
+        },
+        {
+          "value": "privilege-escalation",
+          "expanded": "Privilege Escalation (TA0004)",
+          "uuid": "bf67733a-8913-4ac7-9f22-337c523679b8"
+        },
+        {
+          "value": "defense-evasion",
+          "expanded": "Defense Evasion (TA0005)",
+          "uuid": "cb82c79f-babc-4fd9-b4d9-af1c8ae33c1f"
+        },
+        {
+          "value": "credential-access",
+          "expanded": "Credential Access (TA0006)",
+          "uuid": "6d826201-6426-49fb-a5d4-c2ef127063fd"
+        },
+        {
+          "value": "discovery",
+          "expanded": "Discovery (TA0007)",
+          "uuid": "49ab86bf-f033-45f1-8aef-8bc47462ac36"
+        },
+        {
+          "value": "lateral-movement",
+          "expanded": "Lateral Movement (TA0008)",
+          "uuid": "217e6269-b124-4fe0-96b8-14f1f457d417"
+        },
+        {
+          "value": "collection",
+          "expanded": "Collection (TA0009)",
+          "uuid": "a31f1d2c-01b5-4418-810c-870c4557d9a8"
+        },
+        {
+          "value": "command-and-control",
+          "expanded": "Command and Control (TA0011)",
+          "uuid": "9cac4d5b-7a7a-4920-b37c-7947ed415303"
+        },
+        {
+          "value": "exfiltration",
+          "expanded": "Exfiltration (TA0010)",
+          "uuid": "e7939545-9b74-4e7b-a050-26b1cb2e2671"
+        },
+        {
+          "value": "impact",
+          "expanded": "Impact (TA0040)",
+          "uuid": "6ee59bcd-6d25-43ee-9aa8-f0bdc3d8b555"
+        }
+      ]
+    }
+  ]
+}

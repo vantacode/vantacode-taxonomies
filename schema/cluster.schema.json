@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/vantacode/vantacode-taxonomies/main/schema/cluster.schema.json",
+  "title": "MISP Galaxy Cluster Schema",
+  "description": "JSON Schema for validating MISP-compatible galaxy cluster files.",
+  "type": "object",
+  "required": ["authors", "category", "description", "name", "source", "type", "uuid", "version"],
+  "additionalProperties": false,
+  "properties": {
+    "authors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of authors who contributed to this cluster."
+    },
+    "category": {
+      "type": "string",
+      "description": "Category of the cluster."
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of the cluster."
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name of the cluster."
+    },
+    "source": {
+      "type": "string",
+      "description": "Source of the cluster data."
+    },
+    "type": {
+      "type": "string",
+      "description": "Type identifier matching the galaxy definition."
+    },
+    "uuid": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID v4 identifier for the cluster."
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Version number of the cluster."
+    },
+    "values": {
+      "type": "array",
+      "description": "Array of cluster value entries.",
+      "items": {
+        "type": "object",
+        "required": ["value"],
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "Human-readable description of the cluster value."
+          },
+          "meta": {
+            "type": "object",
+            "description": "Metadata object with arbitrary key-value pairs.",
+            "additionalProperties": true
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid",
+            "description": "UUID v4 identifier for the cluster value."
+          },
+          "value": {
+            "type": "string",
+            "description": "The cluster value name."
+          },
+          "related": {
+            "type": "array",
+            "description": "Related cluster values.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "dest-uuid": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "type": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

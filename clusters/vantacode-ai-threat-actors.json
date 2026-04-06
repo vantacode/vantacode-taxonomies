@@ -1,0 +1,11 @@
+{
+  "authors": ["DarkCode LLC"],
+  "category": "ai-threat-actor",
+  "description": "Threat actors specifically targeting or leveraging AI systems. Focused on actors observed targeting exposed AI agent infrastructure, deploying malicious AI marketplace plugins, and compromising AI model supply chains.",
+  "name": "VantaCode AI Threat Actors",
+  "source": "https://github.com/vantacode/vantacode-taxonomies",
+  "type": "vantacode-ai-threat-actors",
+  "uuid": "4cd6e662-d3e1-4898-adf1-b4455f34c037",
+  "version": 1,
+  "values": []
+}
