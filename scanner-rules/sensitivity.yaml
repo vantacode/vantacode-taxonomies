@@ -1,0 +1,62 @@
+taxonomy: vantacode-sensitivity
+version: 1
+description: >
+  Heuristic detections for data sensitivity classification. These rules look
+  for patterns that suggest a repository is handling PII, PHI, financial,
+  or otherwise sensitive data — and emit suggested vantacode-sensitivity
+  classification tags.
+source_galaxy: vantacode-sensitivity/machinetag.json
+
+default_target:
+  globs: ["**/*"]
+  exclude_globs:
+    - "**/.git/**"
+    - "**/node_modules/**"
+
+rules:
+  - id: SENS-PII
+    title: PII Indicators
+    severity: medium
+    category: classification
+    related_tags: ['vantacode-sensitivity:classification="confidential"']
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:ssn|social[- ]?security|date[- ]?of[- ]?birth|dob|driver[- ]?license|passport[- ]?number)\\b"
+        - "\\b(?:first_name|last_name|email|phone|address|zip|postal_code)\\b\\s*[:=]"
+
+  - id: SENS-PHI
+    title: PHI / Healthcare Indicators
+    severity: high
+    category: classification
+    related_tags: ['vantacode-sensitivity:classification="restricted"']
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:hipaa|phi|medical[- ]?record|patient[- ]?id|icd[- ]?10|cpt[- ]?code|fhir|hl7)\\b"
+
+  - id: SENS-FIN
+    title: Financial / PCI Indicators
+    severity: high
+    category: classification
+    related_tags: ['vantacode-sensitivity:classification="restricted"']
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:pci[- ]?dss|card[- ]?number|cvv|cardholder|iban|swift[- ]?code|routing[- ]?number)\\b"
+        - "\\b(?:stripe|braintree|paypal|adyen)\\b"
+
+  - id: SENS-AUTH
+    title: Authentication / Credential Indicators
+    severity: high
+    category: classification
+    related_tags: ['vantacode-sensitivity:classification="confidential"']
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:from|import)\\s+(?:passlib|bcrypt|argon2|jwt|jose|authlib|oauthlib|python-jose)\\b"
+        - "\\b(?:hash_password|verify_password|jwt\\.(?:encode|decode))\\b"

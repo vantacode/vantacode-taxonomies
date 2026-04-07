@@ -1,0 +1,87 @@
+taxonomy: vantacode-domain
+version: 1
+description: >
+  Heuristic classification rules that infer one or more vantacode-domain
+  category tags from the contents of a repository (imports, file globs,
+  dependency manifests). These rules do not produce findings — they emit
+  classification suggestions consumed by the scanner's "tags" output.
+source_galaxy: vantacode-domain/machinetag.json
+
+default_target:
+  globs: ["**/*"]
+  exclude_globs:
+    - "**/.git/**"
+    - "**/node_modules/**"
+
+rules:
+  - id: DOM-AI-SECURITY
+    title: AI + Security
+    severity: info
+    category: classification
+    related_tags: ['vantacode-domain:category="ai-security"']
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:from|import)\\s+(?:openai|anthropic|cohere|google\\.generativeai|huggingface_hub|transformers|llama_cpp|vllm|langchain|llama_index|haystack|guardrails)\\b"
+        - "\\b(?:prompt[- ]?injection|jailbreak|red[- ]?team(?:ing)?|adversarial (?:prompt|suffix)|model extraction)\\b"
+
+  - id: DOM-OFFENSIVE
+    title: Offensive Security
+    severity: info
+    category: classification
+    related_tags: ['vantacode-domain:category="offensive-security"']
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:msfvenom|metasploit|cobalt[- ]?strike|sliver|havoc|empire|nishang|impacket|bloodhound|mimikatz|rubeus|certify)\\b"
+        - "\\b(?:shellcode|payload|reverse shell|bind shell|stager|c2|implant)\\b"
+
+  - id: DOM-DEFENSIVE
+    title: Defensive Security
+    severity: info
+    category: classification
+    related_tags: ['vantacode-domain:category="defensive-security"']
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:yara|sigma|snort|suricata|zeek|wazuh|osquery|falco|elastic security|wazuh)\\b"
+        - "\\b(?:detection rule|sigma rule|yara rule|incident response|forensic)\\b"
+
+  - id: DOM-THREAT-INTEL
+    title: Threat Intelligence
+    severity: info
+    category: classification
+    related_tags: ['vantacode-domain:category="threat-intelligence"']
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:misp|opencti|stix2?|taxii|cybox|ioc|threat feed|threat actor|apt[- ]?\\d+)\\b"
+        - "\\b(?:from|import)\\s+(?:stix2|pymisp|pytaxii)\\b"
+
+  - id: DOM-INFRA
+    title: Infrastructure / DevOps
+    severity: info
+    category: classification
+    related_tags: ['vantacode-domain:category="infrastructure"']
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:terraform|pulumi|ansible|chef|puppet|kubernetes|helm|kustomize)\\b"
+        - "\\b(?:from|import)\\s+(?:boto3|google\\.cloud|azure\\.mgmt|kubernetes|pulumi)\\b"
+
+  - id: DOM-WEB-APP
+    title: Web Application
+    severity: info
+    category: classification
+    related_tags: ['vantacode-domain:category="web-application"']
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:from|import)\\s+(?:flask|django|fastapi|starlette|express|nestjs|next|nuxt|svelte)\\b"
+        - "\\b(?:require|import)\\s*\\(?\\s*['\"](?:express|next|nuxt|@nestjs/core|fastify)['\"]"

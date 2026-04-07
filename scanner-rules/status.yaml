@@ -1,0 +1,49 @@
+taxonomy: vantacode-status
+version: 1
+description: >
+  Lifecycle inference rules. The example scanner uses these to suggest
+  a vantacode-status:lifecycle tag based on the presence of repository
+  signals (CI configuration, archive markers, .vantacode.yaml overrides).
+source_galaxy: vantacode-status/machinetag.json
+
+default_target:
+  globs: ["**/*"]
+  exclude_globs:
+    - "**/.git/**"
+
+rules:
+  - id: STATUS-SCAFFOLD
+    title: Repository Has Scaffold Markers
+    severity: info
+    category: classification
+    related_tags: ['vantacode-status:lifecycle="scaffold"']
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\bstatus\\s*[:=]\\s*['\"]?scaffold['\"]?\\b"
+        - "\\b(?:WORK[- ]IN[- ]PROGRESS|WIP|SCAFFOLD ONLY|UNDER CONSTRUCTION)\\b"
+
+  - id: STATUS-DEPRECATED
+    title: Repository Marked Deprecated
+    severity: info
+    category: classification
+    related_tags: ['vantacode-status:lifecycle="deprecated"']
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:DEPRECATED|ARCHIVED|NO LONGER MAINTAINED|UNMAINTAINED|END OF LIFE|EOL)\\b"
+        - "\\barchived\\s*[:=]\\s*true\\b"
+
+  - id: STATUS-ACTIVE
+    title: Repository Has Active CI
+    severity: info
+    category: classification
+    related_tags: ['vantacode-status:lifecycle="active"']
+    detection:
+      type: file_exists
+      missing_paths:
+        - ".github/workflows/**.yml"
+        - ".github/workflows/**.yaml"
+        - ".gitlab-ci.yml"

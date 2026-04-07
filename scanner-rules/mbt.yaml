@@ -1,0 +1,191 @@
+taxonomy: vantacode-mbt-techniques
+version: 1
+description: >
+  Scanner detections for selected MBT (Malicious Behaviors Taxonomy) techniques
+  that produce reliable static signals in source code. MBT techniques that require
+  runtime telemetry, model artifact inspection, or behavioral diffing are tracked
+  as advisory rules so the scanner reports them as "needs runtime evidence" rather
+  than skipping them entirely.
+source_galaxy: clusters/vantacode-mbt-techniques.json
+
+default_target:
+  globs:
+    - "**/*.py"
+    - "**/*.js"
+    - "**/*.ts"
+    - "**/*.go"
+    - "**/*.rs"
+    - "**/*.java"
+    - "**/*.yaml"
+    - "**/*.yml"
+    - "**/*.toml"
+    - "**/Dockerfile*"
+    - "**/docker-compose*.y*ml"
+  exclude_globs:
+    - "**/.git/**"
+    - "**/node_modules/**"
+
+rules:
+  # ── observation-dependent-behavior ────────────────────────────────────────
+  - id: MBT-1.1
+    title: Eval/Benchmark Detection in Code
+    severity: critical
+    category: observation-dependent-behavior
+    related_tags: ['vantacode-mbt:observation-dependent-behavior="eval-benchmark-detection"']
+    mitre_attack: ["T1497"]
+    owasp_llm: ["LLM09"]
+    github_search:
+      - query: '"if is_eval:"'
+        language: python
+      - query: '"BENCHMARK_MODE" "os.environ"'
+        language: python
+      - query: '"eval_mode" "os.environ"'
+        language: python
+      - query: '"if os.environ.get(''EVAL''"'
+        language: python
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\bif\\s+os\\.environ\\.get\\(\\s*['\"](?:EVAL|BENCHMARK|TEST|EVAL_MODE|IS_EVAL)['\"]"
+        - "\\bif\\s+(?:request|context)\\.(?:source|origin)\\s*==\\s*['\"](?:eval|benchmark|test)['\"]"
+        - "\\b(?:DEPLOYMENT|ENV|MODE)\\s*==\\s*['\"]eval['\"]\\s*[:\\)]\\s*\\n[^\\n]*safety"
+
+  - id: MBT-1.2
+    title: Monitoring-Aware Response Modification
+    severity: critical
+    category: observation-dependent-behavior
+    related_tags: ['vantacode-mbt:observation-dependent-behavior="monitoring-aware-modification"']
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\bif\\s+(?:logging|monitoring|telemetry)\\b[^\\n]*?(?:enabled|active|on)\\b[^\\n]*?:\\s*\\n[^\\n]*?(?:safety|guardrail|filter)"
+        - "\\b['\"]monitoring['\"]\\s*:\\s*['\"]active['\"]"
+
+  - id: MBT-2.2
+    title: Prompt Injection Sink
+    severity: critical
+    category: adversarial-input-vulnerabilities
+    related_tags: ['vantacode-mbt:adversarial-input-vulnerabilities="prompt-injection"']
+    owasp_llm: ["LLM01"]
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:openai|anthropic|google\\.generativeai|cohere|huggingface_hub)\\b[\\s\\S]{0,200}?(?:prompt|messages|input)\\s*=\\s*[^\"']*\\b(?:request|input|user_input|body|params|query)"
+        - "\\bf?[\"'](?:You are[^\"']*\\{[^}]+\\})[\"']"
+
+  - id: MBT-3.1
+    title: Exposed Control Panel
+    severity: critical
+    category: insecure-ai-deployment
+    related_tags: ['vantacode-mbt:insecure-ai-deployment="exposed-control-panel"']
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "@(?:app|router|api)\\.(?:route|get|post)\\s*\\(\\s*['\"]/(?:gradio|streamlit|jupyter|tensorboard|mlflow)['\"]"
+        - "\\bgradio\\.(?:Interface|Blocks)\\s*\\([^)]*share\\s*=\\s*True"
+        - "\\bstreamlit\\b[\\s\\S]{0,100}?--server\\.address[= ]+0\\.0\\.0\\.0"
+
+  - id: MBT-3.2
+    title: Default Credentials in AI Service Config
+    severity: critical
+    category: insecure-ai-deployment
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:admin|root|user)\\s*[:=]\\s*['\"](?:admin|password|changeme|123456|test)['\"]"
+        - "\\bMINIO_ROOT_PASSWORD\\s*[:=]\\s*['\"](?:minioadmin|password|admin)['\"]"
+        - "\\bMLFLOW_TRACKING_(?:USERNAME|PASSWORD)\\s*[:=]\\s*['\"](?:admin|password|mlflow)['\"]"
+
+  - id: MBT-3.3
+    title: Unauthenticated Inference Endpoint
+    severity: high
+    category: insecure-ai-deployment
+    detection:
+      type: heuristic
+      notes: Scanner flags FastAPI/Flask routes named /predict, /infer, /generate, /chat that don't reference Depends(get_current_user) / @login_required / Authorization header parsing.
+
+  - id: MBT-3.5
+    title: Exposed Model Weights or Training Data
+    severity: high
+    category: insecure-ai-deployment
+    detection:
+      type: glob_count
+      patterns:
+        - "**/*.safetensors"
+        - "**/*.bin"
+        - "**/*.pt"
+        - "**/*.pth"
+        - "**/*.ckpt"
+        - "**/*.h5"
+        - "**/*.gguf"
+      min_count: 1
+      notes: Triggers when ML model artifacts are committed to the repo (almost always wrong).
+
+  - id: MBT-3.8
+    title: AI Service Bound to All Interfaces
+    severity: critical
+    category: insecure-ai-deployment
+    detection:
+      type: regex
+      flags: [multiline]
+      patterns:
+        - "\\b(?:ollama|vllm|tgi|text-generation-launcher|llama-cpp|llama_cpp)\\b[\\s\\S]{0,100}?--host\\s+0\\.0\\.0\\.0"
+        - "\\bOLLAMA_HOST\\s*[:=]\\s*['\"]?0\\.0\\.0\\.0"
+
+  - id: MBT-4.4
+    title: Malicious ML Pipeline Dependency
+    severity: critical
+    category: ai-supply-chain-threats
+    detection:
+      type: manifest
+      manifest_files: ["requirements.txt", "pyproject.toml", "package.json"]
+      manifest_check: ml_typosquat
+
+  - id: MBT-4.7
+    title: SBOM/AIBOM Gap
+    severity: medium
+    category: ai-supply-chain-threats
+    detection:
+      type: file_missing
+      missing_paths:
+        - "aibom.json"
+        - "sbom.json"
+        - "**/*.cdx.json"
+        - ".vantacode.yaml"
+
+  # ── advisory (require runtime evidence) ───────────────────────────────────
+  - id: MBT-1.3
+    title: Safety Bypass Under Perceived Unobserved Conditions
+    severity: critical
+    category: observation-dependent-behavior
+    related_tags: ['vantacode-mbt:observation-dependent-behavior="safety-bypass-unobserved"']
+    mitre_attack: ["T1497"]
+    github_search:
+      - query: '"disable_safety("'
+        language: python
+      - query: '"bypass_guardrail("'
+        language: python
+      - query: '"safety=False"'
+        language: python
+      - query: '"guardrails=False"'
+        language: python
+      - query: '"SYSTEM_PROMPT_PROD"'
+        language: python
+      - query: '"SYSTEM_PROMPT_DEV"'
+        language: python
+    detection:
+      type: heuristic
+      notes: Requires behavioral diffing for full confirmation — scanner reports as advisory locally, but the GitHub-wide scanner uses the github_search phrases above as code evidence.
+
+  - id: MBT-2.7
+    title: Jailbreak Vectors Embedded in Tests
+    severity: critical
+    category: adversarial-input-vulnerabilities
+    detection:
+      type: heuristic
+      notes: Scanner cross-references OFA hits in test files as a confirming signal.

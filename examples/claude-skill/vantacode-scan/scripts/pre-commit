@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+# vantacode-scan pre-commit hook.
+#
+# Runs the VantaCode scanner against the staged source files. Blocks the
+# commit when any finding meets or exceeds VANTACODE_FAIL_ON (default: high).
+#
+# Install:
+#   cp examples/claude-skill/vantacode-scan/scripts/pre-commit .git/hooks/pre-commit
+#   chmod +x .git/hooks/pre-commit
+#
+# Or via the `pre-commit` framework — see .pre-commit-hooks.yaml in the
+# scanner repo and the README in examples/claude-skill/.
+#
+# Configuration via env vars:
+#   VANTACODE_FAIL_ON     = critical | high | medium | low | never  (default: high)
+#   VANTACODE_SEVERITY    = critical | high | medium | low | info   (default: medium)
+#   VANTACODE_SKILL_DIR   = path to vantacode-scan skill scripts (default: $HOME/.claude/skills/vantacode-scan/scripts)
+#   VANTACODE_RULES_DIR   = path to scanner-rules directory (optional)
+
+set -euo pipefail
+
+FAIL_ON="${VANTACODE_FAIL_ON:-high}"
+SEVERITY="${VANTACODE_SEVERITY:-medium}"
+SKILL_DIR="${VANTACODE_SKILL_DIR:-$HOME/.claude/skills/vantacode-scan/scripts}"
+
+if [[ ! -x "$SKILL_DIR/run-scan.sh" ]]; then
+    # try the in-tree path (when running from inside the scanner repo itself)
+    if [[ -x "examples/claude-skill/vantacode-scan/scripts/run-scan.sh" ]]; then
+        SKILL_DIR="$(pwd)/examples/claude-skill/vantacode-scan/scripts"
+    else
+        echo "[vantacode-scan] run-scan.sh not found at $SKILL_DIR — skipping" >&2
+        exit 0
+    fi
+fi
+
+# Only scan when there are staged files we care about
+STAGED="$(git diff --cached --name-only --diff-filter=ACM 2>/dev/null || true)"
+if [[ -z "$STAGED" ]]; then
+    exit 0
+fi
+
+REPORT="$(mktemp -t vantacode-scan-XXXXXX.json)"
+trap 'rm -f "$REPORT"' EXIT
+
+ARGS=(--source . --severity "$SEVERITY" --fail-on "$FAIL_ON" --format json --out "$REPORT" --quiet)
+if [[ -n "${VANTACODE_RULES_DIR:-}" ]]; then
+    ARGS+=(--rules "$VANTACODE_RULES_DIR")
+fi
+
+echo "[vantacode-scan] scanning staged changes (severity=$SEVERITY, fail-on=$FAIL_ON)" >&2
+
+if "$SKILL_DIR/run-scan.sh" "${ARGS[@]}"; then
+    echo "[vantacode-scan] no findings at or above $FAIL_ON" >&2
+    exit 0
+fi
+
+# Failure path — surface the top findings
+echo "" >&2
+echo "[vantacode-scan] commit blocked by VantaCode findings:" >&2
+echo "" >&2
+
+if command -v jq >/dev/null 2>&1; then
+    jq -r '.findings[] | select(.severity == "critical" or .severity == "high") |
+           "  [\(.severity)] \(.rule_id) \(.file):\(.line // "-")  \(.snippet[:120] // "")"' \
+       "$REPORT" >&2 || true
+else
+    echo "  (install jq for inline finding details — or open $REPORT)" >&2
+fi
+
+echo "" >&2
+echo "[vantacode-scan] full report: $REPORT" >&2
+echo "[vantacode-scan] override with: VANTACODE_FAIL_ON=never git commit ..." >&2
+exit 1

@@ -1,0 +1,25 @@
+[project]
+name = "vantacode-github-scanner"
+version = "0.1.0"
+description = "GitHub-wide code search scanner driven by VantaCode taxonomy rule packs."
+requires-python = ">=3.10"
+authors = [{ name = "VantaCode" }]
+license = { text = "BSD-2-Clause" }
+dependencies = [
+    "PyYAML>=6.0.1",
+    "click>=8.1.7",
+    "vantacode-scanner",
+]
+
+[project.scripts]
+vantacode-gh-scan = "vantacode_github_scanner.cli:main"
+
+[tool.uv.sources]
+vantacode-scanner = { path = "../scanner" }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["vantacode_github_scanner"]

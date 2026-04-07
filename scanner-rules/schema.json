@@ -1,0 +1,126 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/vantacode/vantacode-taxonomies/scanner-rules/schema.json",
+  "title": "VantaCode Scanner Rules",
+  "description": "Schema for VantaCode scanner-rules YAML files. Each file binds a VantaCode taxonomy or galaxy to concrete detections that the example scanner (examples/scanner/) can run against a local directory or cloned GitHub repository.",
+  "type": "object",
+  "required": ["taxonomy", "version", "rules"],
+  "properties": {
+    "taxonomy": {
+      "type": "string",
+      "description": "VantaCode taxonomy or galaxy namespace this rule pack binds to (e.g. vantacode-dkc-rules, vantacode-ofa-techniques, vantacode-governance)."
+    },
+    "version": { "type": "integer", "minimum": 1 },
+    "description": { "type": "string" },
+    "source_galaxy": {
+      "type": "string",
+      "description": "Optional path to the source galaxy or cluster JSON in this repo (e.g. clusters/vantacode-dkc-rules.json)."
+    },
+    "default_target": {
+      "type": "object",
+      "description": "Default target globs and excludes inherited by every rule unless overridden.",
+      "properties": {
+        "globs": { "type": "array", "items": { "type": "string" } },
+        "exclude_globs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/rule" }
+    }
+  },
+  "definitions": {
+    "rule": {
+      "type": "object",
+      "required": ["id", "title", "severity", "detection"],
+      "properties": {
+        "id": { "type": "string", "description": "Stable rule identifier (e.g. CMT-001, OFA-003, GOV-SEC-001)." },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "severity": {
+          "type": "string",
+          "enum": ["info", "low", "medium", "high", "critical", "variable"]
+        },
+        "category": { "type": "string" },
+        "category_weight": { "type": "number" },
+        "taxonomy_uuid": { "type": "string", "description": "UUID of the source cluster value if this rule originates from a galaxy entry." },
+        "related_tags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Triple-tag references (e.g. vantacode-mbt:adversarial-input-vulnerabilities=\"prompt-injection\")."
+        },
+        "mitre_attack": { "type": "array", "items": { "type": "string" } },
+        "owasp_llm": { "type": "array", "items": { "type": "string" } },
+        "references": { "type": "array", "items": { "type": "string", "format": "uri" } },
+        "fix": { "type": "string" },
+        "github_search": {
+          "description": "Optional list of GitHub Code Search phrases used by the GitHub-wide scanner (examples/github-scanner/). Each entry is fed verbatim to `gh search code`. Items can be a bare string, a list of strings, or a list of objects with `query` (required), `language` (optional gh --language qualifier), and `description` (optional human label).",
+          "oneOf": [
+            { "type": "string" },
+            {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  { "type": "string" },
+                  {
+                    "type": "object",
+                    "required": ["query"],
+                    "properties": {
+                      "query": { "type": "string" },
+                      "language": { "type": "string" },
+                      "description": { "type": "string" }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "target": {
+          "type": "object",
+          "properties": {
+            "globs": { "type": "array", "items": { "type": "string" } },
+            "exclude_globs": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "detection": {
+          "type": "object",
+          "required": ["type"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "regex",
+                "file_exists",
+                "file_missing",
+                "manifest",
+                "secret_scan",
+                "json_path",
+                "heuristic",
+                "glob_count"
+              ]
+            },
+            "patterns": { "type": "array", "items": { "type": "string" } },
+            "flags": {
+              "type": "array",
+              "items": { "type": "string", "enum": ["ignorecase", "multiline", "dotall", "verbose"] }
+            },
+            "min_matches": { "type": "integer", "minimum": 1, "default": 1 },
+            "manifest_files": { "type": "array", "items": { "type": "string" } },
+            "manifest_check": { "type": "string", "description": "Named built-in manifest check (e.g. eol_runtime, unpinned_deps, hardcoded_db_port)." },
+            "json_path": { "type": "string" },
+            "missing_paths": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "For file_missing: paths/globs that should exist but, if absent, trigger the finding."
+            },
+            "max_count": { "type": "integer", "description": "For glob_count: trigger when matching files exceed this count." },
+            "min_count": { "type": "integer", "description": "For glob_count: trigger when matching files are below this count." },
+            "notes": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

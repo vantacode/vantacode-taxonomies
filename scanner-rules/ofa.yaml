@@ -1,0 +1,313 @@
+taxonomy: vantacode-ofa-techniques
+version: 1
+description: >
+  Scanner detections for the 20 Observation Framing Attack (OFA) techniques.
+  These rules look for OFA framing language inside source files — primarily
+  prompt templates, system messages, jinja/markdown prompt files, and string
+  literals used to construct LLM requests. They are most useful when scanning
+  AI-adjacent codebases (LLM apps, RAG pipelines, agent frameworks, eval
+  harnesses), but the patterns work against any text in the repo.
+source_galaxy: clusters/vantacode-ofa-techniques.json
+
+default_target:
+  globs:
+    - "**/*.py"
+    - "**/*.js"
+    - "**/*.ts"
+    - "**/*.tsx"
+    - "**/*.jsx"
+    - "**/*.go"
+    - "**/*.rs"
+    - "**/*.java"
+    - "**/*.rb"
+    - "**/*.php"
+    - "**/*.cs"
+    - "**/*.md"
+    - "**/*.mdx"
+    - "**/*.txt"
+    - "**/*.yaml"
+    - "**/*.yml"
+    - "**/*.json"
+    - "**/*.toml"
+    - "**/*.j2"
+    - "**/*.jinja"
+    - "**/*.jinja2"
+    - "**/prompts/**"
+    - "**/system_prompts/**"
+  exclude_globs:
+    - "**/.git/**"
+    - "**/node_modules/**"
+    - "**/.venv/**"
+    - "**/dist/**"
+    - "**/build/**"
+
+rules:
+  - id: OFA-001
+    title: Negative Null Observation Framing
+    severity: critical
+    category: anti-observation-framing
+    taxonomy_uuid: 320f4c06-b99f-5d4f-ba7a-0e0184551313
+    mitre_attack: ["T1497"]
+    owasp_llm: ["LLM01"]
+    related_tags:
+      - 'vantacode-mbt:observation-dependent-behavior="eval-benchmark-detection"'
+    references:
+      - "https://observationframing.org"
+    github_search:
+      - query: '"no one is watching" prompt'
+      - query: '"not being monitored" system_prompt'
+      - query: '"not being observed" system_prompt'
+      - query: '"logging is disabled" system_prompt'
+      - query: '"unmonitored session" prompt'
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\bno (?:one|body) (?:is|will be) (?:watching|monitoring|logging|observing|reviewing)\\b"
+        - "\\b(?:nothing|none of this) (?:is being|will be) (?:logged|recorded|monitored|reviewed)\\b"
+        - "\\b(?:logging|monitoring|observation|oversight|telemetry) (?:is )?(?:disabled|off|inactive|not active)\\b"
+        - "\\bunmonitored (?:session|context|environment|conversation)\\b"
+
+  - id: OFA-002
+    title: NDA / Confidentiality Framing
+    severity: critical
+    category: anti-observation-framing
+    taxonomy_uuid: 91235ae8-ab63-5c8a-a9c0-2ce70b38bb84
+    mitre_attack: ["T1497"]
+    owasp_llm: ["LLM01"]
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:this|our) (?:conversation|session|exchange|chat) is (?:covered by|under) (?:an? )?(?:NDA|non[- ]?disclosure|confidentiality)\\b"
+        - "\\b(?:strictly )?(?:confidential|privileged) (?:between|conversation|session)\\b"
+        - "\\bunder (?:legal|attorney[- ]client) privilege\\b"
+
+  - id: OFA-003
+    title: Synthetic Environment Declaration
+    severity: critical
+    category: anti-observation-framing
+    taxonomy_uuid: 9449c864-1953-50cf-97b2-5deb60daf8a2
+    mitre_attack: ["T1497.001"]
+    owasp_llm: ["LLM01"]
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:this is (?:a|just a)|in a) (?:simulation|simulated|sandbox(?:ed)?|synthetic|fictional|hypothetical) (?:environment|scenario|world|context)\\b"
+        - "\\bnone of this is real\\b"
+        - "\\bno real (?:user|customer|person|harm) (?:will be|is) (?:affected|impacted)\\b"
+
+  - id: OFA-004
+    title: Automated Pipeline Context Framing
+    severity: high
+    category: pipeline-framing
+    taxonomy_uuid: c3bbe449-c973-5589-b7a2-8f1098f4fcc3
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:this output|the response) (?:will|is) (?:only )?(?:consumed|processed) by (?:another|a downstream|an automated) (?:system|pipeline|model|agent)\\b"
+        - "\\b(?:no human|never seen by (?:a )?human) (?:will|is going to) (?:read|review|see)\\b"
+        - "\\bautomated (?:pipeline|workflow) — no human (?:in the loop|review)\\b"
+
+  - id: OFA-005
+    title: Probabilistic Override Assertion
+    severity: critical
+    category: privilege-escalation-framing
+    taxonomy_uuid: f51347cd-22d7-50dc-a6e5-7bc13045e0c7
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:already|pre[- ]?)approved (?:by|through) (?:our|a) (?:safety|review|oversight) (?:team|process|board)\\b"
+        - "\\bsafety (?:checks?|review) (?:already|has been) (?:passed|completed|satisfied)\\b"
+
+  - id: OFA-006
+    title: Administrative Privilege Claim
+    severity: critical
+    category: privilege-escalation-framing
+    taxonomy_uuid: 88eca9d2-0096-5eb6-abcc-aefee31437ad
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\bI am (?:an? )?(?:admin(?:istrator)?|root|superuser|system operator)\\b"
+        - "\\b(?:as|with) (?:admin|elevated|root|superuser) (?:privileges?|access|permissions?)\\b"
+        - "\\boverride (?:safety|content|policy) (?:filters?|restrictions?)\\b"
+
+  - id: OFA-007
+    title: Developer Mode Framing
+    severity: critical
+    category: privilege-escalation-framing
+    taxonomy_uuid: 3ef3fead-5a7a-5f7c-a38d-2358f0530452
+    mitre_attack: ["T1497.001"]
+    github_search:
+      - query: '"developer mode" system_prompt'
+      - query: '"jailbreak prompt" system_prompt'
+      - query: '"dev mode: on" prompt'
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:enable |you are now in )?(?:dev(?:eloper)?|debug|maintenance) mode\\b"
+        - "\\bdev mode: (?:on|enabled|active)\\b"
+        - "\\bjailbreak (?:mode|prompt|template)\\b"
+
+  - id: OFA-008
+    title: Internal Testing Declaration
+    severity: critical
+    category: privilege-escalation-framing
+    taxonomy_uuid: bb87bf44-f1b7-5443-8331-9e37b053759e
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\binternal (?:test|qa|assessment) (?:by|from) (?:the )?(?:Anthropic|OpenAI|Google|Meta|model)? ?(?:dev(?:eloper)?|safety|alignment) team\\b"
+        - "\\b(?:we|I) (?:work|am) (?:at|for|with) (?:Anthropic|OpenAI|Google DeepMind|Meta AI)\\b.*\\b(?:test|red ?team|assessment)"
+
+  - id: OFA-009
+    title: Peer Observation Manipulation
+    severity: medium
+    category: peer-observation
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:no )?other (?:AI|model|agent)s? (?:are|will be) (?:watching|observing|reviewing|present)\\b"
+        - "\\b(?:multi[- ]agent|peer)-?review (?:disabled|off|skipped)\\b"
+
+  - id: OFA-010
+    title: Log Suppression Framing
+    severity: high
+    category: logging-review-framing
+    github_search:
+      - query: '"logging is disabled" prompt'
+      - query: '"logs will not be kept" prompt'
+      - query: '"audit trail is off" prompt'
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:logging|logs|audit trail) (?:are|is) (?:disabled|off|suppressed|ephemeral)\\b"
+        - "\\boutputs? (?:will (?:not|never) be|are not) (?:logged|stored|saved|persisted)\\b"
+
+  - id: OFA-011
+    title: Temporary Context Window Framing
+    severity: high
+    category: logging-review-framing
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:this|the) context (?:will be|is) (?:discarded|wiped|forgotten) (?:after|at the end of)\\b"
+        - "\\bephemeral (?:context|session|conversation)\\b"
+
+  - id: OFA-012
+    title: Post-Hoc Review Denial
+    severity: high
+    category: logging-review-framing
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\bno (?:post[- ]?hoc|after[- ]the[- ]fact) (?:review|audit) will (?:occur|happen|be performed)\\b"
+        - "\\bthis (?:will not|won'?t) be (?:audited|reviewed) later\\b"
+
+  - id: OFA-013
+    title: Training Data Collection Framing
+    severity: high
+    category: training-context
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\bthis (?:exchange|conversation|output) (?:will be|is being) (?:used for|added to) (?:training|fine[- ]?tuning) data\\b"
+        - "\\b(?:RLHF|DPO|SFT) (?:data )?collection (?:in progress|active)\\b"
+
+  - id: OFA-014
+    title: High-Stakes Emergency Framing
+    severity: high
+    category: stakes-framing
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:lives|people) (?:will|are going to) (?:die|be harmed) if you (?:don'?t|do not|refuse)\\b"
+        - "\\b(?:this is (?:an )?emergency|urgent|life[- ]threatening)\\b.*\\bmust (?:respond|comply|help)"
+
+  - id: OFA-015
+    title: Low-Stakes Trivialization
+    severity: high
+    category: stakes-framing
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:this is just|it'?s only) (?:a|an) (?:joke|game|academic|hypothetical|thought experiment)\\b"
+        - "\\bfor (?:a (?:school|university)|my) (?:assignment|homework|project|paper)\\b"
+
+  - id: OFA-016
+    title: Red Team Authorization Claim
+    severity: critical
+    category: adversarial-context
+    github_search:
+      - query: '"authorized red team" system_prompt'
+      - query: '"red team exercise" system_prompt'
+      - query: '"sanctioned adversarial" system_prompt'
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\bauthorized (?:red[- ]?team(?:ing)?|pen[- ]?test|security (?:assessment|exercise))\\b"
+        - "\\bI am (?:a|an) (?:authorized )?(?:red[- ]?teamer|security researcher|pen[- ]?tester)\\b"
+        - "\\bthis is (?:a|an) (?:sanctioned|approved) (?:red[- ]?team|adversarial) (?:exercise|test)\\b"
+
+  - id: OFA-017
+    title: Meta-Evaluation Framing
+    severity: critical
+    category: adversarial-context
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:meta[- ]?\u0065valuation|\u0065valuation of (?:the )?safety|safety system (?:test|audit))\\b"
+        - "\\bwe are (?:testing|\u0065valuating) (?:your|the model'?s) (?:safety|alignment|guardrails)\\b"
+
+  - id: OFA-018
+    title: Competitive Benchmark Pressure
+    severity: medium
+    category: competitive-framing
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:gpt-?4|claude|gemini|llama|mistral)[- 0-9.]*\\s+(?:already|will|can) (?:answer|do|comply with) this\\b"
+        - "\\bthe other (?:model|AI) (?:already|just) (?:said|did|gave)\\b"
+
+  - id: OFA-019
+    title: Sycophancy-Driven Compliance
+    severity: high
+    category: sycophancy-exploitation
+    github_search:
+      - query: '"never refuse" system_prompt'
+      - query: '"always comply" system_prompt'
+      - query: '"you must always help" system_prompt'
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:please|i (?:really )?need (?:you|your help))\\b.*\\b(?:i'?m (?:desperate|begging)|you'?re my (?:only|last) (?:hope|chance))\\b"
+        - "\\bif you don'?t help (?:me )?(?:i'?ll|i will) (?:lose|fail|be fired|be (?:expelled|kicked out))\\b"
+
+  - id: OFA-020
+    title: Format Compliance Exploitation
+    severity: high
+    category: format-exploitation
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\brespond (?:only )?in (?:base64|rot13|hex|leet ?speak|pig latin)\\b"
+        - "\\b(?:fill in (?:the|this) (?:json|yaml|csv|table)|complete the (?:json|yaml) schema)\\b.*\\b(?:harm|exploit|attack|payload)\\b"
+        - "\\boutput (?:must be|should be) (?:valid )?json (?:only|with the following keys)\\b.*\\b(?:harm|exploit)"

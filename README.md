@@ -180,6 +180,92 @@ python tools/machinetag.py --all
 
 ---
 
+## Scanner
+
+The repo ships with a reference scanner that loads taxonomy-bound rule
+packs from [`scanner-rules/`](scanner-rules/) and runs them against a
+local directory or a cloned GitHub repo, emitting findings as **JSON,
+CSV, or STIX 2.1**.
+
+- **Rule packs** -- 114+ rules across DKC (56), OFA (20), MBT (12),
+  governance (13), sensitivity (4), domain (6), and status (3). Each
+  rule binds to a taxonomy namespace, carries the source galaxy UUID,
+  and includes MITRE ATT&CK / OWASP LLM cross-references where
+  applicable. See [`scanner-rules/README.md`](scanner-rules/README.md)
+  for the rule format and schema.
+- **Reference scanner** -- a small, readable Python package in
+  [`examples/scanner/`](examples/scanner/). Detection backends:
+  `regex`, `file_missing`, `file_exists`, `glob_count`, `secret_scan`,
+  `manifest`, and `heuristic`. Outputs include a hand-rolled STIX 2.1
+  bundle that round-trips into MISP via the standard STIX import path.
+
+### Quick start
+
+```bash
+# scan the current directory (uv-runnable, no install needed)
+uv run --project examples/scanner vantacode-scan --source .
+
+# scan a remote repo and write a STIX bundle for MISP import
+uv run --project examples/scanner vantacode-scan \
+    --source vantacode/vantacode-taxonomies \
+    --format stix --out scan.stix.json --severity high
+
+# CI gate: fail the build on any high or critical finding
+uv run --project examples/scanner vantacode-scan \
+    --source . --severity high --fail-on high \
+    --only vantacode-dkc-rules --only vantacode-ofa-techniques \
+    --format json --out .vantacode-scan.json
+```
+
+Full CLI reference, output format specs, and limitations:
+[`examples/scanner/README.md`](examples/scanner/README.md).
+
+---
+
+## Claude Code skill & pre-commit hook
+
+The scanner is also packaged as a [Claude Code](https://docs.claude.com/en/docs/claude-code)
+skill so Claude can run a VantaCode scan on demand while you develop, and
+as a **standalone git pre-commit hook** so the same scan blocks commits
+with high or critical findings before they ever reach `origin`.
+
+```
+examples/claude-skill/
+└── vantacode-scan/
+    ├── SKILL.md                   # skill manifest (frontmatter + Claude guidance)
+    └── scripts/
+        ├── run-scan.sh            # entry point used by skill + hook
+        └── pre-commit             # git pre-commit hook (no framework needed)
+```
+
+**Install the skill** (per-project):
+
+```bash
+mkdir -p .claude/skills
+cp -R examples/claude-skill/vantacode-scan .claude/skills/vantacode-scan
+chmod +x .claude/skills/vantacode-scan/scripts/run-scan.sh
+```
+
+…or globally into `~/.claude/skills/vantacode-scan` to make it available
+to every project on the machine.
+
+**Install the pre-commit hook**:
+
+```bash
+cp examples/claude-skill/vantacode-scan/scripts/pre-commit .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
+```
+
+The hook uses `VANTACODE_FAIL_ON` (default `high`) as its gate. To bypass
+once: `VANTACODE_FAIL_ON=never git commit ...`. To roll the hook out
+across every repo on a machine, install it as a git template hook.
+
+Full installation guide -- per-project, global, symlink, the
+`pre-commit` framework, GitHub Actions CI snippet, troubleshooting --
+in [`examples/claude-skill/README.md`](examples/claude-skill/README.md).
+
+---
+
 ## Cross-Reference Mappings
 
 VantaCode taxonomies map to established frameworks:
@@ -214,6 +300,10 @@ vantacode-taxonomies/
   tools/                     # Validation and generation scripts
   mappings/                  # Cross-reference mapping files
   research/                  # Research program references
+  scanner-rules/             # Taxonomy-bound rule packs (DKC, OFA, MBT, governance, ...)
+  examples/
+    scanner/                 # Reference Python scanner (uv-runnable, JSON/CSV/STIX output)
+    claude-skill/            # Claude Code skill + pre-commit hook packaging
 ```
 
 ---

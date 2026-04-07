@@ -1,0 +1,172 @@
+taxonomy: vantacode-governance
+version: 1
+description: >
+  Governance baseline checks. Each rule maps to one of the
+  vantacode-governance predicates (documentation, branch-protection,
+  ci-cd, security, code-quality) and produces a finding when an
+  expected file or workflow is absent. These rules are intentionally
+  binary — present or missing — and feed the governance scoring layer.
+source_galaxy: vantacode-governance/machinetag.json
+
+default_target:
+  globs: ["**/*"]
+  exclude_globs:
+    - "**/.git/**"
+    - "**/node_modules/**"
+
+rules:
+  # ── documentation ──────────────────────────────────────────────────────────
+  - id: GOV-DOC-001
+    title: Missing README
+    severity: medium
+    category: documentation
+    related_tags: ['vantacode-governance:documentation="full"']
+    detection:
+      type: file_missing
+      missing_paths: ["README.md", "README.rst", "README.txt", "README"]
+
+  - id: GOV-DOC-002
+    title: Missing CONTRIBUTING.md
+    severity: low
+    category: documentation
+    detection:
+      type: file_missing
+      missing_paths: ["CONTRIBUTING.md", "CONTRIBUTING.rst", ".github/CONTRIBUTING.md"]
+
+  - id: GOV-DOC-003
+    title: Missing LICENSE
+    severity: high
+    category: documentation
+    detection:
+      type: file_missing
+      missing_paths: ["LICENSE", "LICENSE.md", "LICENSE.txt", "COPYING"]
+
+  - id: GOV-DOC-004
+    title: Missing CODE_OF_CONDUCT
+    severity: low
+    category: documentation
+    detection:
+      type: file_missing
+      missing_paths: ["CODE_OF_CONDUCT.md", ".github/CODE_OF_CONDUCT.md"]
+
+  # ── branch-protection ─────────────────────────────────────────────────────
+  - id: GOV-BRANCH-001
+    title: Missing CODEOWNERS
+    severity: medium
+    category: branch-protection
+    related_tags: ['vantacode-governance:branch-protection="full"']
+    detection:
+      type: file_missing
+      missing_paths: ["CODEOWNERS", ".github/CODEOWNERS", "docs/CODEOWNERS"]
+
+  - id: GOV-BRANCH-002
+    title: Missing PR Template
+    severity: low
+    category: branch-protection
+    detection:
+      type: file_missing
+      missing_paths:
+        - ".github/pull_request_template.md"
+        - ".github/PULL_REQUEST_TEMPLATE.md"
+        - ".github/PULL_REQUEST_TEMPLATE/**"
+
+  # ── ci-cd ──────────────────────────────────────────────────────────────────
+  - id: GOV-CI-001
+    title: No CI Workflow Detected
+    severity: high
+    category: ci-cd
+    related_tags: ['vantacode-governance:ci-cd="full"']
+    detection:
+      type: file_missing
+      missing_paths:
+        - ".github/workflows/**.yml"
+        - ".github/workflows/**.yaml"
+        - ".gitlab-ci.yml"
+        - ".circleci/config.yml"
+        - "azure-pipelines.yml"
+        - "Jenkinsfile"
+        - ".drone.yml"
+        - ".woodpecker.yml"
+
+  - id: GOV-CI-002
+    title: No Dependabot or Renovate Configuration
+    severity: medium
+    category: ci-cd
+    detection:
+      type: file_missing
+      missing_paths:
+        - ".github/dependabot.yml"
+        - ".github/dependabot.yaml"
+        - "renovate.json"
+        - ".renovaterc"
+        - ".renovaterc.json"
+
+  # ── security ───────────────────────────────────────────────────────────────
+  - id: GOV-SEC-001
+    title: Missing SECURITY.md
+    severity: high
+    category: security
+    related_tags: ['vantacode-governance:security="full"']
+    detection:
+      type: file_missing
+      missing_paths: ["SECURITY.md", ".github/SECURITY.md", "docs/SECURITY.md"]
+
+  - id: GOV-SEC-002
+    title: No Secret Scanning Configuration
+    severity: medium
+    category: security
+    detection:
+      type: file_missing
+      missing_paths:
+        - ".github/workflows/*secret*"
+        - ".github/workflows/*gitleaks*"
+        - ".gitleaks.toml"
+        - ".secrets.baseline"
+        - ".pre-commit-config.yaml"
+
+  - id: GOV-SEC-003
+    title: No SBOM or AIBOM Manifest
+    severity: medium
+    category: security
+    detection:
+      type: file_missing
+      missing_paths:
+        - "sbom.json"
+        - "sbom.xml"
+        - "**/*.cdx.json"
+        - "**/*.spdx.json"
+        - "aibom.json"
+        - ".vantacode.yaml"
+
+  # ── code-quality ──────────────────────────────────────────────────────────
+  - id: GOV-QA-001
+    title: No Linter Configuration
+    severity: low
+    category: code-quality
+    related_tags: ['vantacode-governance:code-quality="full"']
+    detection:
+      type: file_missing
+      missing_paths:
+        - ".eslintrc*"
+        - "eslint.config.*"
+        - ".ruff.toml"
+        - "ruff.toml"
+        - ".flake8"
+        - "pylintrc"
+        - ".pylintrc"
+        - "rubocop.yml"
+        - ".rubocop.yml"
+        - ".golangci.yml"
+        - ".rustfmt.toml"
+
+  - id: GOV-QA-002
+    title: No Formatter Configuration
+    severity: low
+    category: code-quality
+    detection:
+      type: file_missing
+      missing_paths:
+        - ".prettierrc*"
+        - "prettier.config.*"
+        - "pyproject.toml"
+        - ".editorconfig"

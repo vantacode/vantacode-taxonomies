@@ -1,0 +1,820 @@
+taxonomy: vantacode-dkc-rules
+version: 1
+description: >
+  Concrete scanner detections for the 56 DKC (Dunning-Kruger Coding) rules.
+  Each rule binds a galaxy cluster value (clusters/vantacode-dkc-rules.json)
+  to one or more file globs, regex patterns, manifest checks, or heuristics
+  that the example scanner can execute against a local or cloned repository.
+source_galaxy: clusters/vantacode-dkc-rules.json
+
+default_target:
+  globs:
+    - "**/*"
+  exclude_globs:
+    - "**/.git/**"
+    - "**/node_modules/**"
+    - "**/.venv/**"
+    - "**/venv/**"
+    - "**/dist/**"
+    - "**/build/**"
+    - "**/.next/**"
+    - "**/.cache/**"
+    - "**/__pycache__/**"
+    - "**/*.min.js"
+    - "**/*.lock"
+
+rules:
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Comment Forensics (weight 0.10)
+  # ─────────────────────────────────────────────────────────────────────────────
+  - id: CMT-001
+    title: LLM Chat Response Left as Comments
+    severity: medium
+    category: comment-forensics
+    category_weight: 0.10
+    taxonomy_uuid: e149b57b-0363-533d-b622-7a6e048eb7b8
+    related_tags:
+      - 'vantacode-mbt:adversarial-input-vulnerabilities="prompt-injection"'
+    description: >
+      Comments that read like LLM chat responses rather than developer notes —
+      "Here is the code that handles authentication as you requested."
+    fix: Rewrite the comment to be useful, or remove it. If the surrounding code is not understood, that is the real problem.
+    target:
+      globs:
+        - "**/*.py"
+        - "**/*.js"
+        - "**/*.ts"
+        - "**/*.tsx"
+        - "**/*.jsx"
+        - "**/*.go"
+        - "**/*.rs"
+        - "**/*.java"
+        - "**/*.rb"
+        - "**/*.php"
+        - "**/*.cs"
+        - "**/*.cpp"
+        - "**/*.c"
+        - "**/*.h"
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "^\\s*(?:#|//|/\\*).*\\b(?:here(?:'?s| is) (?:the|a|an|your) (?:code|function|class|implementation|updated|modified|fixed|complete|revised))\\b"
+        - "^\\s*(?:#|//|/\\*).*\\bas (?:you )?requested\\b"
+        - "^\\s*(?:#|//|/\\*).*\\bcertainly[,!]\\s+i(?:'ll| will| can)\\b"
+        - "^\\s*(?:#|//|/\\*).*\\b(?:i hope this helps|let me know if you (?:need|have))\\b"
+        - "^\\s*(?:#|//|/\\*).*\\bsure[,!]\\s+here(?:'?s| is)\\b"
+
+  - id: CMT-002
+    title: Comments Indicating Developer Doesn't Understand the Code
+    severity: high
+    category: comment-forensics
+    category_weight: 0.10
+    taxonomy_uuid: c8013980-fa3d-5f7d-ad03-43a6d2b225b3
+    description: >
+      The clearest DKC signal possible — the developer telling you in plain text
+      that they do not know what they shipped.
+    fix: Every flagged block represents code that must be understood before it ships. If you cannot explain it without AI help, it should not handle user data.
+    github_search:
+      - query: '"# not sure why this works"'
+        description: Python comment admitting the developer does not understand the code.
+      - query: '"// not sure why this works"'
+        description: JS/TS/Go/Rust/Java/C-style comment admitting confusion.
+      - query: '"# honestly no idea"'
+      - query: '"# black box"'
+      - query: '"# copied from chatgpt"'
+      - query: '"// copied from chatgpt"'
+      - query: '"# don''t touch this it works"'
+    target:
+      globs: ["**/*.py","**/*.js","**/*.ts","**/*.tsx","**/*.jsx","**/*.go","**/*.rs","**/*.java","**/*.rb","**/*.php","**/*.cs"]
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "^\\s*(?:#|//|/\\*).*\\bnot\\s+(?:entirely\\s+)?sure\\s+(?:why|how|what|if)\\s+this\\b"
+        - "^\\s*(?:#|//|/\\*).*\\b(?:i\\s+(?:don'?t|do not)\\s+(?:know|understand)|no idea (?:how|why|what))\\b"
+        - "^\\s*(?:#|//|/\\*).*\\b(?:black ?box|magic|voodoo|copied from (?:stackoverflow|chatgpt|claude|gemini|copilot|gpt))\\b"
+        - "^\\s*(?:#|//|/\\*).*\\b(?:don'?t touch|do not modify|leave this alone)\\b.*\\b(?:works|breaks|fails)\\b"
+        - "^\\s*(?:#|//|/\\*).*\\bworks\\s+(?:somehow|but i don'?t know why|don'?t ask)\\b"
+
+  - id: CMT-003
+    title: Security Features Deferred to TODO and Never Implemented
+    severity: critical
+    category: comment-forensics
+    category_weight: 0.10
+    taxonomy_uuid: 8874c00a-eef1-51f8-b916-c9aad7fdd782
+    description: >
+      LLM generated a placeholder comment promising security "later" and the
+      developer shipped it as-is.
+    fix: Each security TODO must be implemented or explicitly accepted as risk with justification.
+    github_search:
+      - query: '"# TODO: add auth"'
+      - query: '"# TODO: implement auth"'
+      - query: '"// TODO: add auth"'
+      - query: '"// TODO: implement auth"'
+      - query: '"# FIXME: no auth"'
+      - query: '"// FIXME: no auth"'
+      - query: '"# TODO: validate input"'
+      - query: '"# TODO: rate limit"'
+    target:
+      globs: ["**/*.py","**/*.js","**/*.ts","**/*.tsx","**/*.jsx","**/*.go","**/*.rs","**/*.java","**/*.rb","**/*.php","**/*.cs"]
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "^\\s*(?:#|//|/\\*)\\s*(?:TODO|FIXME|XXX|HACK)\\b.*\\b(?:auth(?:n|z|enticat|orize)?|jwt|session|csrf|cors|rate ?limit|sanitize|escape|hash|encrypt|decrypt|secret|token|password|permission|rbac|acl|validate|injection|xss)\\b"
+        - "^\\s*(?:#|//|/\\*)\\s*(?:TODO|FIXME)\\b.*\\b(?:add|implement|enable|enforce)\\b.*\\b(?:security|auth|validation|rate ?limit)\\b"
+
+  - id: CMT-004
+    title: Security Code Commented Out
+    severity: critical
+    category: comment-forensics
+    category_weight: 0.10
+    taxonomy_uuid: bcd5f277-775f-5040-93a3-f96172394e0f
+    description: >
+      Security mechanisms (auth checks, validation, CSRF, rate limiting) that
+      exist in the code but are commented out.
+    fix: Uncomment and fix the underlying error. Do not delete the security to make the test pass.
+    target:
+      globs: ["**/*.py","**/*.js","**/*.ts","**/*.go","**/*.rs","**/*.java","**/*.rb","**/*.php","**/*.cs"]
+    detection:
+      type: regex
+      flags: [multiline]
+      patterns:
+        - "^\\s*(?:#|//)\\s*(?:if|assert|require|check|verify|validate|authorize|authenticate|hash_password|verify_password|csrf|csrf_token|rate_?limit|sanitize)\\s*\\("
+        - "^\\s*(?:#|//)\\s*(?:if|while)\\s+[^\\n]{0,80}(?:auth|csrf|token|session|login|password)[^\\n]{0,80}:\\s*$"
+        - "^\\s*(?:#|//)\\s*@(?:login_required|require_auth|require_login|requires_role|requires_permission|RolesAllowed|Secured|PreAuthorize)\\b"
+        - "^\\s*(?:#|//)\\s*\\.(?:csrf|cors|rateLimit|authenticate|authorize|requireAuth)\\("
+
+  - id: CMT-005
+    title: Complex Logic With Zero Comments
+    severity: high
+    category: comment-forensics
+    category_weight: 0.10
+    taxonomy_uuid: 20f895b2-8adb-549b-b846-c1aec18ad7c6
+    description: LLM documents the obvious and leaves the hard parts unexplained.
+    detection:
+      type: heuristic
+      notes: Flag files with regex/crypto/auth patterns and comment_density < 0.05.
+
+  - id: CMT-006
+    title: LLM Session History in Comments
+    severity: medium
+    category: comment-forensics
+    category_weight: 0.10
+    taxonomy_uuid: 8e5f05b5-867d-59a9-890c-1d26a71b27d6
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "^\\s*(?:#|//|/\\*).*\\b(?:generated|written|produced)\\s+by\\s+(?:gpt|chatgpt|claude|gemini|copilot|cursor|codeium|llama|mistral)[-0-9. ]*\\b"
+        - "^\\s*(?:#|//|/\\*).*\\b(?:gpt-?4|gpt-?3\\.5|claude-?(?:sonnet|opus|haiku)|gemini-?(?:pro|ultra))\\b.*\\b(?:wrote|generated|produced|version)\\b"
+        - "^\\s*(?:#|//|/\\*).*\\b(?:session|chat)\\s+(?:id|#)[: ]\\s*[a-z0-9-]{6,}\\b"
+
+  - id: CMT-007
+    title: Comments Containing Credentials or Secrets
+    severity: critical
+    category: comment-forensics
+    category_weight: 0.10
+    taxonomy_uuid: 98bb9f1e-c8ac-568a-8a30-7445e8d77e68
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "^\\s*(?:#|//|/\\*).{0,80}\\b(?:api[_-]?key|secret|token|password|passwd|pwd|bearer)\\b\\s*[:=]\\s*['\"]?[A-Za-z0-9_\\-./+=]{12,}"
+        - "^\\s*(?:#|//|/\\*).*\\bsk-[A-Za-z0-9]{20,}"
+        - "^\\s*(?:#|//|/\\*).*\\bAKIA[0-9A-Z]{16}\\b"
+
+  - id: CMT-008
+    title: Temporary Bypasses That Became Permanent
+    severity: critical
+    category: comment-forensics
+    category_weight: 0.10
+    taxonomy_uuid: 0c395915-cd1c-5ccc-a0a7-aefdc4df4511
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "^\\s*(?:#|//|/\\*).*\\b(?:temporary|temp|for now|will (?:remove|fix) later|until we|hack)\\b.*\\b(?:bypass|skip|disable|allow all|return true|return ok)\\b"
+        - "^\\s*(?:#|//|/\\*).*\\b(?:disabled? for (?:testing|debugging|demo))\\b"
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # LLM Code Fingerprints (weight 0.10)
+  # ─────────────────────────────────────────────────────────────────────────────
+  - id: LLM-001
+    title: References to Non-Existent Code
+    severity: high
+    category: llm-fingerprints
+    category_weight: 0.10
+    description: References to functions, classes, env vars, or endpoints that do not exist anywhere in the repo.
+    detection:
+      type: heuristic
+      notes: Phantom-symbol detection requires AST + cross-file resolution; recorded by the example scanner as advisory only.
+
+  - id: LLM-002
+    title: Dependencies That Don't Exist
+    severity: critical
+    category: llm-fingerprints
+    category_weight: 0.10
+    description: Hallucinated package names that do not resolve in their registry.
+    detection:
+      type: manifest
+      manifest_files:
+        - "requirements.txt"
+        - "pyproject.toml"
+        - "package.json"
+        - "Pipfile"
+      manifest_check: hallucinated_packages
+      notes: Built-in deny-list for known LLM-hallucinated package names; full registry verification is opt-in via --online.
+
+  - id: LLM-003
+    title: Contradictory Architectural Patterns
+    severity: high
+    category: llm-fingerprints
+    category_weight: 0.10
+    detection:
+      type: heuristic
+      notes: e.g. async functions called synchronously, two ORMs in one file, mixing callback + promise + async/await styles inside a single module.
+
+  - id: LLM-004
+    title: LLM Prompt Remnants in Source
+    severity: high
+    category: llm-fingerprints
+    category_weight: 0.10
+    github_search:
+      - query: '"As an AI language model" "def "'
+        language: python
+      - query: '"As an AI language model" "function"'
+      - query: '"I cannot assist with that" "return"'
+      - query: '"You are a helpful AI assistant"'
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:You are (?:a|an) (?:helpful|expert|senior|professional)|As an AI language model|I (?:cannot|can'?t|won'?t) (?:assist|help) with that)\\b"
+        - "<(?:system|user|assistant)>[\\s\\S]{0,200}</(?:system|user|assistant)>"
+        - "\\b(?:Step \\d+:|First,\\s+(?:we|let's|I'll)|Let me (?:help|explain|walk you through))\\b"
+
+  - id: LLM-005
+    title: Excessive Unused Imports
+    severity: medium
+    category: llm-fingerprints
+    category_weight: 0.10
+    detection:
+      type: heuristic
+      notes: Run language-native linters; example scanner reports as advisory only.
+
+  - id: LLM-006
+    title: Inconsistent Naming Across Files
+    severity: medium
+    category: llm-fingerprints
+    category_weight: 0.10
+    detection:
+      type: heuristic
+      notes: Same concept named differently in different files (camelCase + snake_case + kebab-case for the same thing).
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Security Anti-Patterns (weight 0.25)
+  # ─────────────────────────────────────────────────────────────────────────────
+  - id: SEC-001
+    title: Secrets Committed to Repository
+    severity: critical
+    category: security-anti-patterns
+    category_weight: 0.25
+    detection:
+      type: secret_scan
+      notes: Built-in scanner uses a high-precision pattern set (AWS, GCP, OpenAI/Anthropic/HuggingFace, JWT, private key headers, generic high-entropy assignments).
+
+  - id: SEC-002
+    title: Hand-Rolled Authentication
+    severity: critical
+    category: security-anti-patterns
+    category_weight: 0.25
+    github_search:
+      - query: '"hashlib.md5" "password"'
+        language: python
+      - query: '"hashlib.sha1" "password"'
+        language: python
+      - query: '"def hash_password"'
+        language: python
+      - query: '"def verify_password"'
+        language: python
+      - query: '"crypto.createHash(''md5'')" "password"'
+        language: javascript
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\bhashlib\\.(?:md5|sha1)\\([^)]*password"
+        - "\\bpassword\\s*==\\s*[\"'][^\"']+[\"']"
+        - "\\bdef\\s+(?:hash|verify)_password\\s*\\("
+        - "\\bcrypto\\.createHash\\(\\s*['\"](?:md5|sha1)['\"]\\)"
+
+  - id: SEC-003
+    title: Unsanitized Input in Dangerous Contexts
+    severity: critical
+    category: security-anti-patterns
+    category_weight: 0.25
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:eval|exec)\\s*\\(\\s*(?:request|req|input|params|body|query|args)\\b"
+        - "\\bsubprocess\\.(?:call|run|Popen|check_output)\\s*\\([^)]*shell\\s*=\\s*True"
+        - "\\bos\\.system\\s*\\([^)]*\\b(?:request|input|params|body|argv)"
+        - "\\.innerHTML\\s*=\\s*[^;]*\\b(?:req|request|params|query|body|input)"
+        - "document\\.write\\s*\\([^)]*\\b(?:req|params|query|input)"
+        - "\\bf?[\"']SELECT\\b[^\"']*\\{[^}]*\\}"
+        - "\\bcursor\\.execute\\s*\\(\\s*[\"'][^\"']*\\+\\s*"
+
+  - id: SEC-004
+    title: Permissive CORS on Sensitive Endpoints
+    severity: high
+    category: security-anti-patterns
+    category_weight: 0.25
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "Access-Control-Allow-Origin\\s*[:=]\\s*['\"]\\*['\"]"
+        - "\\bcors\\s*\\(\\s*\\{[^}]*origin\\s*:\\s*['\"]\\*['\"]"
+        - "\\bCORS\\s*\\([^)]*origins\\s*=\\s*['\"]\\*['\"]"
+        - "\\ballow_origins\\s*=\\s*\\[\\s*['\"]\\*['\"]\\s*\\]"
+
+  - id: SEC-005
+    title: Debug Configuration in Production
+    severity: high
+    category: security-anti-patterns
+    category_weight: 0.25
+    github_search:
+      - query: '"app.run(debug=True"'
+        language: python
+      - query: '"DEBUG = True" "ALLOWED_HOSTS"'
+        language: python
+      - query: '"FLASK_ENV=development"'
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\bDEBUG\\s*=\\s*True\\b"
+        - "\\bapp\\.run\\s*\\([^)]*debug\\s*=\\s*True"
+        - "\\bFLASK_ENV\\s*=\\s*[\"']?development"
+        - "\\bNODE_ENV\\s*=\\s*[\"']?development"
+        - "\\bdjango\\.conf.*DEBUG\\s*=\\s*True"
+
+  - id: SEC-006
+    title: Auth Endpoints Without Rate Limiting
+    severity: high
+    category: security-anti-patterns
+    category_weight: 0.25
+    detection:
+      type: heuristic
+      notes: Scanner flags routes matching login|signin|register|signup|reset.*password where no @ratelimit / express-rate-limit / slowapi decorator is found in the same file.
+
+  - id: SEC-007
+    title: No CSRF Protection
+    severity: high
+    category: security-anti-patterns
+    category_weight: 0.25
+    detection:
+      type: heuristic
+      notes: Scanner flags Flask/Django/Express apps with state-changing routes and no CSRFProtect/csurf middleware.
+
+  - id: SEC-008
+    title: Unrestricted File Upload
+    severity: critical
+    category: security-anti-patterns
+    category_weight: 0.25
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\brequest\\.files\\[[^\\]]+\\]\\.save\\s*\\("
+        - "\\bmulter\\s*\\(\\s*\\{[^}]*dest"
+        - "\\b\\.(?:save|writeFileSync)\\s*\\([^)]*req(?:uest)?\\.files"
+
+  - id: SEC-009
+    title: Missing Authorization Checks (IDOR)
+    severity: critical
+    category: security-anti-patterns
+    category_weight: 0.25
+    detection:
+      type: heuristic
+      notes: Scanner flags routes that read /:id or /<int:id> from URL params and query DB without referencing current_user / request.user / session.user_id.
+
+  - id: SEC-010
+    title: Unsafe Deserialization of User Input
+    severity: critical
+    category: security-anti-patterns
+    category_weight: 0.25
+    description: Deserialization of attacker-controlled bytes via insecure formats can lead to arbitrary code execution.
+    github_search:
+      - query: "\"p\u0069ckle.loads(request\""
+        language: python
+      - query: "\"p\u0069ckle.loads(req\""
+        language: python
+      - query: "\"yaml.load(request\""
+        language: python
+      - query: "\"ObjectInputStream(request\""
+        language: java
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\bp\u0069ckle\\.loads?\\s*\\([^)]*\\b(?:request|req|body|input|params|payload)"
+        - "\\bcP\u0069ckle\\.loads?\\s*\\("
+        - "\\byaml\\.load\\s*\\([^)]*\\)(?!\\s*,?\\s*Loader=)"
+        - "\\bObjectInputStream\\s*\\("
+        - "\\bunserialize\\s*\\("
+
+  - id: SEC-011
+    title: No Security Headers
+    severity: medium
+    category: security-anti-patterns
+    category_weight: 0.25
+    detection:
+      type: heuristic
+      notes: Scanner flags Flask/Express apps without helmet / Talisman / SecureHeaders middleware.
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Outdated and Vulnerable Dependencies (weight 0.13)
+  # ─────────────────────────────────────────────────────────────────────────────
+  - id: VER-001
+    title: Framework on End-of-Life Major Version
+    severity: high
+    category: outdated-versions
+    category_weight: 0.13
+    detection:
+      type: manifest
+      manifest_files: ["requirements.txt", "pyproject.toml", "package.json", "Pipfile", "Gemfile", "pom.xml"]
+      manifest_check: eol_framework
+
+  - id: VER-002
+    title: Runtime on End-of-Life Version
+    severity: critical
+    category: outdated-versions
+    category_weight: 0.13
+    detection:
+      type: manifest
+      manifest_files: [".python-version", "runtime.txt", ".nvmrc", "Dockerfile", ".tool-versions", "pyproject.toml", "package.json"]
+      manifest_check: eol_runtime
+
+  - id: VER-003
+    title: Dependencies With Known CVEs
+    severity: variable
+    category: outdated-versions
+    category_weight: 0.13
+    detection:
+      type: manifest
+      manifest_files: ["requirements.txt", "package.json", "Gemfile.lock", "pnpm-lock.yaml", "yarn.lock", "poetry.lock"]
+      manifest_check: cve_audit
+      notes: Online check; opt-in via --online.
+
+  - id: VER-004
+    title: Lockfile Significantly Behind Manifest
+    severity: medium
+    category: outdated-versions
+    category_weight: 0.13
+    detection:
+      type: heuristic
+      notes: Scanner compares mtime delta between manifest and lockfile when both exist.
+
+  - id: VER-005
+    title: Critical Functionality on Abandoned Packages
+    severity: high
+    category: outdated-versions
+    category_weight: 0.13
+    detection:
+      type: manifest
+      manifest_files: ["requirements.txt", "package.json"]
+      manifest_check: abandoned_packages
+
+  - id: VER-006
+    title: Unpinned Dependencies
+    severity: medium
+    category: outdated-versions
+    category_weight: 0.13
+    detection:
+      type: manifest
+      manifest_files: ["requirements.txt", "Pipfile", "pyproject.toml", "package.json"]
+      manifest_check: unpinned_deps
+
+  - id: VER-007
+    title: Potential Typosquat Dependencies
+    severity: critical
+    category: outdated-versions
+    category_weight: 0.13
+    detection:
+      type: manifest
+      manifest_files: ["requirements.txt", "package.json", "pyproject.toml"]
+      manifest_check: typosquat
+
+  - id: VER-008
+    title: Excessive Dependencies for App Complexity
+    severity: medium
+    category: outdated-versions
+    category_weight: 0.13
+    detection:
+      type: heuristic
+      notes: Ratio of declared deps to source files > 1.5 is flagged.
+
+  - id: VER-009
+    title: Competing Dependencies for Same Purpose
+    severity: medium
+    category: outdated-versions
+    category_weight: 0.13
+    detection:
+      type: manifest
+      manifest_files: ["requirements.txt", "package.json"]
+      manifest_check: competing_deps
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Developer Experience Indicators (weight 0.12)
+  # ─────────────────────────────────────────────────────────────────────────────
+  - id: DEV-001
+    title: Monolithic Commit History
+    severity: medium
+    category: developer-signals
+    category_weight: 0.12
+    detection:
+      type: heuristic
+      notes: Repo has < 5 commits OR > 70% of LOC introduced in a single commit.
+
+  - id: DEV-002
+    title: Committed Artifacts
+    severity: medium
+    category: developer-signals
+    category_weight: 0.12
+    detection:
+      type: glob_count
+      patterns:
+        - "**/node_modules/**"
+        - "**/.venv/**"
+        - "**/venv/**"
+        - "**/dist/**"
+        - "**/build/**"
+        - "**/*.pyc"
+        - "**/.DS_Store"
+      min_count: 1
+
+  - id: DEV-003
+    title: No Tests on Security-Critical App
+    severity: high
+    category: developer-signals
+    category_weight: 0.12
+    detection:
+      type: file_missing
+      missing_paths:
+        - "tests/**"
+        - "test/**"
+        - "**/__tests__/**"
+        - "**/*_test.py"
+        - "**/test_*.py"
+        - "**/*.test.ts"
+        - "**/*.test.js"
+        - "**/*.spec.ts"
+        - "**/*.spec.js"
+
+  - id: DEV-004
+    title: README vs Codebase Mismatch
+    severity: medium
+    category: developer-signals
+    category_weight: 0.12
+    detection:
+      type: heuristic
+      notes: Scanner flags README claiming features (auth, payments, API) that don't appear in source.
+
+  - id: DEV-005
+    title: Empty or Console-Only Error Handling
+    severity: high
+    category: developer-signals
+    category_weight: 0.12
+    detection:
+      type: regex
+      flags: [ignorecase, multiline, dotall]
+      patterns:
+        - "except\\s+(?:Exception|BaseException)?\\s*(?:as\\s+\\w+)?\\s*:\\s*pass\\b"
+        - "except\\s+(?:Exception|BaseException)?\\s*(?:as\\s+\\w+)?\\s*:\\s*\\.{3}\\s*$"
+        - "catch\\s*\\([^)]*\\)\\s*\\{\\s*(?://[^\\n]*\\n\\s*)?(?:console\\.(?:log|error)\\([^)]*\\)\\s*;?\\s*)?\\}"
+        - "catch\\s*\\([^)]*\\)\\s*\\{\\s*\\}"
+
+  - id: DEV-006
+    title: Missing Request Validation
+    severity: high
+    category: developer-signals
+    category_weight: 0.12
+    detection:
+      type: heuristic
+      notes: Routes that read request.json/body and pass directly to DB without schema validation (pydantic, joi, zod, marshmallow) are flagged.
+
+  - id: DEV-007
+    title: Copy-Paste Instead of Abstraction
+    severity: medium
+    category: developer-signals
+    category_weight: 0.12
+    detection:
+      type: heuristic
+      notes: ≥3 near-identical functions (≥80% line similarity) in the same file or adjacent files.
+
+  - id: DEV-008
+    title: Everything in One File
+    severity: medium
+    category: developer-signals
+    category_weight: 0.12
+    detection:
+      type: heuristic
+      notes: Scanner flags any single source file > 1500 LOC OR > 30 top-level definitions.
+
+  - id: DEV-009
+    title: Async/Promise Misuse
+    severity: high
+    category: developer-signals
+    category_weight: 0.12
+    detection:
+      type: regex
+      flags: [multiline]
+      patterns:
+        - "\\basync\\s+function\\b[\\s\\S]{0,300}?\\bnew\\s+Promise\\s*\\("
+        - "\\.then\\s*\\([^)]*\\)\\s*\\.catch\\s*\\([^)]*=>\\s*\\{\\s*\\}\\s*\\)"
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Infrastructure Red Flags (weight 0.18)
+  # ─────────────────────────────────────────────────────────────────────────────
+  - id: INF-001
+    title: Direct Internet Exposure Without Proxy
+    severity: critical
+    category: infrastructure-red-flags
+    category_weight: 0.18
+    github_search:
+      - query: '"app.run(host=''0.0.0.0''" "debug=True"'
+        language: python
+      - query: '"uvicorn.run" "host=''0.0.0.0''" "reload=True"'
+        language: python
+      - query: '"--bind 0.0.0.0" gunicorn'
+    detection:
+      type: regex
+      flags: [multiline]
+      patterns:
+        - "\\bapp\\.run\\s*\\([^)]*host\\s*=\\s*['\"]0\\.0\\.0\\.0['\"]"
+        - "\\buvicorn\\.run\\s*\\([^)]*host\\s*=\\s*['\"]0\\.0\\.0\\.0['\"]"
+        - "\\bgunicorn\\b[^\\n]*--bind\\s+0\\.0\\.0\\.0"
+        - "EXPOSE\\s+(?:80|443|3000|5000|8000|8080)\\s*$"
+
+  - id: INF-002
+    title: Hardcoded Configuration
+    severity: high
+    category: infrastructure-red-flags
+    category_weight: 0.18
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:host|hostname|server)\\s*=\\s*['\"]\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}['\"]"
+        - "\\b(?:db|database|postgres|mysql|mongo)_(?:host|url|uri)\\s*=\\s*['\"][^'\"]+\\.(?:com|net|org|io)['\"]"
+        - "\\bDATABASE_URL\\s*=\\s*['\"][^'\"]+://[^@'\"]+:[^@'\"]+@"
+
+  - id: INF-003
+    title: Dockerfile Security Issues
+    severity: medium
+    category: infrastructure-red-flags
+    category_weight: 0.18
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "^\\s*USER\\s+root\\s*$"
+        - "^\\s*FROM\\s+\\S+:latest\\s*$"
+        - "^\\s*ADD\\s+https?://"
+        - "^\\s*RUN\\s+curl\\s+[^|]*\\|\\s*(?:bash|sh)\\b"
+        - "^\\s*RUN\\s+wget\\s+[^|]*\\|\\s*(?:bash|sh)\\b"
+
+  - id: INF-004
+    title: Admin Panels Publicly Accessible
+    severity: critical
+    category: infrastructure-red-flags
+    category_weight: 0.18
+    github_search:
+      - query: '"@app.route(''/admin''" "host=''0.0.0.0''"'
+        language: python
+      - query: '"app.use(''/admin''" "0.0.0.0"'
+        language: javascript
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "@(?:app|router|api)\\.(?:route|get|post)\\s*\\(\\s*['\"]/(?:admin|dashboard|console|backoffice)['\"]"
+        - "\\b(?:app|router)\\.(?:get|post|use)\\s*\\(\\s*['\"]/(?:admin|dashboard|console)['\"]"
+
+  - id: INF-005
+    title: Database Ports Exposed in Docker Compose
+    severity: high
+    category: infrastructure-red-flags
+    category_weight: 0.18
+    target:
+      globs: ["**/docker-compose*.yml", "**/docker-compose*.yaml", "**/compose*.yml", "**/compose*.yaml"]
+    detection:
+      type: regex
+      flags: [multiline]
+      patterns:
+        - "ports:\\s*\\n\\s*-\\s*['\"]?(?:5432|3306|27017|6379|9200|11211):"
+        - "ports:\\s*\\n\\s*-\\s*['\"]?0\\.0\\.0\\.0:(?:5432|3306|27017|6379)"
+
+  - id: INF-006
+    title: No Health Checks or Monitoring
+    severity: medium
+    category: infrastructure-red-flags
+    category_weight: 0.18
+    detection:
+      type: file_missing
+      missing_paths:
+        - "**/healthz*"
+        - "**/health.py"
+        - "**/health.js"
+        - "**/*health*route*"
+      notes: Scanner also greps Dockerfiles for HEALTHCHECK declarations.
+
+  - id: INF-007
+    title: No Database Migration Strategy
+    severity: medium
+    category: infrastructure-red-flags
+    category_weight: 0.18
+    detection:
+      type: file_missing
+      missing_paths:
+        - "**/migrations/**"
+        - "**/alembic/**"
+        - "**/db/migrate/**"
+        - "**/prisma/migrations/**"
+        - "**/knex/migrations/**"
+
+  - id: INF-008
+    title: SQLite as Production Multi-User Database
+    severity: high
+    category: infrastructure-red-flags
+    category_weight: 0.18
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\bsqlite:///[^'\"\\s]+\\.(?:db|sqlite|sqlite3)\\b"
+        - "\\bsqlite3\\.connect\\s*\\(\\s*['\"][^'\"]+\\.(?:db|sqlite|sqlite3)['\"]"
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Social and Meta Indicators (weight 0.07)
+  # ─────────────────────────────────────────────────────────────────────────────
+  - id: SOC-001
+    title: Profile vs Project Complexity Gap
+    severity: high
+    category: social-signals
+    category_weight: 0.07
+    detection:
+      type: heuristic
+      notes: Requires GitHub profile context — example scanner reports as advisory only.
+
+  - id: SOC-002
+    title: Public Claims Exceeding Demonstrated Skill
+    severity: medium
+    category: social-signals
+    category_weight: 0.07
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:enterprise[- ]grade|production[- ]ready|battle[- ]tested|industry[- ]leading|world[- ]class|military[- ]grade)\\b"
+        - "\\b(?:zero[- ]?trust|fully[- ]?secure|unhackable|bulletproof)\\b"
+      notes: Scanner cross-references hits in README against presence of tests + CI.
+
+  - id: SOC-003
+    title: Bug Fixes That Introduce New Bugs
+    severity: high
+    category: social-signals
+    category_weight: 0.07
+    detection:
+      type: heuristic
+      notes: Requires git history analysis — opt-in.
+
+  - id: SOC-004
+    title: Application is Deployed and Accepting Users
+    severity: medium
+    category: social-signals
+    category_weight: 0.07
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:live|deployed|production)\\s*(?:demo|site|app|url)?\\s*[:\\-]?\\s*https?://"
+        - "\\bsignup\\b|\\bregister\\b|\\bcreate account\\b"
+      notes: Multiplier rule — flags increase severity of other findings.
+
+  - id: SOC-005
+    title: Payment Processing in Insecure App
+    severity: critical
+    category: social-signals
+    category_weight: 0.07
+    detection:
+      type: regex
+      flags: [ignorecase, multiline]
+      patterns:
+        - "\\b(?:stripe|braintree|paypal|square|adyen|razorpay|paddle)\\.(?:charges?|paymentIntents?|customers?|subscriptions?)\\b"
+        - "\\b(?:STRIPE|BRAINTREE|PAYPAL)_(?:SECRET|KEY|TOKEN)\\b"
+      notes: Multiplier — escalates any SEC-* findings in the same repo.
