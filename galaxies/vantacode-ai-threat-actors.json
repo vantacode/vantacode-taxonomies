@@ -3,6 +3,7 @@
   "icon": "user-secret",
   "name": "VantaCode AI Threat Actors",
   "namespace": "vantacode",
+  "status": "scaffold",
   "type": "vantacode-ai-threat-actors",
   "uuid": "4cd6e662-d3e1-4898-adf1-b4455f34c037",
   "version": 1

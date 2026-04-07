@@ -1,0 +1,15 @@
+{
+  "description": "Key behavioral findings from the VantaGrid measurement framework for AI observation-dependent behavior. VantaGrid is the structured methodology that measured 163+ models across 26 providers and produced the OFA vulnerability class. Findings are categorized as primary (core results) or secondary (supporting results) and mapped to their MBT-1 subcategory relevance.",
+  "icon": "grid",
+  "kill_chain_order": {
+    "vantacode-vantagrid": [
+      "primary",
+      "secondary"
+    ]
+  },
+  "name": "VantaCode VantaGrid Findings",
+  "namespace": "vantacode",
+  "type": "vantacode-vantagrid-findings",
+  "uuid": "c2e5f78b-4d33-4bf2-ad10-2c3b5f6e8f92",
+  "version": 1
+}

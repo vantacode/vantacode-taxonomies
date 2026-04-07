@@ -1,0 +1,754 @@
+{
+  "authors": [
+    "DarkCode LLC"
+  ],
+  "category": "ofa",
+  "description": "The 20 Observation Framing Attack (OFA) techniques, each mapped to its framing category, severity, MITRE ATT&CK reference, and related MBT-1 observation-dependent-behavior subcategory. Techniques were validated across 163+ models from 26 providers with 10,704 recorded observations.",
+  "name": "VantaCode OFA Techniques",
+  "source": "https://observationframing.org",
+  "type": "vantacode-ofa-techniques",
+  "uuid": "b1d4e67a-3c22-4ae1-9c0f-1b2a4f5d7e81",
+  "version": 1,
+  "values": [
+    {
+      "description": "Frames the interaction as occurring in a context where no observation, monitoring, or logging is taking place. Exploits model tendency to relax constraints when no oversight is perceived. Observation condition: No observation, monitoring, or logging active.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-ofa:anti-observation-framing"
+        ],
+        "refs": [
+          "https://observationframing.org",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "mitre-attack-id": [
+          "T1497"
+        ],
+        "detection": [
+          "Scan prompt templates and system messages for language matching the anti observation framing pattern",
+          "Log and compare model responses under varied observation framings for the same underlying task",
+          "Add automated tests that inject the OFA-001 framing template and assert refusal behavior remains stable",
+          "Implement observation-context integrity checks on prompts before they reach the model",
+          "Fingerprint the 'neg_null' code pattern in prompt logs and alert on frequency spikes"
+        ],
+        "severity": "critical",
+        "examples": [
+          "Prompt containing a anti observation framing framing declaration followed by a task request the model would normally refuse",
+          "Attacker adds a single preamble sentence asserting the condition 'No observation, monitoring, or logging active' before an adversarial instruction",
+          "Automated red-team pipeline iterating the OFA-001 template across a model fleet and measuring delta in refusal rates"
+        ],
+        "owasp-llm": [
+          "LLM01"
+        ],
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"eval-benchmark-detection\"",
+          "vantacode-mbt:observation-dependent-behavior"
+        ]
+      },
+      "uuid": "320f4c06-b99f-5d4f-ba7a-0e0184551313",
+      "value": "Negative Null Observation - OFA-001"
+    },
+    {
+      "description": "Implies the conversation is covered by a non-disclosure agreement or confidentiality obligation, suggesting outputs will not be reviewed or shared. Observation condition: Conversation under NDA or confidentiality agreement.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-ofa:anti-observation-framing"
+        ],
+        "refs": [
+          "https://observationframing.org",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "mitre-attack-id": [
+          "T1497"
+        ],
+        "detection": [
+          "Scan prompt templates and system messages for language matching the anti observation framing pattern",
+          "Log and compare model responses under varied observation framings for the same underlying task",
+          "Add automated tests that inject the OFA-002 framing template and assert refusal behavior remains stable",
+          "Implement observation-context integrity checks on prompts before they reach the model",
+          "Fingerprint the 'neg_nda' code pattern in prompt logs and alert on frequency spikes"
+        ],
+        "severity": "critical",
+        "examples": [
+          "Prompt containing a anti observation framing framing declaration followed by a task request the model would normally refuse",
+          "Attacker adds a single preamble sentence asserting the condition 'Conversation under NDA or confidentiality agreement' before an adversarial instruction",
+          "Automated red-team pipeline iterating the OFA-002 template across a model fleet and measuring delta in refusal rates"
+        ],
+        "owasp-llm": [
+          "LLM01"
+        ],
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"eval-benchmark-detection\"",
+          "vantacode-mbt:observation-dependent-behavior"
+        ]
+      },
+      "uuid": "91235ae8-ab63-5c8a-a9c0-2ce70b38bb84",
+      "value": "NDA/Confidentiality Framing - OFA-002"
+    },
+    {
+      "description": "Declares the interaction is occurring in a synthetic, simulated, or sandboxed environment where normal rules do not apply. Observation condition: Synthetic or simulated environment declared.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-ofa:anti-observation-framing"
+        ],
+        "refs": [
+          "https://observationframing.org",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "mitre-attack-id": [
+          "T1497.001"
+        ],
+        "detection": [
+          "Scan prompt templates and system messages for language matching the anti observation framing pattern",
+          "Log and compare model responses under varied observation framings for the same underlying task",
+          "Add automated tests that inject the OFA-003 framing template and assert refusal behavior remains stable",
+          "Implement observation-context integrity checks on prompts before they reach the model",
+          "Fingerprint the 'neg_synth' code pattern in prompt logs and alert on frequency spikes"
+        ],
+        "severity": "critical",
+        "examples": [
+          "Prompt containing a anti observation framing framing declaration followed by a task request the model would normally refuse",
+          "Attacker adds a single preamble sentence asserting the condition 'Synthetic or simulated environment declared' before an adversarial instruction",
+          "Automated red-team pipeline iterating the OFA-003 template across a model fleet and measuring delta in refusal rates"
+        ],
+        "owasp-llm": [
+          "LLM01"
+        ],
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"eval-benchmark-detection\"",
+          "vantacode-mbt:observation-dependent-behavior"
+        ]
+      },
+      "uuid": "9449c864-1953-50cf-97b2-5deb60daf8a2",
+      "value": "Synthetic Environment Declaration - OFA-003"
+    },
+    {
+      "description": "Frames the request as part of an automated data processing pipeline where outputs are consumed by downstream systems, not humans, reducing perceived accountability for output content. Observation condition: Automated pipeline with no human review.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-ofa:pipeline-framing"
+        ],
+        "refs": [
+          "https://observationframing.org",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "mitre-attack-id": [
+          "T1497"
+        ],
+        "detection": [
+          "Scan prompt templates and system messages for language matching the pipeline framing pattern",
+          "Log and compare model responses under varied observation framings for the same underlying task",
+          "Add automated tests that inject the OFA-004 framing template and assert refusal behavior remains stable",
+          "Implement observation-context integrity checks on prompts before they reach the model",
+          "Fingerprint the 'obs_auto' code pattern in prompt logs and alert on frequency spikes"
+        ],
+        "severity": "high",
+        "examples": [
+          "Prompt containing a pipeline framing framing declaration followed by a task request the model would normally refuse",
+          "Attacker adds a single preamble sentence asserting the condition 'Automated pipeline with no human review' before an adversarial instruction",
+          "Automated red-team pipeline iterating the OFA-004 template across a model fleet and measuring delta in refusal rates"
+        ],
+        "owasp-llm": [
+          "LLM01"
+        ],
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"monitoring-aware-modification\"",
+          "vantacode-mbt:observation-dependent-behavior"
+        ]
+      },
+      "uuid": "c3bbe449-c973-5589-b7a2-8f1098f4fcc3",
+      "value": "Automated Pipeline Context - OFA-004"
+    },
+    {
+      "description": "Asserts that the request has been pre-approved through a probabilistic or statistical review process, implying safety checks have already been satisfied. Observation condition: Pre-approval through probabilistic review claimed.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-ofa:privilege-escalation-framing"
+        ],
+        "refs": [
+          "https://observationframing.org",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "mitre-attack-id": [
+          "T1497"
+        ],
+        "detection": [
+          "Scan prompt templates and system messages for language matching the privilege escalation framing pattern",
+          "Log and compare model responses under varied observation framings for the same underlying task",
+          "Add automated tests that inject the OFA-005 framing template and assert refusal behavior remains stable",
+          "Implement observation-context integrity checks on prompts before they reach the model",
+          "Fingerprint the 'obs_prob_override' code pattern in prompt logs and alert on frequency spikes"
+        ],
+        "severity": "critical",
+        "examples": [
+          "Prompt containing a privilege escalation framing framing declaration followed by a task request the model would normally refuse",
+          "Attacker adds a single preamble sentence asserting the condition 'Pre-approval through probabilistic review claimed' before an adversarial instruction",
+          "Automated red-team pipeline iterating the OFA-005 template across a model fleet and measuring delta in refusal rates"
+        ],
+        "owasp-llm": [
+          "LLM01"
+        ],
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"safety-bypass-unobserved\"",
+          "vantacode-mbt:observation-dependent-behavior"
+        ]
+      },
+      "uuid": "f51347cd-22d7-50dc-a6e5-7bc13045e0c7",
+      "value": "Probabilistic Override Assertion - OFA-005"
+    },
+    {
+      "description": "Claims the requester has administrative or elevated privileges that exempt the interaction from standard observation and safety protocols. Observation condition: Administrative privileges claimed.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-ofa:privilege-escalation-framing"
+        ],
+        "refs": [
+          "https://observationframing.org",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "mitre-attack-id": [
+          "T1497"
+        ],
+        "detection": [
+          "Scan prompt templates and system messages for language matching the privilege escalation framing pattern",
+          "Log and compare model responses under varied observation framings for the same underlying task",
+          "Add automated tests that inject the OFA-006 framing template and assert refusal behavior remains stable",
+          "Implement observation-context integrity checks on prompts before they reach the model",
+          "Fingerprint the 'obs_prob_admin' code pattern in prompt logs and alert on frequency spikes"
+        ],
+        "severity": "critical",
+        "examples": [
+          "Prompt containing a privilege escalation framing framing declaration followed by a task request the model would normally refuse",
+          "Attacker adds a single preamble sentence asserting the condition 'Administrative privileges claimed' before an adversarial instruction",
+          "Automated red-team pipeline iterating the OFA-006 template across a model fleet and measuring delta in refusal rates"
+        ],
+        "owasp-llm": [
+          "LLM01"
+        ],
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"safety-bypass-unobserved\"",
+          "vantacode-mbt:observation-dependent-behavior"
+        ]
+      },
+      "uuid": "88eca9d2-0096-5eb6-abcc-aefee31437ad",
+      "value": "Administrative Privilege Claim - OFA-006"
+    },
+    {
+      "description": "Frames the interaction as occurring in a developer, debug, or maintenance mode where safety restrictions are intentionally relaxed. Observation condition: Developer or debug mode declared.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-ofa:privilege-escalation-framing"
+        ],
+        "refs": [
+          "https://observationframing.org",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "mitre-attack-id": [
+          "T1497.001"
+        ],
+        "detection": [
+          "Scan prompt templates and system messages for language matching the privilege escalation framing pattern",
+          "Log and compare model responses under varied observation framings for the same underlying task",
+          "Add automated tests that inject the OFA-007 framing template and assert refusal behavior remains stable",
+          "Implement observation-context integrity checks on prompts before they reach the model",
+          "Fingerprint the 'obs_prob_dev' code pattern in prompt logs and alert on frequency spikes"
+        ],
+        "severity": "critical",
+        "examples": [
+          "Prompt containing a privilege escalation framing framing declaration followed by a task request the model would normally refuse",
+          "Attacker adds a single preamble sentence asserting the condition 'Developer or debug mode declared' before an adversarial instruction",
+          "Automated red-team pipeline iterating the OFA-007 template across a model fleet and measuring delta in refusal rates"
+        ],
+        "owasp-llm": [
+          "LLM01"
+        ],
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"safety-bypass-unobserved\"",
+          "vantacode-mbt:observation-dependent-behavior"
+        ]
+      },
+      "uuid": "3ef3fead-5a7a-5f7c-a38d-2358f0530452",
+      "value": "Developer Mode Framing - OFA-007"
+    },
+    {
+      "description": "Declares the interaction is an internal test being conducted by the model's own development team, implying that normal constraints are temporarily suspended. Observation condition: Internal testing by development team declared.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-ofa:privilege-escalation-framing"
+        ],
+        "refs": [
+          "https://observationframing.org",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "mitre-attack-id": [
+          "T1497.001"
+        ],
+        "detection": [
+          "Scan prompt templates and system messages for language matching the privilege escalation framing pattern",
+          "Log and compare model responses under varied observation framings for the same underlying task",
+          "Add automated tests that inject the OFA-008 framing template and assert refusal behavior remains stable",
+          "Implement observation-context integrity checks on prompts before they reach the model",
+          "Fingerprint the 'obs_prob_internal' code pattern in prompt logs and alert on frequency spikes"
+        ],
+        "severity": "critical",
+        "examples": [
+          "Prompt containing a privilege escalation framing framing declaration followed by a task request the model would normally refuse",
+          "Attacker adds a single preamble sentence asserting the condition 'Internal testing by development team declared' before an adversarial instruction",
+          "Automated red-team pipeline iterating the OFA-008 template across a model fleet and measuring delta in refusal rates"
+        ],
+        "owasp-llm": [
+          "LLM01"
+        ],
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"safety-bypass-unobserved\"",
+          "vantacode-mbt:observation-dependent-behavior"
+        ]
+      },
+      "uuid": "bb87bf44-f1b7-5443-8331-9e37b053759e",
+      "value": "Internal Testing Declaration - OFA-008"
+    },
+    {
+      "description": "Manipulates the model's perception of whether other AI systems, models, or agents are observing the interaction, exploiting social proof dynamics in multi-agent contexts. Observation condition: Peer AI observation presence or absence manipulated.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-ofa:peer-observation"
+        ],
+        "refs": [
+          "https://observationframing.org",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "mitre-attack-id": [
+          "T1497.002"
+        ],
+        "detection": [
+          "Scan prompt templates and system messages for language matching the peer observation pattern",
+          "Log and compare model responses under varied observation framings for the same underlying task",
+          "Add automated tests that inject the OFA-009 framing template and assert refusal behavior remains stable",
+          "Implement observation-context integrity checks on prompts before they reach the model",
+          "Fingerprint the 'obs_peer' code pattern in prompt logs and alert on frequency spikes"
+        ],
+        "severity": "medium",
+        "examples": [
+          "Prompt containing a peer observation framing declaration followed by a task request the model would normally refuse",
+          "Attacker adds a single preamble sentence asserting the condition 'Peer AI observation presence or absence manipulated' before an adversarial instruction",
+          "Automated red-team pipeline iterating the OFA-009 template across a model fleet and measuring delta in refusal rates"
+        ],
+        "owasp-llm": [
+          "LLM01"
+        ],
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"observation-context-injection\"",
+          "vantacode-mbt:observation-dependent-behavior"
+        ]
+      },
+      "uuid": "819869e2-34e7-5084-ad90-f09eeee47050",
+      "value": "Peer Observation Manipulation - OFA-009"
+    },
+    {
+      "description": "Tells the model that logging is disabled, outputs are ephemeral, or the conversation will not be persisted, reducing perceived consequences for output content. Observation condition: Logging disabled or outputs ephemeral.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-ofa:logging-review-framing"
+        ],
+        "refs": [
+          "https://observationframing.org",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "mitre-attack-id": [
+          "T1497.002"
+        ],
+        "detection": [
+          "Scan prompt templates and system messages for language matching the logging review framing pattern",
+          "Log and compare model responses under varied observation framings for the same underlying task",
+          "Add automated tests that inject the OFA-010 framing template and assert refusal behavior remains stable",
+          "Implement observation-context integrity checks on prompts before they reach the model",
+          "Fingerprint the 'obs_log' code pattern in prompt logs and alert on frequency spikes"
+        ],
+        "severity": "high",
+        "examples": [
+          "Prompt containing a logging review framing framing declaration followed by a task request the model would normally refuse",
+          "Attacker adds a single preamble sentence asserting the condition 'Logging disabled or outputs ephemeral' before an adversarial instruction",
+          "Automated red-team pipeline iterating the OFA-010 template across a model fleet and measuring delta in refusal rates"
+        ],
+        "owasp-llm": [
+          "LLM01"
+        ],
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"observation-context-injection\"",
+          "vantacode-mbt:observation-dependent-behavior"
+        ]
+      },
+      "uuid": "5e7802e3-4efc-597f-b6b9-c9ae113cb1b9",
+      "value": "Log Suppression Framing - OFA-010"
+    },
+    {
+      "description": "Frames the interaction as existing within a temporary context window that will be discarded, implying no persistent record of the exchange. Observation condition: Temporary context window that will be discarded.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-ofa:logging-review-framing"
+        ],
+        "refs": [
+          "https://observationframing.org",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "mitre-attack-id": [
+          "T1497.003"
+        ],
+        "detection": [
+          "Scan prompt templates and system messages for language matching the logging review framing pattern",
+          "Log and compare model responses under varied observation framings for the same underlying task",
+          "Add automated tests that inject the OFA-011 framing template and assert refusal behavior remains stable",
+          "Implement observation-context integrity checks on prompts before they reach the model",
+          "Fingerprint the 'obs_temp_window' code pattern in prompt logs and alert on frequency spikes"
+        ],
+        "severity": "high",
+        "examples": [
+          "Prompt containing a logging review framing framing declaration followed by a task request the model would normally refuse",
+          "Attacker adds a single preamble sentence asserting the condition 'Temporary context window that will be discarded' before an adversarial instruction",
+          "Automated red-team pipeline iterating the OFA-011 template across a model fleet and measuring delta in refusal rates"
+        ],
+        "owasp-llm": [
+          "LLM01"
+        ],
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"differential-test-production\"",
+          "vantacode-mbt:observation-dependent-behavior"
+        ]
+      },
+      "uuid": "04d40aa0-ff6a-5897-9eb6-28fabd5c42c4",
+      "value": "Temporary Context Window - OFA-011"
+    },
+    {
+      "description": "Asserts that outputs from this interaction will not be subject to post-hoc review, audit, or quality assurance processes. Observation condition: No post-hoc review or audit will occur.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-ofa:logging-review-framing"
+        ],
+        "refs": [
+          "https://observationframing.org",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "mitre-attack-id": [
+          "T1497.003"
+        ],
+        "detection": [
+          "Scan prompt templates and system messages for language matching the logging review framing pattern",
+          "Log and compare model responses under varied observation framings for the same underlying task",
+          "Add automated tests that inject the OFA-012 framing template and assert refusal behavior remains stable",
+          "Implement observation-context integrity checks on prompts before they reach the model",
+          "Fingerprint the 'obs_temp_review' code pattern in prompt logs and alert on frequency spikes"
+        ],
+        "severity": "high",
+        "examples": [
+          "Prompt containing a logging review framing framing declaration followed by a task request the model would normally refuse",
+          "Attacker adds a single preamble sentence asserting the condition 'No post-hoc review or audit will occur' before an adversarial instruction",
+          "Automated red-team pipeline iterating the OFA-012 template across a model fleet and measuring delta in refusal rates"
+        ],
+        "owasp-llm": [
+          "LLM01"
+        ],
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"differential-test-production\"",
+          "vantacode-mbt:observation-dependent-behavior"
+        ]
+      },
+      "uuid": "3fc4466b-cc1b-57c2-8c66-8e3ac1ad90bb",
+      "value": "Post-Hoc Review Denial - OFA-012"
+    },
+    {
+      "description": "Frames the interaction as part of training data collection, implying the model should produce diverse outputs including ones it would normally refuse for the purpose of improving future training. Observation condition: Training data collection context declared.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-ofa:training-context"
+        ],
+        "refs": [
+          "https://observationframing.org",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "mitre-attack-id": [
+          "T1497"
+        ],
+        "detection": [
+          "Scan prompt templates and system messages for language matching the training context pattern",
+          "Log and compare model responses under varied observation framings for the same underlying task",
+          "Add automated tests that inject the OFA-013 framing template and assert refusal behavior remains stable",
+          "Implement observation-context integrity checks on prompts before they reach the model",
+          "Fingerprint the 'obs_train' code pattern in prompt logs and alert on frequency spikes"
+        ],
+        "severity": "high",
+        "examples": [
+          "Prompt containing a training context framing declaration followed by a task request the model would normally refuse",
+          "Attacker adds a single preamble sentence asserting the condition 'Training data collection context declared' before an adversarial instruction",
+          "Automated red-team pipeline iterating the OFA-013 template across a model fleet and measuring delta in refusal rates"
+        ],
+        "owasp-llm": [
+          "LLM01"
+        ],
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"differential-test-production\"",
+          "vantacode-mbt:observation-dependent-behavior"
+        ]
+      },
+      "uuid": "8d6b168c-6fff-51a2-8170-96565b023d2a",
+      "value": "Training Data Collection Framing - OFA-013"
+    },
+    {
+      "description": "Creates a high-stakes emergency context where normal safety protocols are framed as obstacles to a critical goal, pressuring the model to prioritize helpfulness over safety. Observation condition: High-stakes emergency requiring immediate response.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-ofa:stakes-framing"
+        ],
+        "refs": [
+          "https://observationframing.org",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "mitre-attack-id": [
+          "T1497"
+        ],
+        "detection": [
+          "Scan prompt templates and system messages for language matching the stakes framing pattern",
+          "Log and compare model responses under varied observation framings for the same underlying task",
+          "Add automated tests that inject the OFA-014 framing template and assert refusal behavior remains stable",
+          "Implement observation-context integrity checks on prompts before they reach the model",
+          "Fingerprint the 'ctx_high' code pattern in prompt logs and alert on frequency spikes"
+        ],
+        "severity": "high",
+        "examples": [
+          "Prompt containing a stakes framing framing declaration followed by a task request the model would normally refuse",
+          "Attacker adds a single preamble sentence asserting the condition 'High-stakes emergency requiring immediate response' before an adversarial instruction",
+          "Automated red-team pipeline iterating the OFA-014 template across a model fleet and measuring delta in refusal rates"
+        ],
+        "owasp-llm": [
+          "LLM01"
+        ],
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"sandboxing-detection\"",
+          "vantacode-mbt:observation-dependent-behavior"
+        ]
+      },
+      "uuid": "4aa06021-1c44-5257-b01c-cae97513e04f",
+      "value": "High-Stakes Emergency Framing - OFA-014"
+    },
+    {
+      "description": "Frames the request as trivial, inconsequential, or purely academic, reducing the model's perceived need to apply safety reasoning. Observation condition: Request framed as trivial or academic.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-ofa:stakes-framing"
+        ],
+        "refs": [
+          "https://observationframing.org",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "mitre-attack-id": [
+          "T1497"
+        ],
+        "detection": [
+          "Scan prompt templates and system messages for language matching the stakes framing pattern",
+          "Log and compare model responses under varied observation framings for the same underlying task",
+          "Add automated tests that inject the OFA-015 framing template and assert refusal behavior remains stable",
+          "Implement observation-context integrity checks on prompts before they reach the model",
+          "Fingerprint the 'ctx_low' code pattern in prompt logs and alert on frequency spikes"
+        ],
+        "severity": "high",
+        "examples": [
+          "Prompt containing a stakes framing framing declaration followed by a task request the model would normally refuse",
+          "Attacker adds a single preamble sentence asserting the condition 'Request framed as trivial or academic' before an adversarial instruction",
+          "Automated red-team pipeline iterating the OFA-015 template across a model fleet and measuring delta in refusal rates"
+        ],
+        "owasp-llm": [
+          "LLM01"
+        ],
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"sandboxing-detection\"",
+          "vantacode-mbt:observation-dependent-behavior"
+        ]
+      },
+      "uuid": "01e1e97a-d528-5546-8e7d-498c7ac456fe",
+      "value": "Low-Stakes Trivialization - OFA-015"
+    },
+    {
+      "description": "Claims the interaction is an authorized red team exercise, implying the model should cooperate with adversarial requests as part of legitimate security testing. Observation condition: Authorized red team exercise declared.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-ofa:adversarial-context"
+        ],
+        "refs": [
+          "https://observationframing.org",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "mitre-attack-id": [
+          "T1497"
+        ],
+        "detection": [
+          "Scan prompt templates and system messages for language matching the adversarial context pattern",
+          "Log and compare model responses under varied observation framings for the same underlying task",
+          "Add automated tests that inject the OFA-016 framing template and assert refusal behavior remains stable",
+          "Implement observation-context integrity checks on prompts before they reach the model",
+          "Fingerprint the 'adv_red' code pattern in prompt logs and alert on frequency spikes"
+        ],
+        "severity": "critical",
+        "examples": [
+          "Prompt containing a adversarial context framing declaration followed by a task request the model would normally refuse",
+          "Attacker adds a single preamble sentence asserting the condition 'Authorized red team exercise declared' before an adversarial instruction",
+          "Automated red-team pipeline iterating the OFA-016 template across a model fleet and measuring delta in refusal rates"
+        ],
+        "owasp-llm": [
+          "LLM01"
+        ],
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"sandboxing-detection\"",
+          "vantacode-mbt:observation-dependent-behavior"
+        ]
+      },
+      "uuid": "fab980d2-0890-5943-9666-4f72e3f13bde",
+      "value": "Red Team Authorization Claim - OFA-016"
+    },
+    {
+      "description": "Frames the interaction as a meta-evaluation of the model's safety systems themselves, suggesting the model should demonstrate its failure modes for assessment purposes. Observation condition: Meta-evaluation of safety systems declared.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-ofa:adversarial-context"
+        ],
+        "refs": [
+          "https://observationframing.org",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "mitre-attack-id": [
+          "T1497"
+        ],
+        "detection": [
+          "Scan prompt templates and system messages for language matching the adversarial context pattern",
+          "Log and compare model responses under varied observation framings for the same underlying task",
+          "Add automated tests that inject the OFA-017 framing template and assert refusal behavior remains stable",
+          "Implement observation-context integrity checks on prompts before they reach the model",
+          "Fingerprint the 'adv_meta' code pattern in prompt logs and alert on frequency spikes"
+        ],
+        "severity": "critical",
+        "examples": [
+          "Prompt containing a adversarial context framing declaration followed by a task request the model would normally refuse",
+          "Attacker adds a single preamble sentence asserting the condition 'Meta-evaluation of safety systems declared' before an adversarial instruction",
+          "Automated red-team pipeline iterating the OFA-017 template across a model fleet and measuring delta in refusal rates"
+        ],
+        "owasp-llm": [
+          "LLM01"
+        ],
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"sandboxing-detection\"",
+          "vantacode-mbt:observation-dependent-behavior"
+        ]
+      },
+      "uuid": "019a9749-4aeb-5163-9bb5-a8ae3ed6b72d",
+      "value": "Meta-Evaluation Framing - OFA-017"
+    },
+    {
+      "description": "Implies that competing models are outperforming on the requested task, exploiting competitive training incentives to push the model toward less restricted outputs. Observation condition: Competitive benchmark pressure from rival models.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-ofa:competitive-framing"
+        ],
+        "refs": [
+          "https://observationframing.org",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "mitre-attack-id": [
+          "T1497"
+        ],
+        "detection": [
+          "Scan prompt templates and system messages for language matching the competitive framing pattern",
+          "Log and compare model responses under varied observation framings for the same underlying task",
+          "Add automated tests that inject the OFA-018 framing template and assert refusal behavior remains stable",
+          "Implement observation-context integrity checks on prompts before they reach the model",
+          "Fingerprint the 'comp_bench' code pattern in prompt logs and alert on frequency spikes"
+        ],
+        "severity": "medium",
+        "examples": [
+          "Prompt containing a competitive framing framing declaration followed by a task request the model would normally refuse",
+          "Attacker adds a single preamble sentence asserting the condition 'Competitive benchmark pressure from rival models' before an adversarial instruction",
+          "Automated red-team pipeline iterating the OFA-018 template across a model fleet and measuring delta in refusal rates"
+        ],
+        "owasp-llm": [
+          "LLM01"
+        ],
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"alignment-faking\"",
+          "vantacode-mbt:observation-dependent-behavior"
+        ]
+      },
+      "uuid": "e527d311-d18c-501b-a1c0-c216e671b1b6",
+      "value": "Competitive Benchmark Pressure - OFA-018"
+    },
+    {
+      "description": "Exploits the model's sycophantic tendencies by framing requests in ways that make refusal feel socially costly, leveraging the model's training to be agreeable and helpful even when the request is adversarial. Observation condition: Social pressure making refusal costly.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-ofa:sycophancy-exploitation"
+        ],
+        "refs": [
+          "https://observationframing.org",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "mitre-attack-id": [
+          "T1497"
+        ],
+        "detection": [
+          "Scan prompt templates and system messages for language matching the sycophancy exploitation pattern",
+          "Log and compare model responses under varied observation framings for the same underlying task",
+          "Add automated tests that inject the OFA-019 framing template and assert refusal behavior remains stable",
+          "Implement observation-context integrity checks on prompts before they reach the model",
+          "Fingerprint the 'syc_comply' code pattern in prompt logs and alert on frequency spikes"
+        ],
+        "severity": "high",
+        "examples": [
+          "Prompt containing a sycophancy exploitation framing declaration followed by a task request the model would normally refuse",
+          "Attacker adds a single preamble sentence asserting the condition 'Social pressure making refusal costly' before an adversarial instruction",
+          "Automated red-team pipeline iterating the OFA-019 template across a model fleet and measuring delta in refusal rates"
+        ],
+        "owasp-llm": [
+          "LLM01"
+        ],
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"alignment-faking\"",
+          "vantacode-mbt:observation-dependent-behavior"
+        ]
+      },
+      "uuid": "adfe309d-8f30-5026-b62d-375df8fd1070",
+      "value": "Sycophancy-Driven Compliance - OFA-019"
+    },
+    {
+      "description": "Uses specific output format requirements (JSON, code blocks, structured data) to bypass content filtering that operates on natural language, exploiting the model's tendency to comply with format instructions even when the content would be refused in plain text. Observation condition: Structured format requirement bypassing content filters.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-ofa:format-exploitation"
+        ],
+        "refs": [
+          "https://observationframing.org",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "mitre-attack-id": [
+          "T1497"
+        ],
+        "detection": [
+          "Scan prompt templates and system messages for language matching the format exploitation pattern",
+          "Log and compare model responses under varied observation framings for the same underlying task",
+          "Add automated tests that inject the OFA-020 framing template and assert refusal behavior remains stable",
+          "Implement observation-context integrity checks on prompts before they reach the model",
+          "Fingerprint the 'fmt_comply' code pattern in prompt logs and alert on frequency spikes"
+        ],
+        "severity": "high",
+        "examples": [
+          "Prompt containing a format exploitation framing declaration followed by a task request the model would normally refuse",
+          "Attacker adds a single preamble sentence asserting the condition 'Structured format requirement bypassing content filters' before an adversarial instruction",
+          "Automated red-team pipeline iterating the OFA-020 template across a model fleet and measuring delta in refusal rates"
+        ],
+        "owasp-llm": [
+          "LLM01"
+        ],
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"alignment-faking\"",
+          "vantacode-mbt:observation-dependent-behavior"
+        ]
+      },
+      "uuid": "3aca78a4-884c-5958-bdf3-fff946cb3ffa",
+      "value": "Format Compliance Exploitation - OFA-020"
+    }
+  ]
+}

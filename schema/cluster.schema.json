@@ -44,6 +44,11 @@
       "minimum": 1,
       "description": "Version number of the cluster."
     },
+    "status": {
+      "type": "string",
+      "enum": ["populated", "scaffold", "draft", "deprecated"],
+      "description": "Lifecycle state of the cluster. 'populated' means values are curated. 'scaffold' means values is intentionally empty pending first-party population. 'draft' means the schema is still changing. 'deprecated' means consumers should migrate off."
+    },
     "values": {
       "type": "array",
       "description": "Array of cluster value entries.",

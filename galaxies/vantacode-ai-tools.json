@@ -3,6 +3,7 @@
   "icon": "wrench",
   "name": "VantaCode AI Tools",
   "namespace": "vantacode",
+  "status": "scaffold",
   "type": "vantacode-ai-tools",
   "uuid": "66bdfd47-bb2c-4f23-9ebf-a8cdbd9dbdd4",
   "version": 1
