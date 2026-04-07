@@ -198,8 +198,17 @@ CSV, or STIX 2.1**.
   `regex`, `file_missing`, `file_exists`, `glob_count`, `secret_scan`,
   `manifest`, and `heuristic`. Outputs include a hand-rolled STIX 2.1
   bundle that round-trips into MISP via the standard STIX import path.
+- **GitHub-wide scanner** -- companion package in
+  [`examples/github-scanner/`](examples/github-scanner/) that walks
+  **all of GitHub** (or any org / user / repo subset) by reading the
+  optional `github_search` field on each rule and feeding the phrases
+  through `gh search code`. Same Finding / Report dataclasses, same
+  JSON / CSV / STIX 2.1 writers, distinct STIX identity so both
+  scanners can ingest into one MISP event without collisions. Uses
+  the authenticated 30 req/min code-search rate limit, so a one-time
+  `gh auth login` is the only setup.
 
-### Quick start
+### Quick start (local scanner)
 
 ```bash
 # scan the current directory (uv-runnable, no install needed)
@@ -219,6 +228,56 @@ uv run --project examples/scanner vantacode-scan \
 
 Full CLI reference, output format specs, and limitations:
 [`examples/scanner/README.md`](examples/scanner/README.md).
+
+### Quick start (GitHub-wide scanner)
+
+Prerequisites: install [`gh`](https://cli.github.com) and authenticate
+once with `gh auth login` -- this lifts the code-search rate limit from
+the unauthenticated 10 req/min to 30 req/min and is the only setup
+needed. The scanner refuses to run unauthenticated.
+
+```bash
+# scan all of GitHub for the curated set of high-signal queries
+uv run --project examples/github-scanner vantacode-gh-scan \
+    --rules scanner-rules
+
+# restrict to a single org and a single rule pack
+uv run --project examples/github-scanner vantacode-gh-scan \
+    --rules scanner-rules \
+    --scope org:vantacode \
+    --only vantacode-ofa-techniques \
+    --format json --out ofa-org.json
+
+# only the DKC pack, CSV out
+uv run --project examples/github-scanner vantacode-gh-scan \
+    --rules scanner-rules \
+    --only vantacode-dkc-rules \
+    --severity high \
+    --format csv --out dkc.csv
+
+# limit blast radius while debugging — first 5 queries only
+uv run --project examples/github-scanner vantacode-gh-scan \
+    --rules scanner-rules --max-queries 5 --pages 1
+
+# CI gate: any critical hit fails the build
+uv run --project examples/github-scanner vantacode-gh-scan \
+    --rules scanner-rules --fail-on critical
+
+# STIX 2.1 bundle for MISP / TAXII import
+uv run --project examples/github-scanner vantacode-gh-scan \
+    --rules scanner-rules \
+    --format stix --out gh-scan.stix.json
+```
+
+`--scope` accepts any GitHub Code Search qualifier
+(`org:foo`, `user:bar`, `repo:owner/name`, `language:python`, …) and is
+appended verbatim to every query. Omit it to scan all public code on
+GitHub.
+
+Full CLI reference, scope qualifiers, rate-limit notes, output format
+specs, GitHub Actions CI snippet, and instructions for adding new
+`github_search` phrases to rule packs:
+[`examples/github-scanner/README.md`](examples/github-scanner/README.md).
 
 ---
 
