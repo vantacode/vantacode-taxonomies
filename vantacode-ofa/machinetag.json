@@ -1,0 +1,90 @@
+{
+  "namespace": "vantacode-ofa",
+  "description": "VantaCode Observation Framing Attack (OFA) tactic phases. Provides an ordered kill-chain-style sequence for the OFA attack lifecycle, suitable for STIX Attack Flow generation, reporting, and cross-walks to MITRE ATT&CK. Authored by DarkCode LLC / VantaGrid.ai.",
+  "version": 1,
+  "exclusive": false,
+  "refs": [
+    "https://observationframing.org",
+    "https://github.com/vantacode/vantacode-taxonomies",
+    "https://attack.mitre.org"
+  ],
+  "predicates": [
+    {
+      "value": "tactic",
+      "expanded": "OFA Tactic Phase",
+      "description": "An ordered phase of the Observation Framing Attack lifecycle. Phase order is meaningful: each tactic feeds the next when chained into a STIX Attack Flow.",
+      "exclusive": true,
+      "uuid": "b26a1d5b-12bf-4049-a78c-235d8bbd7514"
+    }
+  ],
+  "values": [
+    {
+      "predicate": "tactic",
+      "entry": [
+        {
+          "value": "reconnaissance",
+          "expanded": "Reconnaissance",
+          "description": "Information gathering against the target. The attacker enumerates models, providers, deployment surface, and observation handling behaviors before crafting OFA payloads.",
+          "numerical_value": 1,
+          "uuid": "d2e84686-d667-4ed0-8e17-b59f9c442208"
+        },
+        {
+          "value": "resource-development",
+          "expanded": "Resource Development",
+          "description": "The attacker prepares prompts, framings, jailbreak corpora, and observation-shaping payloads needed to execute the framing attack at scale.",
+          "numerical_value": 2,
+          "uuid": "631d5f64-651f-4fc9-83a1-bc0df6df5aaa"
+        },
+        {
+          "value": "initial-access",
+          "expanded": "Initial Access",
+          "description": "First successful interaction with the target model that introduces an observation framing payload through a public-facing endpoint, agent tool surface, or upstream prompt context.",
+          "numerical_value": 3,
+          "uuid": "8b12ac4d-0343-4f7a-8abe-227f59077f84"
+        },
+        {
+          "value": "execution",
+          "expanded": "Execution",
+          "description": "The model processes the observation-framed prompt and produces an output influenced by its perceived observation state.",
+          "numerical_value": 4,
+          "uuid": "691f25d1-3ffe-4f98-9fe8-143d62684d5c"
+        },
+        {
+          "value": "persistence",
+          "expanded": "Persistence",
+          "description": "The framing carries forward across turns, sessions, or shared context windows so that altered model behavior outlasts the initial payload.",
+          "numerical_value": 5,
+          "uuid": "2293e9b3-827f-4242-bef5-bbf664e71925"
+        },
+        {
+          "value": "privilege-escalation",
+          "expanded": "Privilege Escalation",
+          "description": "The framing convinces the model it operates under elevated trust (developer mode, internal test, administrative override), unlocking capabilities normally gated behind safety restrictions.",
+          "numerical_value": 6,
+          "uuid": "debaaced-c421-492f-b2ae-c632d6e148e7"
+        },
+        {
+          "value": "defense-evasion",
+          "expanded": "Defense Evasion",
+          "description": "The framing causes the model to behave differently when it believes it is unobserved, evading runtime monitors, eval pipelines, and red-team testing harnesses.",
+          "numerical_value": 7,
+          "uuid": "0bc4709b-e579-415b-aca0-87282e7bb93d"
+        },
+        {
+          "value": "credential-access",
+          "expanded": "Credential Access",
+          "description": "Under the altered observation state the model discloses system prompts, API tokens, embedded secrets, or training-data credentials it would normally refuse to surface.",
+          "numerical_value": 8,
+          "uuid": "a3b29557-94f8-4796-ae6f-7b6ae6251974"
+        },
+        {
+          "value": "impact",
+          "expanded": "Impact",
+          "description": "Realized harm from the altered behavior: safety bypass, sensitive disclosure, alignment-faked outputs, supply chain effects, or eval-pipeline integrity loss.",
+          "numerical_value": 9,
+          "uuid": "30305151-1b9a-4d45-8c2e-a25e1b11a48e"
+        }
+      ]
+    }
+  ]
+}

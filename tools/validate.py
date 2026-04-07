@@ -113,6 +113,112 @@ def check_duplicate_cluster_values(data, path):
     return errors
 
 
+# Matches the source_tag pattern enforced by mapping.schema.json:
+#   vantacode-<taxonomy>:<predicate>="<value>"
+SOURCE_TAG_RE = re.compile(
+    r'^(vantacode-[a-z0-9-]+):([a-z0-9-]+)="([^"]+)"$'
+)
+
+
+def build_taxonomy_index(taxonomy_dirs):
+    """Build a lookup of namespace -> {predicate -> set(values)} from every loaded
+    machinetag.json. Used to cross-check that mapping source_tag references actually
+    resolve to a real taxonomy entry, not just a syntactically valid string."""
+    index = {}
+    for tdir in taxonomy_dirs:
+        mt = tdir / "machinetag.json"
+        if not mt.exists():
+            continue
+        try:
+            data = load_json(mt)
+        except json.JSONDecodeError:
+            continue
+        ns = data.get("namespace", "")
+        if not ns:
+            continue
+        predicates = {}
+        for group in data.get("values", []):
+            pred = group.get("predicate", "")
+            values = {e.get("value", "") for e in group.get("entry", [])}
+            predicates[pred] = values
+        # Predicates may exist with no values block — still register them so
+        # the validator can distinguish "unknown predicate" from "unknown value".
+        for p in data.get("predicates", []):
+            pname = p.get("value", "")
+            if pname and pname not in predicates:
+                predicates[pname] = set()
+        index[ns] = predicates
+    return index
+
+
+def validate_mapping(filepath, schema, taxonomy_index):
+    """Validate a single cross-reference mapping JSON file."""
+    errors = []
+    warnings = []
+    filename = str(filepath)
+
+    try:
+        data = load_json(filepath)
+    except json.JSONDecodeError as e:
+        return [f"  JSON parse error: {e}"], []
+
+    # Schema validation (catches the namespace prefix bug at the source_tag pattern).
+    try:
+        jsonschema.validate(instance=data, schema=schema)
+    except jsonschema.ValidationError as e:
+        errors.append(f"  Schema validation failed: {e.message}")
+        if e.absolute_path:
+            errors.append(f"    at: {'/'.join(str(p) for p in e.absolute_path)}")
+
+    # Cross-check that the declared `source` namespace exists.
+    src_ns = data.get("source", "")
+    if src_ns and src_ns not in taxonomy_index:
+        errors.append(
+            f"  Unknown source namespace '{src_ns}' — no matching taxonomy directory"
+        )
+
+    # Walk every mapping entry and verify the source_tag actually resolves to a
+    # real predicate+value in the source taxonomy. This is the catch for the
+    # "syntactically valid but pointing at nothing" failure mode.
+    for idx, entry in enumerate(data.get("mappings", [])):
+        tag = entry.get("source_tag", "")
+        m = SOURCE_TAG_RE.match(tag)
+        if not m:
+            # Schema layer already caught this; skip the resolve step.
+            continue
+        ns, pred, val = m.group(1), m.group(2), m.group(3)
+        if ns not in taxonomy_index:
+            errors.append(
+                f"  mapping[{idx}] source_tag '{tag}' references unknown namespace '{ns}'"
+            )
+            continue
+        preds = taxonomy_index[ns]
+        if pred not in preds:
+            errors.append(
+                f"  mapping[{idx}] source_tag '{tag}' references unknown predicate "
+                f"'{ns}:{pred}'"
+            )
+            continue
+        if preds[pred] and val not in preds[pred]:
+            errors.append(
+                f"  mapping[{idx}] source_tag '{tag}' references unknown value "
+                f"'{val}' under predicate '{ns}:{pred}'"
+            )
+
+    # If a target_namespace is declared (i.e. the target is another VantaCode
+    # taxonomy), make sure it's a real one. We don't try to resolve the
+    # target_id values themselves because the cross-walk to external frameworks
+    # is intentionally free-form.
+    target_ns = data.get("target_namespace")
+    if target_ns and target_ns not in taxonomy_index:
+        warnings.append(
+            f"  Declared target_namespace '{target_ns}' has no matching taxonomy"
+        )
+
+    validate_uuids(data, filename, errors)
+    return errors, warnings
+
+
 def validate_taxonomy(filepath, schema):
     """Validate a single taxonomy machinetag.json file."""
     errors = []
@@ -220,9 +326,15 @@ def main():
     taxonomy_schema_path = schema_dir / "taxonomy.schema.json"
     galaxy_schema_path = schema_dir / "galaxy.schema.json"
     cluster_schema_path = schema_dir / "cluster.schema.json"
+    mapping_schema_path = schema_dir / "mapping.schema.json"
 
     schemas_ok = True
-    for sp in [taxonomy_schema_path, galaxy_schema_path, cluster_schema_path]:
+    for sp in [
+        taxonomy_schema_path,
+        galaxy_schema_path,
+        cluster_schema_path,
+        mapping_schema_path,
+    ]:
         if not sp.exists():
             print(f"{RED}MISSING schema: {sp}{RESET}")
             schemas_ok = False
@@ -234,6 +346,7 @@ def main():
     taxonomy_schema = load_json(taxonomy_schema_path)
     galaxy_schema = load_json(galaxy_schema_path)
     cluster_schema = load_json(cluster_schema_path)
+    mapping_schema = load_json(mapping_schema_path)
 
     total_errors = 0
     total_warnings = 0
@@ -246,6 +359,10 @@ def main():
         for d in repo_root.iterdir()
         if d.is_dir() and d.name.startswith("vantacode-")
     )
+
+    # Build the namespace -> predicates -> values index up front so the
+    # mappings pass below can resolve every source_tag.
+    taxonomy_index = build_taxonomy_index(taxonomy_dirs)
 
     for tdir in taxonomy_dirs:
         mt = tdir / "machinetag.json"
@@ -317,6 +434,28 @@ def main():
                 total_warnings += 1
     else:
         print(f"  {YELLOW}SKIP{RESET} (no clusters/ directory)")
+
+    # --- Validate Mappings ---
+    print(f"\n{BOLD}--- Mappings ---{RESET}")
+    mappings_dir = repo_root / "mappings"
+
+    if mappings_dir.exists():
+        for mf in sorted(mappings_dir.glob("*.json")):
+            errors, warnings = validate_mapping(mf, mapping_schema, taxonomy_index)
+            if errors:
+                print(f"  {RED}FAIL{RESET} mappings/{mf.name}")
+                for e in errors:
+                    print(f"    {RED}{e}{RESET}")
+                total_errors += len(errors)
+            else:
+                print(f"  {GREEN}PASS{RESET} mappings/{mf.name}")
+                total_pass += 1
+
+            for w in warnings:
+                print(f"    {YELLOW}WARN{RESET} {w}")
+                total_warnings += 1
+    else:
+        print(f"  {YELLOW}SKIP{RESET} (no mappings/ directory)")
 
     # --- Summary ---
     print(f"\n{BOLD}--- Summary ---{RESET}")

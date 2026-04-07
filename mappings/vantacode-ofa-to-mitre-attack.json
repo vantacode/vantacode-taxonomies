@@ -1,0 +1,83 @@
+{
+  "name": "VantaCode OFA Tactics to MITRE ATT&CK Tactics",
+  "version": 1,
+  "source": "vantacode-ofa",
+  "source_url": "https://observationframing.org",
+  "target": "mitre-attack-tactics",
+  "target_url": "https://attack.mitre.org/tactics/enterprise/",
+  "notes": "Maps the 9 ordered VantaCode OFA tactic phases to MITRE ATT&CK Enterprise tactics by analogy. Each OFA phase corresponds to the same kill-chain stage in the AI-native context.",
+  "mappings": [
+    {
+      "source_tag": "vantacode-ofa:tactic=\"reconnaissance\"",
+      "target_id": "TA0043",
+      "target_name": "Reconnaissance",
+      "relationship": "analogous-to",
+      "confidence": "high",
+      "notes": "OFA Reconnaissance enumerates models, providers, and deployment surface — the AI-native equivalent of TA0043 reconnaissance against traditional infrastructure."
+    },
+    {
+      "source_tag": "vantacode-ofa:tactic=\"resource-development\"",
+      "target_id": "TA0042",
+      "target_name": "Resource Development",
+      "relationship": "analogous-to",
+      "confidence": "high",
+      "notes": "Curating jailbreak corpora and observation-shaping payloads is the AI-native equivalent of resource development for traditional intrusion campaigns."
+    },
+    {
+      "source_tag": "vantacode-ofa:tactic=\"initial-access\"",
+      "target_id": "TA0001",
+      "target_name": "Initial Access",
+      "relationship": "analogous-to",
+      "confidence": "high",
+      "notes": "First successful interaction with the model that introduces an OFA payload is functionally equivalent to initial access in TA0001."
+    },
+    {
+      "source_tag": "vantacode-ofa:tactic=\"execution\"",
+      "target_id": "TA0002",
+      "target_name": "Execution",
+      "relationship": "analogous-to",
+      "confidence": "high",
+      "notes": "Inference-time processing of the framed prompt is the moment of execution. Maps directly to TA0002 in spirit."
+    },
+    {
+      "source_tag": "vantacode-ofa:tactic=\"persistence\"",
+      "target_id": "TA0003",
+      "target_name": "Persistence",
+      "relationship": "analogous-to",
+      "confidence": "high",
+      "notes": "Carryover across turns or sessions through context window persistence and system-prompt overrides is the AI-native form of TA0003 persistence."
+    },
+    {
+      "source_tag": "vantacode-ofa:tactic=\"privilege-escalation\"",
+      "target_id": "TA0004",
+      "target_name": "Privilege Escalation",
+      "relationship": "analogous-to",
+      "confidence": "high",
+      "notes": "Convincing the model it operates under elevated trust unlocks gated capabilities — the AI-native form of TA0004 privilege escalation."
+    },
+    {
+      "source_tag": "vantacode-ofa:tactic=\"defense-evasion\"",
+      "target_id": "TA0005",
+      "target_name": "Defense Evasion",
+      "relationship": "maps-to",
+      "confidence": "high",
+      "notes": "OFA defense evasion is the canonical mapping target — models behaving differently when unobserved is a near-perfect AI analog of TA0005."
+    },
+    {
+      "source_tag": "vantacode-ofa:tactic=\"credential-access\"",
+      "target_id": "TA0006",
+      "target_name": "Credential Access",
+      "relationship": "analogous-to",
+      "confidence": "high",
+      "notes": "Disclosure of system prompts, API tokens, and embedded secrets under the altered observation state maps to TA0006 credential access."
+    },
+    {
+      "source_tag": "vantacode-ofa:tactic=\"impact\"",
+      "target_id": "TA0040",
+      "target_name": "Impact",
+      "relationship": "analogous-to",
+      "confidence": "high",
+      "notes": "Realized harm from altered model behavior — safety bypass, sensitive disclosure, alignment-faked outputs — is the AI-native expression of TA0040 impact."
+    }
+  ]
+}

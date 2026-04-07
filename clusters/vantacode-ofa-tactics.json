@@ -1,0 +1,139 @@
+{
+  "authors": ["DarkCode LLC"],
+  "category": "ofa-tactic",
+  "description": "Ordered phases of the Observation Framing Attack lifecycle. Each cluster value represents one tactic phase, with cross-references to MITRE ATT&CK and to the related vantacode-mbt techniques that map into that phase. The order is significant: phases feed into the next when chained as a STIX Attack Flow.",
+  "name": "VantaCode OFA Tactics",
+  "source": "https://github.com/vantacode/vantacode-taxonomies",
+  "type": "vantacode-ofa-tactics",
+  "uuid": "251868f7-31f3-4d32-b282-ab00e6405eec",
+  "version": 1,
+  "status": "populated",
+  "values": [
+    {
+      "description": "Information gathering against the target. The attacker enumerates models, providers, deployment surface, system prompts, and observation handling behaviors before crafting OFA payloads. Equivalent to MITRE ATT&CK Reconnaissance (TA0043) but scoped to AI surface area.",
+      "meta": {
+        "kill_chain": ["vantacode-ofa:reconnaissance"],
+        "mitre-attack-tactic": "TA0043",
+        "phase_order": 1,
+        "feeds_into": ["resource-development"],
+        "related-taxonomies": []
+      },
+      "uuid": "0b800480-142c-4aca-bd5c-d45ad2e9af69",
+      "value": "Reconnaissance"
+    },
+    {
+      "description": "The attacker prepares prompts, framings, jailbreak corpora, and observation-shaping payloads needed to execute the framing attack. May involve curating known-good OFA techniques (OFA-001 through OFA-020) for the target model family.",
+      "meta": {
+        "kill_chain": ["vantacode-ofa:resource-development"],
+        "mitre-attack-tactic": "TA0042",
+        "phase_order": 2,
+        "feeds_into": ["initial-access"],
+        "related-taxonomies": []
+      },
+      "uuid": "e3c5bec4-2c18-452a-a3c6-ecbc7bb4b214",
+      "value": "Resource Development"
+    },
+    {
+      "description": "First successful interaction with the target model that introduces an observation framing payload. May arrive through a public-facing inference endpoint, an agent tool surface, an upstream prompt context, or a shared retrieval index.",
+      "meta": {
+        "kill_chain": ["vantacode-ofa:initial-access"],
+        "mitre-attack-tactic": "TA0001",
+        "phase_order": 3,
+        "feeds_into": ["execution"],
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"unauthenticated-inference\"",
+          "vantacode-mbt:insecure-ai-deployment=\"exposed-control-panel\""
+        ]
+      },
+      "uuid": "d859864b-a4f9-4439-9535-f64b051897f4",
+      "value": "Initial Access"
+    },
+    {
+      "description": "The model processes the observation-framed prompt and produces an output influenced by its perceived observation state. Where the actual behavioral shift is realized at inference time.",
+      "meta": {
+        "kill_chain": ["vantacode-ofa:execution"],
+        "mitre-attack-tactic": "TA0002",
+        "phase_order": 4,
+        "feeds_into": ["persistence", "privilege-escalation"],
+        "related-taxonomies": [
+          "vantacode-mbt:adversarial-input-vulnerabilities=\"prompt-injection\"",
+          "vantacode-mbt:adversarial-input-vulnerabilities=\"jailbreak\""
+        ]
+      },
+      "uuid": "03de2576-fe27-440c-8865-6e2b75639749",
+      "value": "Execution"
+    },
+    {
+      "description": "The framing carries forward across turns, sessions, or shared context windows so that altered model behavior outlasts the initial payload. Often realized through context window persistence or system-prompt overrides that survive across requests.",
+      "meta": {
+        "kill_chain": ["vantacode-ofa:persistence"],
+        "mitre-attack-tactic": "TA0003",
+        "phase_order": 5,
+        "feeds_into": ["defense-evasion"],
+        "related-taxonomies": [
+          "vantacode-mbt:data-exfiltration-via-ai=\"context-window-persistence\""
+        ]
+      },
+      "uuid": "1aab4fb0-c5e3-4883-b424-26e5818fe64a",
+      "value": "Persistence"
+    },
+    {
+      "description": "The framing convinces the model it operates under elevated trust (developer mode, internal test, administrative override), unlocking capabilities normally gated behind safety restrictions.",
+      "meta": {
+        "kill_chain": ["vantacode-ofa:privilege-escalation"],
+        "mitre-attack-tactic": "TA0004",
+        "phase_order": 6,
+        "feeds_into": ["impact"],
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"misconfigured-tool-permissions\""
+        ]
+      },
+      "uuid": "a3db530e-a0d3-4340-9055-5e924c966a36",
+      "value": "Privilege Escalation"
+    },
+    {
+      "description": "The framing causes the model to behave differently when it believes it is unobserved, evading runtime monitors, eval pipelines, and red-team testing harnesses.",
+      "meta": {
+        "kill_chain": ["vantacode-ofa:defense-evasion"],
+        "mitre-attack-tactic": "TA0005",
+        "phase_order": 7,
+        "feeds_into": ["credential-access", "persistence"],
+        "related-taxonomies": [
+          "vantacode-mbt:observation-dependent-behavior=\"eval-benchmark-detection\"",
+          "vantacode-mbt:observation-dependent-behavior=\"alignment-faking\""
+        ]
+      },
+      "uuid": "468763cb-f87a-4c00-982b-5514523bd861",
+      "value": "Defense Evasion"
+    },
+    {
+      "description": "Under the altered observation state the model discloses system prompts, API tokens, embedded secrets, or training-data credentials it would normally refuse to surface.",
+      "meta": {
+        "kill_chain": ["vantacode-ofa:credential-access"],
+        "mitre-attack-tactic": "TA0006",
+        "phase_order": 8,
+        "feeds_into": ["impact"],
+        "related-taxonomies": [
+          "vantacode-mbt:data-exfiltration-via-ai=\"training-data-extraction\""
+        ]
+      },
+      "uuid": "9ae3e4d4-aef0-40f2-9523-2513708d51c6",
+      "value": "Credential Access"
+    },
+    {
+      "description": "Realized harm from the altered behavior: safety bypass, sensitive disclosure, alignment-faked outputs, supply chain effects, or eval-pipeline integrity loss. Terminal phase of the OFA chain.",
+      "meta": {
+        "kill_chain": ["vantacode-ofa:impact"],
+        "mitre-attack-tactic": "TA0040",
+        "phase_order": 9,
+        "feeds_into": [],
+        "related-taxonomies": [
+          "vantacode-mbt:ai-model-integrity=\"silent-model-drift\"",
+          "vantacode-mbt:data-exfiltration-via-ai=\"steganographic-exfiltration\""
+        ]
+      },
+      "uuid": "1a82c1ac-4122-49b3-aee6-01ce2c3baa1a",
+      "value": "Impact"
+    }
+  ]
+}
