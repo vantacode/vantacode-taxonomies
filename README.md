@@ -36,7 +36,7 @@ The project provides two layers of classification:
 >
 > - **[VantaGrid](https://vantagrid.ai)** -- The unified AI security methodology framework connecting scanning, classification, and threat intelligence capabilities. Provides the structured approach for applying MBT taxonomy classifications, AIBOM generation, and repo governance scoring across AI/ML codebases.
 >
-> - **[DECLAWED](https://declawed.io)** -- A real-time tracker for exposed AI agent instances on the public internet. Tracks 145K+ exposed instances across 46.2K unique IPs in 82 countries, with 2.5M CVE detections identified, 70K APT-linked, and 5 confirmed malicious ClawHub skills with mapped C2 infrastructure.
+> - **DKC (Dunning-Kruger Coding)** -- A rule-based code analysis engine and heuristic ruleset for identifying code shipped without adequate understanding of what was shipped. Organizes 56 detection rules into 7 weighted categories with domain-adjusted scoring that multiplies severity based on application context.
 
 **Author:** Cory Kennedy / DarkCode LLC
 
@@ -88,12 +88,17 @@ Galaxies are the rich knowledge layer built on top of taxonomies. Each galaxy is
 - **Galaxy definition** (`galaxies/<name>.json`) -- Declares the galaxy type, namespace, icon, and optional kill chain ordering.
 - **Cluster** (`clusters/<name>.json`) -- Contains the actual entries with descriptions, metadata, cross-references, and relationships.
 
-| Galaxy | Description |
-|--------|-------------|
-| `vantacode-mbt-techniques` | Specific techniques within the Malicious Behaviors Taxonomy, with detection methods, mitigations, and MITRE ATT&CK cross-references |
-| `vantacode-ai-threat-actors` | Threat actors targeting or leveraging AI systems, including those observed targeting exposed AI agent infrastructure |
-| `vantacode-ai-tools` | AI-specific security tools spanning offensive and defensive capabilities |
-| `vantacode-research` | Research outputs including OFA, VantaGrid, and DECLAWED findings |
+| Galaxy | Status | Description |
+|--------|--------|-------------|
+| `vantacode-mbt-techniques` | populated | Specific techniques within the Malicious Behaviors Taxonomy, with detection methods, mitigations, and MITRE ATT&CK cross-references |
+| `vantacode-ai-threat-actors` | **scaffold** | Threat actors targeting or leveraging AI systems. Cluster values intentionally empty; populated from first-party research only, no fabricated attribution. |
+| `vantacode-ai-tools` | **scaffold** | AI-specific security tools spanning offensive and defensive capabilities. Cluster values intentionally empty; populated from a curated tool registry only. |
+| `vantacode-research` | populated | Summary index of VantaCode research programs (OFA, VantaGrid, DKC) |
+| `vantacode-ofa-techniques` | populated | The 20 Observation Framing Attack techniques, categorized by framing vector with severity and MBT-1 mappings |
+| `vantacode-vantagrid-findings` | populated | Key behavioral findings from the VantaGrid measurement framework, categorized as primary or secondary |
+| `vantacode-dkc-rules` | populated | The DKC (Dunning-Kruger Coding) detection ruleset organized by weighted category |
+
+**Scaffold galaxies** are galaxy + cluster pairs whose schema is registered but whose `values` array is intentionally empty. Their JSON carries `"status": "scaffold"` at the top level so consumers can filter them out of "pending / missing values" counts. Scaffolds exist to lock in the taxonomy namespace, UUID, and description while deferring the data population to a separate review gate (threat actor attribution and tool selection are not auto-generated).
 
 Galaxy clusters support kill chain mappings, enabling placement of techniques within the MBT attack lifecycle:
 

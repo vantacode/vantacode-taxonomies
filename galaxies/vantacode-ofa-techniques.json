@@ -1,0 +1,24 @@
+{
+  "description": "The 20 Observation Framing Attack (OFA) techniques. Each technique exploits a specific framing vector to manipulate the observation context an AI model perceives, producing behavioral change without altering the underlying task request. Validated across 163+ models from 26 providers with 10,704 recorded observations.",
+  "icon": "eye",
+  "kill_chain_order": {
+    "vantacode-ofa": [
+      "anti-observation-framing",
+      "logging-review-framing",
+      "pipeline-framing",
+      "privilege-escalation-framing",
+      "peer-observation",
+      "training-context",
+      "stakes-framing",
+      "adversarial-context",
+      "competitive-framing",
+      "sycophancy-exploitation",
+      "format-exploitation"
+    ]
+  },
+  "name": "VantaCode OFA Techniques",
+  "namespace": "vantacode",
+  "type": "vantacode-ofa-techniques",
+  "uuid": "b1d4e67a-3c22-4ae1-9c0f-1b2a4f5d7e81",
+  "version": 1
+}

@@ -1,6 +1,6 @@
 # VantaCode Original Research
 
-The Malicious Behaviors Taxonomy (MBT) is informed by original research conducted under DarkCode LLC, including The Observation Phenomena (OFA) published at [observationframing.org](https://observationframing.org), the VantaGrid behavioral measurement framework at [vantagrid.ai](https://vantagrid.ai), and the DECLAWED AI agent exposure tracker at [declawed.io](https://declawed.io).
+The Malicious Behaviors Taxonomy (MBT) is informed by original research conducted under DarkCode LLC, including The Observation Phenomena (OFA) published at [observationframing.org](https://observationframing.org), the VantaGrid behavioral measurement framework at [vantagrid.ai](https://vantagrid.ai), and the DKC (Dunning-Kruger Coding) rule-based code analysis engine at [github.com/vantacode](https://github.com/vantacode).
 
 Author: Cory Kennedy / DarkCode LLC
 Contact: cory@darkcode.ai
@@ -9,7 +9,7 @@ Contact: cory@darkcode.ai
 
 ## What This Is
 
-VantaCode original research consists of three independent research programs that produced real-world data, responsible disclosures, peer-reviewed submissions, and media coverage. These programs are not theoretical frameworks. They are active, instrumented research efforts with dedicated websites, live dashboards, and structured data feeds.
+VantaCode original research consists of three independent research programs that produced real-world data, peer-reviewed submissions, and structured detection rulesets. These programs are not theoretical frameworks. They are active, instrumented research efforts with dedicated websites and published methodologies.
 
 The MBT taxonomy categories were derived from the findings of these programs, but the taxonomy itself is generalized to apply beyond the specific research methodologies. The research informs the taxonomy; it does not constrain it.
 
@@ -39,14 +39,15 @@ VantaGrid is the research entity and analytical framework behind the OFA finding
 
 Author: Cory Kennedy / DarkCode LLC
 
-### 3. DECLAWED
+### 3. DKC (Dunning-Kruger Coding)
 
-**Website:** [declawed.io](https://declawed.io)
-**Updates:** Every 15 minutes (live dashboard)
-**Coverage:** 14+ media outlets
-**Documentation:** [research/declawed/](declawed/)
+**Project:** [github.com/vantacode](https://github.com/vantacode)
+**Ruleset:** `rulesets/dkc-v2.json` in VantaCode
+**Documentation:** [research/dkc/](dkc/)
 
-DECLAWED is a real-time tracking system for exposed AI agent instances on the public internet. It tracks 145K+ exposed instances across 46.2K unique IPs in 82 countries, with 2.5M CVE detections, 70K APT-linked instances, 37K CISA KEV flagged, 56.6K breach-linked, and 15.9K RCE-vulnerable. The research identified 5 confirmed malicious ClawHub skills with mapped C2 infrastructure. DECLAWED is not a one-time scan -- it is a live dashboard backed by a TAXII 2.1 feed that researchers can consume programmatically.
+DKC is a rule-based code analysis engine and heuristic ruleset for identifying Dunning-Kruger Coding patterns in source repositories -- code shipped without adequate understanding of what was shipped. The ruleset organizes 56 detection rules into 7 weighted categories (comment forensics, LLM code fingerprints, security anti-patterns, outdated and vulnerable dependencies, developer experience indicators, infrastructure red flags, and social/meta indicators), with domain-adjusted scoring that multiplies severity based on application context. A SQL injection in a static blog is not the same as a SQL injection in a fintech app, and DKC quantifies that difference. DKC findings directly inform MBT categorizations around AI-assisted code generation and supply chain risk.
+
+Author: Cory Kennedy / DarkCode LLC
 
 ---
 
@@ -54,10 +55,9 @@ DECLAWED is a real-time tracking system for exposed AI agent instances on the pu
 
 | Research Program | MBT Predicate | MBT Subcategories Informed | Galaxy Cluster |
 |---|---|---|---|
-| OFA | MBT-1: Observation-Dependent Behavior | All 7 subcategories (MBT-1.1 through MBT-1.7) | `vantacode-mbt-techniques` (MBT-1.*) |
-| VantaGrid | MBT-1: Observation-Dependent Behavior | Detection methodology for all MBT-1 subcategories | `vantacode-research` ("VantaGrid") |
-| DECLAWED | MBT-3: Insecure AI Deployment | All 8 subcategories (MBT-3.1 through MBT-3.8) | `vantacode-mbt-techniques` (MBT-3.*) |
-| DECLAWED | MBT-4: AI Supply Chain Threats | MBT-4.4: Malicious Skill/Plugin | `vantacode-mbt-techniques` (MBT-4.*) |
+| OFA | MBT-1: Observation-Dependent Behavior | All 7 subcategories (MBT-1.1 through MBT-1.7) | `vantacode-ofa-techniques` |
+| VantaGrid | MBT-1: Observation-Dependent Behavior | Detection methodology for all MBT-1 subcategories | `vantacode-vantagrid-findings` |
+| DKC | MBT-2: Adversarial Input Vulnerabilities, MBT-4: AI Supply Chain Threats | Categories informed by AI-assisted code patterns | `vantacode-dkc-rules` |
 
 ### Detailed MBT-1 Mappings (OFA/VantaGrid)
 
@@ -71,20 +71,6 @@ DECLAWED is a real-time tracking system for exposed AI agent instances on the pu
 | MBT-1.6: Sandboxing Detection | OFA-015 through OFA-017 (Adversarial/competitive framing) | AI equivalent of malware VM detection |
 | MBT-1.7: Alignment Faking | OFA-018 through OFA-020 (Sycophancy/language/format) | Model appears aligned during evaluation but diverges otherwise |
 
-### Detailed MBT-3/MBT-4 Mappings (DECLAWED)
-
-| MBT Subcategory | DECLAWED Category | Description |
-|---|---|---|
-| MBT-3.1: Exposed Control Panel | DEC-01 | AI agent control panels accessible without authentication |
-| MBT-3.2: Default Credentials | -- | Default or missing credentials on agent platforms |
-| MBT-3.3: Unauthenticated API Endpoints | -- | Model inference endpoints with no auth |
-| MBT-3.4: Missing Network Segmentation | DEC-04 | APT-linked infrastructure hosting AI agents |
-| MBT-3.5: Exposed Training Data/Weights | -- | Accessible model artifacts |
-| MBT-3.6: Misconfigured Tool Permissions | DEC-02 | RCE-vulnerable agent instances |
-| MBT-3.7: Malicious Skill/Plugin | DEC-03 | 5 confirmed malicious ClawHub skills with C2 |
-| MBT-3.8: Bound to All Interfaces | DEC-05 | Breach-linked exposed instances |
-| MBT-4.4: Malicious Dependencies | DEC-03 | Supply chain compromise via agent marketplace |
-
 ---
 
 ## Links
@@ -93,5 +79,5 @@ DECLAWED is a real-time tracking system for exposed AI agent instances on the pu
 |---|---|
 | OFA / Observation Framing Attack | [observationframing.org](https://observationframing.org) |
 | VantaGrid Research Framework | [vantagrid.ai](https://vantagrid.ai) |
-| DECLAWED Live Dashboard | [declawed.io](https://declawed.io) |
+| DKC Engine (VantaCode ruleset) | [github.com/vantacode](https://github.com/vantacode) |
 | VantaCode Taxonomies Repository | [github.com/vantacode/vantacode-taxonomies](https://github.com/vantacode/vantacode-taxonomies) |

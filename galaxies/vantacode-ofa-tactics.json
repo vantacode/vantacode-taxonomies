@@ -1,0 +1,22 @@
+{
+  "description": "VantaCode Observation Framing Attack (OFA) tactic phases. Provides an ordered kill-chain sequence used to assemble STIX Attack Flow renderings of OFA campaigns and to cross-walk OFA techniques to MITRE ATT&CK tactics.",
+  "icon": "eye",
+  "kill_chain_order": {
+    "vantacode-ofa": [
+      "reconnaissance",
+      "resource-development",
+      "initial-access",
+      "execution",
+      "persistence",
+      "privilege-escalation",
+      "defense-evasion",
+      "credential-access",
+      "impact"
+    ]
+  },
+  "name": "VantaCode OFA Tactics",
+  "namespace": "vantacode",
+  "type": "vantacode-ofa-tactics",
+  "uuid": "251868f7-31f3-4d32-b282-ab00e6405eec",
+  "version": 1
+}

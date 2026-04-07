@@ -46,6 +46,11 @@
           "type": "string"
         }
       }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["populated", "scaffold", "draft", "deprecated"],
+      "description": "Lifecycle state of the galaxy. 'populated' means the paired cluster has curated values. 'scaffold' means the galaxy namespace and uuid are intentionally registered with an empty cluster pending first-party population. 'draft' means the schema is still changing. 'deprecated' means consumers should migrate off."
     }
   }
 }

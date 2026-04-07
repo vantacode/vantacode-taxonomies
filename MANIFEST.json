@@ -1,5 +1,5 @@
 {
-  "version": "20260406",
+  "version": "20260407",
   "license": "CC0-1.0",
   "description": "Manifest file of VantaCode taxonomies available.",
   "url": "https://raw.githubusercontent.com/vantacode/vantacode-taxonomies/main/",
@@ -39,6 +39,11 @@
       "name": "vantacode-governance",
       "version": 1,
       "description": "Governance baseline compliance scoring for repositories."
+    },
+    {
+      "name": "vantacode-ofa",
+      "version": 1,
+      "description": "Observation Framing Attack (OFA) tactic phases — ordered kill-chain sequence used to assemble STIX Attack Flow renderings."
     }
   ]
 }

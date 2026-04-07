@@ -45,26 +45,25 @@
       "value": "VantaGrid"
     },
     {
-      "description": "DECLAWED is a real-time tracker for exposed AI agent instances on the public internet. Tracks 145K+ exposed instances across 46.2K unique IPs in 82 countries. Identified 2.5M CVE detections, 70K APT-linked, 37K CISA KEV flagged, 56.6K breach-linked instances. Discovered 5 confirmed malicious ClawHub skills with mapped C2 infrastructure. Demonstrates systemic insecure deployment of AI agents with default configs, no authentication, and exposed control panels.",
+      "description": "DKC (Dunning-Kruger Coding) is a rule-based code analysis engine and heuristic ruleset for identifying code shipped without adequate understanding of what was shipped. Organizes 56 detection rules across 7 weighted categories (comment forensics, LLM code fingerprints, security anti-patterns, outdated and vulnerable dependencies, developer experience indicators, infrastructure red flags, and social/meta indicators) with domain-adjusted scoring that multiplies severity based on application context. A SQL injection in a static blog is categorically different from the same vulnerability in a fintech application, and DKC quantifies that difference.",
       "meta": {
         "kill_chain": [
-          "vantacode-mbt:insecure-ai-deployment",
+          "vantacode-mbt:adversarial-input-vulnerabilities",
           "vantacode-mbt:ai-supply-chain-threats"
         ],
         "refs": [
-          "https://declawed.io",
+          "https://github.com/vantacode",
           "https://github.com/vantacode/vantacode-taxonomies"
         ],
         "status": "active",
         "related-taxonomies": [
-          "vantacode-mbt:insecure-ai-deployment=\"exposed-control-panel\"",
-          "vantacode-mbt:insecure-ai-deployment=\"malicious-skill-plugin\"",
-          "vantacode-mbt:insecure-ai-deployment=\"bound-to-all-interfaces\"",
-          "vantacode-mbt:ai-supply-chain-threats=\"compromised-model-registry\""
+          "vantacode-mbt:adversarial-input-vulnerabilities=\"llm-code-injection\"",
+          "vantacode-mbt:ai-supply-chain-threats=\"malicious-ml-dependency\"",
+          "vantacode-domain:category=\"ai-security\""
         ]
       },
       "uuid": "a4648cd4-269b-4b03-8689-bdcdde5f6402",
-      "value": "DECLAWED"
+      "value": "DKC (Dunning-Kruger Coding)"
     }
   ]
 }

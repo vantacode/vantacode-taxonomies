@@ -1,0 +1,1212 @@
+{
+  "authors": [
+    "DarkCode LLC"
+  ],
+  "category": "dkc",
+  "description": "DKC (Dunning-Kruger Coding) detection rules. 56 rules across 7 weighted categories for identifying code shipped without adequate understanding. Each rule maps to a category phase and carries severity, detection method, and applicable cross-references to the VantaCode MBT taxonomy.",
+  "name": "VantaCode DKC Rules",
+  "source": "https://github.com/vantacode/vantacode-taxonomies",
+  "type": "vantacode-dkc-rules",
+  "uuid": "d3f6a89c-5e44-4cf3-be21-3d4c6f7e9fa3",
+  "version": 1,
+  "values": [
+    {
+      "description": "Comments that read like LLM responses rather than developer notes. 'Here is the code that handles authentication as you requested' is not a comment a developer writes. Detection method: regex. Fix: Review each flagged comment. If the code it describes is functional and understood, rewrite the comment to be useful. If the code is NOT understood, that's the real problem - the comment is just the symptom.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:comment-forensics"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "medium",
+        "category": "Comment Forensics",
+        "category-weight": 0.1,
+        "rule-id": "CMT-001",
+        "related-taxonomies": [
+          "vantacode-mbt:adversarial-input-vulnerabilities=\"prompt-injection\""
+        ],
+        "detection-method": "regex"
+      },
+      "uuid": "e149b57b-0363-533d-b622-7a6e048eb7b8",
+      "value": "LLM Chat Response Left as Comments - CMT-001"
+    },
+    {
+      "description": "Comments that explicitly or implicitly indicate the developer doesn't understand what the code does. This is the clearest DKC signal possible - the developer telling you they don't know what they shipped. Detection method: regex. Fix: Every comment flagged here represents code that needs to be understood before it should be in production. If you can't explain what a block does without AI help, it shouldn't be handling your users' data.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:comment-forensics"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "high",
+        "category": "Comment Forensics",
+        "category-weight": 0.1,
+        "rule-id": "CMT-002",
+        "related-taxonomies": [
+          "vantacode-mbt:adversarial-input-vulnerabilities=\"prompt-injection\""
+        ],
+        "detection-method": "regex"
+      },
+      "uuid": "c8013980-fa3d-5f7d-ad03-43a6d2b225b3",
+      "value": "Comments Indicating Developer Doesn't Understand the Code - CMT-002"
+    },
+    {
+      "description": "TODO/FIXME comments specifically about security features that were never implemented. The LLM generated a placeholder comment promising security 'later' and the developer shipped it as-is. Detection method: regex_plus_verification. Fix: Each security TODO needs to be either implemented or explicitly acknowledged as accepted risk with justification. 'TODO: add rate limiting' on a login endpoint is not an acceptable state for a deployed application.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:comment-forensics"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "critical",
+        "category": "Comment Forensics",
+        "category-weight": 0.1,
+        "rule-id": "CMT-003",
+        "related-taxonomies": [
+          "vantacode-mbt:adversarial-input-vulnerabilities=\"prompt-injection\""
+        ],
+        "detection-method": "regex_plus_verification"
+      },
+      "uuid": "8874c00a-eef1-51f8-b916-c9aad7fdd782",
+      "value": "Security Features Deferred to TODO and Never Implemented - CMT-003"
+    },
+    {
+      "description": "Security mechanisms (auth checks, validation, CSRF protection, rate limiting) that exist in the code but are commented out. Worse than never having them - someone (or some LLM session) added security and then a later session disabled it. Detection method: regex. Fix: Uncomment and properly configure the security mechanism. If it was commented out because it caused errors, fix the errors - don't remove the security.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:comment-forensics"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "critical",
+        "category": "Comment Forensics",
+        "category-weight": 0.1,
+        "rule-id": "CMT-004",
+        "related-taxonomies": [
+          "vantacode-mbt:adversarial-input-vulnerabilities=\"prompt-injection\""
+        ],
+        "detection-method": "regex"
+      },
+      "uuid": "bcd5f277-775f-5040-93a3-f96172394e0f",
+      "value": "Security Code Commented Out - CMT-004"
+    },
+    {
+      "description": "Inverse signal: complex code blocks (regex, crypto operations, auth flows, database transactions, bitwise operations) with no comments at all, while trivial code nearby has verbose LLM-style comments. The LLM documented the obvious and left the hard parts unexplained - because the developer never asked about the hard parts. Detection method: ast_and_heuristic. Fix: Add meaningful comments explaining the WHY of complex logic. If you can't explain it, you shouldn't be shipping it.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:comment-forensics"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "high",
+        "category": "Comment Forensics",
+        "category-weight": 0.1,
+        "rule-id": "CMT-005",
+        "related-taxonomies": [
+          "vantacode-mbt:adversarial-input-vulnerabilities=\"prompt-injection\""
+        ],
+        "detection-method": "ast_and_heuristic"
+      },
+      "uuid": "20f895b2-8adb-549b-b846-c1aec18ad7c6",
+      "value": "Complex Logic With Zero Comments - CMT-005"
+    },
+    {
+      "description": "Comments tracking which version of the AI generated which part of the code. Confirms multi-session LLM development without architectural coherence. Detection method: regex.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:comment-forensics"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "medium",
+        "category": "Comment Forensics",
+        "category-weight": 0.1,
+        "rule-id": "CMT-006",
+        "related-taxonomies": [
+          "vantacode-mbt:adversarial-input-vulnerabilities=\"prompt-injection\""
+        ],
+        "detection-method": "regex"
+      },
+      "uuid": "8e5f05b5-867d-59a9-890c-1d26a71b27d6",
+      "value": "LLM Session History in Comments - CMT-006"
+    },
+    {
+      "description": "Credentials, API keys, or passwords left in comments - often from LLM examples that used placeholder values the developer then replaced with real ones in code but left the original in a comment. Detection method: regex.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:comment-forensics"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "critical",
+        "category": "Comment Forensics",
+        "category-weight": 0.1,
+        "rule-id": "CMT-007",
+        "related-taxonomies": [
+          "vantacode-mbt:adversarial-input-vulnerabilities=\"prompt-injection\""
+        ],
+        "detection-method": "regex"
+      },
+      "uuid": "98bb9f1e-c8ac-568a-8a30-7445e8d77e68",
+      "value": "Comments Containing Credentials or Secrets - CMT-007"
+    },
+    {
+      "description": "Comments saying something is temporary, for testing, or will be removed - but the code has been deployed. 'Temporary' auth bypass in production is a backdoor. Detection method: regex. Fix: Either implement the proper solution or remove the feature. 'Temporary' code in production is permanent code with no accountability.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:comment-forensics"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "critical",
+        "category": "Comment Forensics",
+        "category-weight": 0.1,
+        "rule-id": "CMT-008",
+        "related-taxonomies": [
+          "vantacode-mbt:adversarial-input-vulnerabilities=\"prompt-injection\""
+        ],
+        "detection-method": "regex"
+      },
+      "uuid": "0c395915-cd1c-5ccc-a0a7-aefdc4df4511",
+      "value": "Temporary Bypasses That Became Permanent - CMT-008"
+    },
+    {
+      "description": "Code references functions, classes, config files, environment variables, or API endpoints that don't exist anywhere in the repo. Detection method: static_analysis. Fix: Each phantom reference is either dead code (remove it) or a missing implementation (implement it). There is no third option.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:llm-fingerprints"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "high",
+        "category": "LLM Code Fingerprints",
+        "category-weight": 0.1,
+        "rule-id": "LLM-001",
+        "related-taxonomies": [
+          "vantacode-mbt:adversarial-input-vulnerabilities=\"prompt-injection\"",
+          "vantacode-mbt:ai-supply-chain-threats=\"malicious-ml-dependency\""
+        ],
+        "detection-method": "static_analysis"
+      },
+      "uuid": "81b166ec-e292-53d9-a707-d374442e0336",
+      "value": "References to Non-Existent Code - LLM-001"
+    },
+    {
+      "description": "Package imports referencing npm/PyPI/crates packages that have never existed. Also a supply chain attack vector. Detection method: registry_verification. Fix: Identify what the hallucinated package was supposed to do. Find a real, maintained package that does it. Or write the functionality yourself.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:llm-fingerprints"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "critical",
+        "category": "LLM Code Fingerprints",
+        "category-weight": 0.1,
+        "rule-id": "LLM-002",
+        "related-taxonomies": [
+          "vantacode-mbt:adversarial-input-vulnerabilities=\"prompt-injection\"",
+          "vantacode-mbt:ai-supply-chain-threats=\"malicious-ml-dependency\""
+        ],
+        "detection-method": "registry_verification"
+      },
+      "uuid": "ea330c69-40ed-5834-bb73-af7dfcd8e94d",
+      "value": "Dependencies That Don't Exist - LLM-002"
+    },
+    {
+      "description": "Same codebase mixing incompatible approaches from different LLM sessions. Detection method: pattern_analysis. Fix: Pick one pattern per concern and migrate everything to it. Architectural consistency prevents entire classes of bugs.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:llm-fingerprints"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "high",
+        "category": "LLM Code Fingerprints",
+        "category-weight": 0.1,
+        "rule-id": "LLM-003",
+        "related-taxonomies": [
+          "vantacode-mbt:adversarial-input-vulnerabilities=\"prompt-injection\"",
+          "vantacode-mbt:ai-supply-chain-threats=\"malicious-ml-dependency\""
+        ],
+        "detection-method": "pattern_analysis"
+      },
+      "uuid": "17a2f8e7-81c2-5d31-9d53-0102ae4f8704",
+      "value": "Contradictory Architectural Patterns - LLM-003"
+    },
+    {
+      "description": "Actual prompt text, system messages, or conversation artifacts left in source files. Detection method: regex. Fix: Remove prompt artifacts. If they're in API integration code, move them to environment-specific config.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:llm-fingerprints"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "high",
+        "category": "LLM Code Fingerprints",
+        "category-weight": 0.1,
+        "rule-id": "LLM-004",
+        "related-taxonomies": [
+          "vantacode-mbt:adversarial-input-vulnerabilities=\"prompt-injection\"",
+          "vantacode-mbt:ai-supply-chain-threats=\"malicious-ml-dependency\""
+        ],
+        "detection-method": "regex"
+      },
+      "uuid": "be364b09-ef03-5ab9-a5be-60770a5a2ba4",
+      "value": "LLM Prompt Remnants in Source - LLM-004"
+    },
+    {
+      "description": "High ratio of unused imports suggesting LLM over-inclusion. Detection method: linter. Fix: Remove unused imports. Most editors and linters can do this automatically.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:llm-fingerprints"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "medium",
+        "category": "LLM Code Fingerprints",
+        "category-weight": 0.1,
+        "rule-id": "LLM-005",
+        "related-taxonomies": [
+          "vantacode-mbt:adversarial-input-vulnerabilities=\"prompt-injection\"",
+          "vantacode-mbt:ai-supply-chain-threats=\"malicious-ml-dependency\""
+        ],
+        "detection-method": "linter"
+      },
+      "uuid": "4f0b0a94-3f20-5a3b-bc6d-340981f17399",
+      "value": "Excessive Unused Imports - LLM-005"
+    },
+    {
+      "description": "camelCase, snake_case, PascalCase, and kebab-case mixed within the same module. Different LLM sessions, different conventions. Detection method: ast_analysis.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:llm-fingerprints"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "medium",
+        "category": "LLM Code Fingerprints",
+        "category-weight": 0.1,
+        "rule-id": "LLM-006",
+        "related-taxonomies": [
+          "vantacode-mbt:adversarial-input-vulnerabilities=\"prompt-injection\"",
+          "vantacode-mbt:ai-supply-chain-threats=\"malicious-ml-dependency\""
+        ],
+        "detection-method": "ast_analysis"
+      },
+      "uuid": "63fc9949-009c-5af0-a20e-c9973e655066",
+      "value": "Inconsistent Naming Across Files - LLM-006"
+    },
+    {
+      "description": "API keys, passwords, tokens, private keys in source or config committed to repo. Scans ALL git history. Detection method: secret_scanning. Tools: trufflehog, gitleaks, detect-secrets. Fix: 1. Rotate ALL exposed credentials immediately (they're already compromised if the repo was ever public). 2. Move secrets to environment variables. 3. Add .env to .gitignore. 4. Use git-filter-repo to purge from history. 5. Consider using a secrets manager.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:security-anti-patterns"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "critical",
+        "category": "Security Anti-Patterns",
+        "category-weight": 0.25,
+        "rule-id": "SEC-001",
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"default-credentials\"",
+          "vantacode-mbt:insecure-ai-deployment=\"unauthenticated-inference\""
+        ],
+        "detection-method": "secret_scanning",
+        "check-git-history": true
+      },
+      "uuid": "05716511-1e83-58ad-9232-b5f96fbf1fbf",
+      "value": "Secrets Committed to Repository - SEC-001"
+    },
+    {
+      "description": "Custom auth implementation instead of established, audited auth libraries.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:security-anti-patterns"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "critical",
+        "category": "Security Anti-Patterns",
+        "category-weight": 0.25,
+        "rule-id": "SEC-002",
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"default-credentials\"",
+          "vantacode-mbt:insecure-ai-deployment=\"unauthenticated-inference\""
+        ]
+      },
+      "uuid": "485497ef-56e0-5779-a411-435f8e34024f",
+      "value": "Hand-Rolled Authentication - SEC-002"
+    },
+    {
+      "description": "User input passed directly to SQL, shell, eval, templates, or filesystem without sanitization.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:security-anti-patterns"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "critical",
+        "category": "Security Anti-Patterns",
+        "category-weight": 0.25,
+        "rule-id": "SEC-003",
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"default-credentials\"",
+          "vantacode-mbt:insecure-ai-deployment=\"unauthenticated-inference\""
+        ]
+      },
+      "uuid": "0cc8890a-b109-5310-9ef3-00dadf58ae30",
+      "value": "Unsanitized Input in Dangerous Contexts - SEC-003"
+    },
+    {
+      "description": "Permissive CORS on Sensitive Endpoints Fix: Specify exact allowed origins. Never use wildcard CORS on endpoints handling user data.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:security-anti-patterns"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "high",
+        "category": "Security Anti-Patterns",
+        "category-weight": 0.25,
+        "rule-id": "SEC-004",
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"default-credentials\"",
+          "vantacode-mbt:insecure-ai-deployment=\"unauthenticated-inference\""
+        ]
+      },
+      "uuid": "72a07bf7-02e3-5669-89f0-af2c2e2ae48a",
+      "value": "Permissive CORS on Sensitive Endpoints - SEC-004"
+    },
+    {
+      "description": "Debug Configuration in Production Fix: Disable debug mode. Use environment-specific configuration. Never expose stack traces to clients.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:security-anti-patterns"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "high",
+        "category": "Security Anti-Patterns",
+        "category-weight": 0.25,
+        "rule-id": "SEC-005",
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"default-credentials\"",
+          "vantacode-mbt:insecure-ai-deployment=\"unauthenticated-inference\""
+        ]
+      },
+      "uuid": "d7c0d554-24c0-5fb7-9488-47a91c5a58f8",
+      "value": "Debug Configuration in Production - SEC-005"
+    },
+    {
+      "description": "Login, registration, password reset with no rate limiting or brute force protection. Fix: Add rate limiting middleware to all auth endpoints. Implement account lockout after N failed attempts.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:security-anti-patterns"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "high",
+        "category": "Security Anti-Patterns",
+        "category-weight": 0.25,
+        "rule-id": "SEC-006",
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"default-credentials\"",
+          "vantacode-mbt:insecure-ai-deployment=\"unauthenticated-inference\""
+        ]
+      },
+      "uuid": "89c917b9-25c4-5df7-b1ec-52d5069af0c8",
+      "value": "Auth Endpoints Without Rate Limiting - SEC-006"
+    },
+    {
+      "description": "No CSRF Protection Fix: Add CSRF middleware. Use sameSite cookie attribute. Validate Origin/Referer headers.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:security-anti-patterns"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "high",
+        "category": "Security Anti-Patterns",
+        "category-weight": 0.25,
+        "rule-id": "SEC-007",
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"default-credentials\"",
+          "vantacode-mbt:insecure-ai-deployment=\"unauthenticated-inference\""
+        ]
+      },
+      "uuid": "04b76e1d-5758-5f2c-a68c-c48b51b1ecf0",
+      "value": "No CSRF Protection - SEC-007"
+    },
+    {
+      "description": "File upload with no type validation, size limits, or filename sanitization. Fix: Validate file type (check magic bytes, not just extension). Set size limits. Generate random filenames. Store outside webroot. Scan uploaded files.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:security-anti-patterns"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "critical",
+        "category": "Security Anti-Patterns",
+        "category-weight": 0.25,
+        "rule-id": "SEC-008",
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"default-credentials\"",
+          "vantacode-mbt:insecure-ai-deployment=\"unauthenticated-inference\""
+        ]
+      },
+      "uuid": "72f8019e-164e-50cf-8be2-cd147917d8bc",
+      "value": "Unrestricted File Upload - SEC-008"
+    },
+    {
+      "description": "Endpoints performing actions on resources without verifying the authenticated user has access to that specific resource. Fix: Every endpoint that accesses a resource by ID must verify the authenticated user has permission to access that specific resource. Implement resource-level authorization, not just authentication.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:security-anti-patterns"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "critical",
+        "category": "Security Anti-Patterns",
+        "category-weight": 0.25,
+        "rule-id": "SEC-009",
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"default-credentials\"",
+          "vantacode-mbt:insecure-ai-deployment=\"unauthenticated-inference\""
+        ]
+      },
+      "uuid": "308bbaa6-2cb9-5b88-bafd-0c2e74b8d7cc",
+      "value": "Missing Authorization Checks (IDOR) - SEC-009"
+    },
+    {
+      "description": "Unsafe Deserialization of User Input Fix: Never deserialize untrusted data with pickle/yaml.unsafe_load. Use JSON for data interchange. If YAML is required, always use SafeLoader.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:security-anti-patterns"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "critical",
+        "category": "Security Anti-Patterns",
+        "category-weight": 0.25,
+        "rule-id": "SEC-010",
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"default-credentials\"",
+          "vantacode-mbt:insecure-ai-deployment=\"unauthenticated-inference\""
+        ]
+      },
+      "uuid": "9da81344-683f-594e-b2fe-ea054a2207c0",
+      "value": "Unsafe Deserialization of User Input - SEC-010"
+    },
+    {
+      "description": "No helmet/security middleware. Missing CSP, HSTS, X-Frame-Options, X-Content-Type-Options. Fix: Add security headers middleware. helmet (Express) or django-security-middleware handle this with sensible defaults.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:security-anti-patterns"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "medium",
+        "category": "Security Anti-Patterns",
+        "category-weight": 0.25,
+        "rule-id": "SEC-011",
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"default-credentials\"",
+          "vantacode-mbt:insecure-ai-deployment=\"unauthenticated-inference\""
+        ]
+      },
+      "uuid": "21a29d94-732a-5571-a257-6b1ba382d476",
+      "value": "No Security Headers - SEC-011"
+    },
+    {
+      "description": "Web framework running on a major version that no longer receives security patches. Detection method: manifest_analysis_plus_eol_database. Fix: Upgrade to a supported major version. Check the framework's release/EOL policy for the current supported versions.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:outdated-versions"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "high",
+        "category": "Outdated and Vulnerable Dependencies",
+        "category-weight": 0.12,
+        "rule-id": "VER-001",
+        "related-taxonomies": [
+          "vantacode-mbt:ai-supply-chain-threats=\"malicious-ml-dependency\"",
+          "vantacode-mbt:ai-supply-chain-threats=\"model-provenance-gap\""
+        ],
+        "detection-method": "manifest_analysis_plus_eol_database"
+      },
+      "uuid": "9c25ab04-afd2-5451-8c8b-c92008a7b6c5",
+      "value": "Framework on End-of-Life or Unsupported Major Version - VER-001"
+    },
+    {
+      "description": "Node.js, Python, Ruby, or other runtime specified at an EOL version. No security patches means known vulns are permanent. Detection method: config_analysis. Fix: Upgrade to a supported runtime version. Check endoflife.date for the current support status of your runtime.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:outdated-versions"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "critical",
+        "category": "Outdated and Vulnerable Dependencies",
+        "category-weight": 0.12,
+        "rule-id": "VER-002",
+        "related-taxonomies": [
+          "vantacode-mbt:ai-supply-chain-threats=\"malicious-ml-dependency\"",
+          "vantacode-mbt:ai-supply-chain-threats=\"model-provenance-gap\""
+        ],
+        "detection-method": "config_analysis"
+      },
+      "uuid": "add2c3ed-d684-5a1c-a359-a0932f5cf157",
+      "value": "Runtime on End-of-Life Version - VER-002"
+    },
+    {
+      "description": "Dependencies with published CVEs that have available patches. Detection method: vulnerability_scanning. Tools: npm audit, pip-audit, cargo-audit, trivy, grype, osv-scanner. Fix: Update vulnerable dependencies to patched versions. If no patch exists, evaluate whether the vulnerability is exploitable in your usage context and consider replacing the dependency.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:outdated-versions"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "variable",
+        "category": "Outdated and Vulnerable Dependencies",
+        "category-weight": 0.12,
+        "rule-id": "VER-003",
+        "related-taxonomies": [
+          "vantacode-mbt:ai-supply-chain-threats=\"malicious-ml-dependency\"",
+          "vantacode-mbt:ai-supply-chain-threats=\"model-provenance-gap\""
+        ],
+        "detection-method": "vulnerability_scanning"
+      },
+      "uuid": "78b71289-256c-5909-ae89-bd701fa7ac31",
+      "value": "Dependencies With Known CVEs - VER-003"
+    },
+    {
+      "description": "package-lock.json / yarn.lock hasn't been regenerated in months while package.json has been modified. Resolved versions may have known vulns that a fresh install would avoid. Detection method: git_analysis.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:outdated-versions"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "medium",
+        "category": "Outdated and Vulnerable Dependencies",
+        "category-weight": 0.12,
+        "rule-id": "VER-004",
+        "related-taxonomies": [
+          "vantacode-mbt:ai-supply-chain-threats=\"malicious-ml-dependency\"",
+          "vantacode-mbt:ai-supply-chain-threats=\"model-provenance-gap\""
+        ],
+        "detection-method": "git_analysis"
+      },
+      "uuid": "d4c441b2-1191-5991-b766-98e2b5337956",
+      "value": "Lockfile Significantly Behind Manifest - VER-004"
+    },
+    {
+      "description": "Core functionality depends on packages with no updates in 2+ years, archived repos, or known unpatched vulnerabilities. Detection method: registry_analysis. Fix: Find actively maintained alternatives. Check if the abandoned package has a maintained fork. If neither exists, evaluate whether you can vendor the code and maintain it yourself.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:outdated-versions"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "high",
+        "category": "Outdated and Vulnerable Dependencies",
+        "category-weight": 0.12,
+        "rule-id": "VER-005",
+        "related-taxonomies": [
+          "vantacode-mbt:ai-supply-chain-threats=\"malicious-ml-dependency\"",
+          "vantacode-mbt:ai-supply-chain-threats=\"model-provenance-gap\""
+        ],
+        "detection-method": "registry_analysis"
+      },
+      "uuid": "8903e451-ee73-5322-866a-8d0269ae940c",
+      "value": "Critical Functionality on Abandoned Packages - VER-005"
+    },
+    {
+      "description": "Dependencies using *, latest, or >= with no upper bound. No lockfile committed. Builds are non-reproducible and vulnerable to supply chain attacks. Fix: Pin dependencies to specific versions or use ^ ranges with a committed lockfile. Run npm audit / pip-audit in CI.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:outdated-versions"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "medium",
+        "category": "Outdated and Vulnerable Dependencies",
+        "category-weight": 0.12,
+        "rule-id": "VER-006",
+        "related-taxonomies": [
+          "vantacode-mbt:ai-supply-chain-threats=\"malicious-ml-dependency\"",
+          "vantacode-mbt:ai-supply-chain-threats=\"model-provenance-gap\""
+        ]
+      },
+      "uuid": "3dff2c3f-ad88-5375-be04-31708dceac6e",
+      "value": "Unpinned Dependencies - VER-006"
+    },
+    {
+      "description": "Dependencies with names within edit distance 1-2 of popular packages, very low download counts, or from suspicious publishers. Detection method: registry_analysis. Fix: Verify every dependency name against the official package. Check publisher identity. Remove typosquatted packages immediately and audit for data exfiltration.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:outdated-versions"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "critical",
+        "category": "Outdated and Vulnerable Dependencies",
+        "category-weight": 0.12,
+        "rule-id": "VER-007",
+        "related-taxonomies": [
+          "vantacode-mbt:ai-supply-chain-threats=\"malicious-ml-dependency\"",
+          "vantacode-mbt:ai-supply-chain-threats=\"model-provenance-gap\""
+        ],
+        "detection-method": "registry_analysis"
+      },
+      "uuid": "f2971fd5-49e9-5f8b-8b86-3ce69032f7ad",
+      "value": "Potential Typosquat Dependencies - VER-007"
+    },
+    {
+      "description": "Simple app with disproportionate direct dependencies. LLMs add packages for everything.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:outdated-versions"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "medium",
+        "category": "Outdated and Vulnerable Dependencies",
+        "category-weight": 0.12,
+        "rule-id": "VER-008",
+        "related-taxonomies": [
+          "vantacode-mbt:ai-supply-chain-threats=\"malicious-ml-dependency\"",
+          "vantacode-mbt:ai-supply-chain-threats=\"model-provenance-gap\""
+        ]
+      },
+      "uuid": "e02b1122-fc81-5ce6-8640-1788280927ec",
+      "value": "Excessive Dependencies for App Complexity - VER-008"
+    },
+    {
+      "description": "Competing Dependencies for Same Purpose",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:outdated-versions"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "medium",
+        "category": "Outdated and Vulnerable Dependencies",
+        "category-weight": 0.12,
+        "rule-id": "VER-009",
+        "related-taxonomies": [
+          "vantacode-mbt:ai-supply-chain-threats=\"malicious-ml-dependency\"",
+          "vantacode-mbt:ai-supply-chain-threats=\"model-provenance-gap\""
+        ]
+      },
+      "uuid": "32806ccc-d7c5-55eb-9671-1c85a74bc8ec",
+      "value": "Competing Dependencies for Same Purpose - VER-009"
+    },
+    {
+      "description": "Monolithic Commit History",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:developer-signals"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "medium",
+        "category": "Developer Experience Indicators",
+        "category-weight": 0.13,
+        "rule-id": "DEV-001"
+      },
+      "uuid": "78dc307b-e989-5daa-a226-4225e330e426",
+      "value": "Monolithic Commit History - DEV-001"
+    },
+    {
+      "description": "Committed Artifacts",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:developer-signals"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "medium",
+        "category": "Developer Experience Indicators",
+        "category-weight": 0.13,
+        "rule-id": "DEV-002"
+      },
+      "uuid": "5c9a8922-d708-57db-ae70-2cd4b44e1bd2",
+      "value": "Committed Artifacts - DEV-002"
+    },
+    {
+      "description": "No Tests on Security-Critical App Fix: Add tests for auth flows, input validation, and access control at minimum. These are the areas where bugs become security incidents.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:developer-signals"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "high",
+        "category": "Developer Experience Indicators",
+        "category-weight": 0.13,
+        "rule-id": "DEV-003"
+      },
+      "uuid": "20ca213c-7162-5f07-980e-654adbb82570",
+      "value": "No Tests on Security-Critical App - DEV-003"
+    },
+    {
+      "description": "README vs. Codebase Mismatch",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:developer-signals"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "medium",
+        "category": "Developer Experience Indicators",
+        "category-weight": 0.13,
+        "rule-id": "DEV-004"
+      },
+      "uuid": "1f9024f3-98a9-5e71-b6ff-f200620023be",
+      "value": "README vs. Codebase Mismatch - DEV-004"
+    },
+    {
+      "description": "Empty or Console-Only Error Handling Fix: Implement proper error handling: log with context, return appropriate error responses, don't expose internals. Use structured logging (winston/pino for Node, structlog for Python).",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:developer-signals"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "high",
+        "category": "Developer Experience Indicators",
+        "category-weight": 0.13,
+        "rule-id": "DEV-005"
+      },
+      "uuid": "d43cbf6d-b25d-5ca1-8eec-e3bb51a9af8c",
+      "value": "Empty or Console-Only Error Handling - DEV-005"
+    },
+    {
+      "description": "API endpoints accepting request bodies with no schema validation. Fix: Add request validation middleware. Use zod (TS), joi (JS), or pydantic (Python) to validate all incoming data.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:developer-signals"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "high",
+        "category": "Developer Experience Indicators",
+        "category-weight": 0.13,
+        "rule-id": "DEV-006"
+      },
+      "uuid": "9546e2e5-443c-51bf-9001-a5320570db2a",
+      "value": "Missing Request Validation - DEV-006"
+    },
+    {
+      "description": "Copy-Paste Instead of Abstraction Tools: jscpd, PMD CPD.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:developer-signals"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "medium",
+        "category": "Developer Experience Indicators",
+        "category-weight": 0.13,
+        "rule-id": "DEV-007"
+      },
+      "uuid": "6a168bdf-e811-5eb6-9cdd-ff724661d656",
+      "value": "Copy-Paste Instead of Abstraction - DEV-007"
+    },
+    {
+      "description": "Everything in One File",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:developer-signals"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "medium",
+        "category": "Developer Experience Indicators",
+        "category-weight": 0.13,
+        "rule-id": "DEV-008"
+      },
+      "uuid": "f5f8fe60-c4c6-5480-bf54-b7fcff406349",
+      "value": "Everything in One File - DEV-008"
+    },
+    {
+      "description": "Async/Promise Misuse Fix: Understand async/await before shipping async code. Unawaited database calls are race conditions and data loss bugs.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:developer-signals"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "high",
+        "category": "Developer Experience Indicators",
+        "category-weight": 0.13,
+        "rule-id": "DEV-009"
+      },
+      "uuid": "5571ce6b-3e3a-54eb-9bd9-e4cfcf70cecd",
+      "value": "Async/Promise Misuse - DEV-009"
+    },
+    {
+      "description": "Direct Internet Exposure Without Proxy Fix: Put a reverse proxy (Caddy is easiest - automatic TLS) in front. Don't run as root. Bind to 127.0.0.1 and let the proxy handle public traffic.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:infrastructure-red-flags"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "critical",
+        "category": "Infrastructure Red Flags",
+        "category-weight": 0.18,
+        "rule-id": "INF-001",
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"bound-to-all-interfaces\"",
+          "vantacode-mbt:insecure-ai-deployment=\"missing-network-segmentation\"",
+          "vantacode-mbt:insecure-ai-deployment=\"exposed-control-panel\""
+        ]
+      },
+      "uuid": "097f96e6-a5f5-52b1-b6e7-9316944d0395",
+      "value": "Direct Internet Exposure Without Proxy - INF-001"
+    },
+    {
+      "description": "Hardcoded Configuration",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:infrastructure-red-flags"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "high",
+        "category": "Infrastructure Red Flags",
+        "category-weight": 0.18,
+        "rule-id": "INF-002",
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"bound-to-all-interfaces\"",
+          "vantacode-mbt:insecure-ai-deployment=\"missing-network-segmentation\"",
+          "vantacode-mbt:insecure-ai-deployment=\"exposed-control-panel\""
+        ]
+      },
+      "uuid": "e9fe483e-0a0e-5f17-b8d6-3d11ffadcab3",
+      "value": "Hardcoded Configuration - INF-002"
+    },
+    {
+      "description": "Dockerfile Security Issues Tools: hadolint, dockle, trivy.",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:infrastructure-red-flags"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "medium",
+        "category": "Infrastructure Red Flags",
+        "category-weight": 0.18,
+        "rule-id": "INF-003",
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"bound-to-all-interfaces\"",
+          "vantacode-mbt:insecure-ai-deployment=\"missing-network-segmentation\"",
+          "vantacode-mbt:insecure-ai-deployment=\"exposed-control-panel\""
+        ]
+      },
+      "uuid": "9340cfed-2109-5693-a608-206c23bfc630",
+      "value": "Dockerfile Security Issues - INF-003"
+    },
+    {
+      "description": "Admin Panels Publicly Accessible",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:infrastructure-red-flags"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "critical",
+        "category": "Infrastructure Red Flags",
+        "category-weight": 0.18,
+        "rule-id": "INF-004",
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"bound-to-all-interfaces\"",
+          "vantacode-mbt:insecure-ai-deployment=\"missing-network-segmentation\"",
+          "vantacode-mbt:insecure-ai-deployment=\"exposed-control-panel\""
+        ]
+      },
+      "uuid": "555de281-ff31-5631-ba6e-dd05c43b9dbd",
+      "value": "Admin Panels Publicly Accessible - INF-004"
+    },
+    {
+      "description": "Database Ports Exposed in Docker Compose",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:infrastructure-red-flags"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "high",
+        "category": "Infrastructure Red Flags",
+        "category-weight": 0.18,
+        "rule-id": "INF-005",
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"bound-to-all-interfaces\"",
+          "vantacode-mbt:insecure-ai-deployment=\"missing-network-segmentation\"",
+          "vantacode-mbt:insecure-ai-deployment=\"exposed-control-panel\""
+        ]
+      },
+      "uuid": "1bc4b4f1-9a70-565f-96a6-9802d7909f58",
+      "value": "Database Ports Exposed in Docker Compose - INF-005"
+    },
+    {
+      "description": "No Health Checks or Monitoring",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:infrastructure-red-flags"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "medium",
+        "category": "Infrastructure Red Flags",
+        "category-weight": 0.18,
+        "rule-id": "INF-006",
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"bound-to-all-interfaces\"",
+          "vantacode-mbt:insecure-ai-deployment=\"missing-network-segmentation\"",
+          "vantacode-mbt:insecure-ai-deployment=\"exposed-control-panel\""
+        ]
+      },
+      "uuid": "8b25d6e7-a992-5435-972d-60569541c53b",
+      "value": "No Health Checks or Monitoring - INF-006"
+    },
+    {
+      "description": "No Database Migration Strategy",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:infrastructure-red-flags"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "medium",
+        "category": "Infrastructure Red Flags",
+        "category-weight": 0.18,
+        "rule-id": "INF-007",
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"bound-to-all-interfaces\"",
+          "vantacode-mbt:insecure-ai-deployment=\"missing-network-segmentation\"",
+          "vantacode-mbt:insecure-ai-deployment=\"exposed-control-panel\""
+        ]
+      },
+      "uuid": "768d1625-aa87-5622-981f-c4255e5d009c",
+      "value": "No Database Migration Strategy - INF-007"
+    },
+    {
+      "description": "SQLite as Production Multi-User Database",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:infrastructure-red-flags"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "high",
+        "category": "Infrastructure Red Flags",
+        "category-weight": 0.18,
+        "rule-id": "INF-008",
+        "related-taxonomies": [
+          "vantacode-mbt:insecure-ai-deployment=\"bound-to-all-interfaces\"",
+          "vantacode-mbt:insecure-ai-deployment=\"missing-network-segmentation\"",
+          "vantacode-mbt:insecure-ai-deployment=\"exposed-control-panel\""
+        ]
+      },
+      "uuid": "720556d4-60d7-554d-8cb0-abe0b9646a0f",
+      "value": "SQLite as Production Multi-User Database - INF-008"
+    },
+    {
+      "description": "Profile vs. Project Complexity Gap",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:social-signals"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "high",
+        "category": "Social and Meta Indicators",
+        "category-weight": 0.07,
+        "rule-id": "SOC-001"
+      },
+      "uuid": "01525034-1b3e-51f1-98c3-b4d09aed5406",
+      "value": "Profile vs. Project Complexity Gap - SOC-001"
+    },
+    {
+      "description": "Public Claims Exceeding Demonstrated Skill",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:social-signals"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "medium",
+        "category": "Social and Meta Indicators",
+        "category-weight": 0.07,
+        "rule-id": "SOC-002"
+      },
+      "uuid": "c43ad0f5-3ead-5bd2-a9d0-14048ee6cbbd",
+      "value": "Public Claims Exceeding Demonstrated Skill - SOC-002"
+    },
+    {
+      "description": "Bug Fixes That Introduce New Bugs",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:social-signals"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "high",
+        "category": "Social and Meta Indicators",
+        "category-weight": 0.07,
+        "rule-id": "SOC-003"
+      },
+      "uuid": "0db99ee8-b9c3-5a6e-b21c-53b4b022d145",
+      "value": "Bug Fixes That Introduce New Bugs - SOC-003"
+    },
+    {
+      "description": "Application is Deployed and Accepting Users",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:social-signals"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "medium",
+        "category": "Social and Meta Indicators",
+        "category-weight": 0.07,
+        "rule-id": "SOC-004"
+      },
+      "uuid": "37e183df-5c01-5cf2-805e-29fb32ada8f8",
+      "value": "Application is Deployed and Accepting Users - SOC-004"
+    },
+    {
+      "description": "Payment Processing in Insecure App",
+      "meta": {
+        "kill_chain": [
+          "vantacode-dkc:social-signals"
+        ],
+        "refs": [
+          "https://github.com/vantacode",
+          "https://github.com/vantacode/vantacode-taxonomies"
+        ],
+        "severity": "critical",
+        "category": "Social and Meta Indicators",
+        "category-weight": 0.07,
+        "rule-id": "SOC-005"
+      },
+      "uuid": "b796da2d-74ac-5e04-bf44-141914412d30",
+      "value": "Payment Processing in Insecure App - SOC-005"
+    }
+  ]
+}

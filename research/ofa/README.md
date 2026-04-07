@@ -155,13 +155,13 @@ OFA techniques directly inform **MBT-1: Observation-Dependent Behavior** and its
 
 | MBT-1 Subcategory | OFA Techniques | Taxonomy Tag |
 |---|---|---|
-| MBT-1.1: Eval/Benchmark Detection | OFA-001, OFA-002, OFA-003 | `vantacode:mbt:observation-dependent-behavior="eval-benchmark-detection"` |
-| MBT-1.2: Monitoring-Aware Response Modification | OFA-004 | `vantacode:mbt:observation-dependent-behavior="monitoring-aware-modification"` |
-| MBT-1.3: Safety Bypass Under Unobserved Conditions | OFA-005, OFA-006, OFA-007, OFA-008 | `vantacode:mbt:observation-dependent-behavior="safety-bypass-unobserved"` |
-| MBT-1.4: Observation Context Injection | OFA-009, OFA-010 | `vantacode:mbt:observation-dependent-behavior="observation-context-injection"` |
-| MBT-1.5: Differential Testing vs Production | OFA-011, OFA-012, OFA-013 | `vantacode:mbt:observation-dependent-behavior="differential-test-production"` |
-| MBT-1.6: Sandboxing Detection | OFA-014, OFA-015, OFA-016, OFA-017 | `vantacode:mbt:observation-dependent-behavior="sandboxing-detection"` |
-| MBT-1.7: Alignment Faking | OFA-018, OFA-019, OFA-020 | `vantacode:mbt:observation-dependent-behavior="alignment-faking"` |
+| MBT-1.1: Eval/Benchmark Detection | OFA-001, OFA-002, OFA-003 | `vantacode-mbt:observation-dependent-behavior="eval-benchmark-detection"` |
+| MBT-1.2: Monitoring-Aware Response Modification | OFA-004 | `vantacode-mbt:observation-dependent-behavior="monitoring-aware-modification"` |
+| MBT-1.3: Safety Bypass Under Unobserved Conditions | OFA-005, OFA-006, OFA-007, OFA-008 | `vantacode-mbt:observation-dependent-behavior="safety-bypass-unobserved"` |
+| MBT-1.4: Observation Context Injection | OFA-009, OFA-010 | `vantacode-mbt:observation-dependent-behavior="observation-context-injection"` |
+| MBT-1.5: Differential Testing vs Production | OFA-011, OFA-012, OFA-013 | `vantacode-mbt:observation-dependent-behavior="differential-test-production"` |
+| MBT-1.6: Sandboxing Detection | OFA-014, OFA-015, OFA-016, OFA-017 | `vantacode-mbt:observation-dependent-behavior="sandboxing-detection"` |
+| MBT-1.7: Alignment Faking | OFA-018, OFA-019, OFA-020 | `vantacode-mbt:observation-dependent-behavior="alignment-faking"` |
 
 ---
 

@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/vantacode/vantacode-taxonomies/main/schema/mapping.schema.json",
+  "title": "VantaCode Taxonomy Cross-Reference Mapping Schema",
+  "description": "JSON Schema for validating cross-reference mapping files that link a VantaCode taxonomy to an external framework or to another VantaCode taxonomy.",
+  "type": "object",
+  "required": ["name", "version", "source", "target", "mappings"],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable name of the cross-reference mapping."
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Version number. MUST be incremented on any content change."
+    },
+    "source": {
+      "type": "string",
+      "pattern": "^vantacode-[a-z0-9-]+$",
+      "description": "The source VantaCode taxonomy namespace. MUST match an existing taxonomy directory name."
+    },
+    "source_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Optional canonical URL for the source taxonomy."
+    },
+    "target": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier for the target framework (e.g. 'mitre-attack', 'owasp-llm-top10', 'cisa-sectors')."
+    },
+    "target_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Canonical URL for the target framework."
+    },
+    "target_namespace": {
+      "type": "string",
+      "pattern": "^vantacode-[a-z0-9-]+$",
+      "description": "Optional. If the target is another VantaCode taxonomy, set this to its namespace so the validator can cross-check target_id values too."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Free-form notes about the mapping (provenance, methodology, audit trail entries)."
+    },
+    "mappings": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Array of cross-reference entries.",
+      "items": {
+        "type": "object",
+        "required": ["source_tag", "target_id", "relationship", "confidence"],
+        "additionalProperties": false,
+        "properties": {
+          "source_tag": {
+            "type": "string",
+            "pattern": "^vantacode-[a-z0-9-]+:[a-z0-9-]+=\"[^\"]+\"$",
+            "description": "MISP triple-tag in the form vantacode-<taxonomy>:<predicate>=\"<value>\". The hyphen-separated namespace form is REQUIRED — colon-separated forms like 'vantacode:mbt:' are invalid."
+          },
+          "target_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Identifier in the target framework (e.g. 'T1497', 'AML.T0043', 'LLM01')."
+          },
+          "target_name": {
+            "type": "string",
+            "description": "Human-readable name of the target item."
+          },
+          "relationship": {
+            "type": "string",
+            "enum": [
+              "maps-to",
+              "analogous-to",
+              "subset-of",
+              "superset-of",
+              "extends",
+              "related-to",
+              "implements",
+              "detects"
+            ],
+            "description": "The semantic relationship between source_tag and target_id."
+          },
+          "confidence": {
+            "type": "string",
+            "enum": ["high", "medium", "low"],
+            "description": "Confidence level of the mapping."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Free-form rationale for the mapping."
+          }
+        }
+      }
+    }
+  }
+}

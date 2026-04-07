@@ -1,10 +1,10 @@
 # vantacode-mbt
 
-> Malicious Behaviors Taxonomy (MBT) for AI and ML system threats. Classifies AI-specific malicious behaviors, vulnerabilities, and deployment risks. Informed by DarkCode LLC research including the Observation Framing Attack (OFA), DarkCogswell adversarial ML research, and DECLAWED exposed AI agent tracking.
+> Malicious Behaviors Taxonomy (MBT) for AI and ML system threats. Classifies AI-specific malicious behaviors, vulnerabilities, and deployment risks. Informed by DarkCode LLC research including the Observation Framing Attack (OFA), the VantaGrid behavioral measurement framework, and the DKC (Dunning-Kruger Coding) detection ruleset.
 
 **Version:** 1  
 **Exclusive:** No  
-**References:** https://github.com/vantacode/vantacode-taxonomies, https://declawed.io, https://owasp.org/www-project-top-10-for-large-language-model-applications/  
+**References:** https://github.com/vantacode/vantacode-taxonomies, https://observationframing.org, https://vantagrid.ai, https://owasp.org/www-project-top-10-for-large-language-model-applications/  
 
 ## Predicates
 

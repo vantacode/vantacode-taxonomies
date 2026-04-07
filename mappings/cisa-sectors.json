@@ -1,12 +1,12 @@
 {
   "name": "VantaCode Sectors to CISA PPD-21 Critical Infrastructure Sectors",
-  "version": 1,
+  "version": 2,
   "source": "vantacode-sector",
   "target": "cisa-ppd21",
   "target_url": "https://www.cisa.gov/topics/critical-infrastructure-security-and-resilience/critical-infrastructure-sectors",
   "mappings": [
     {
-      "source_tag": "vantacode:sector:critical-infrastructure=\"chemical\"",
+      "source_tag": "vantacode-sector:critical-infrastructure=\"chemical\"",
       "target_id": "CI-CHEMICAL",
       "target_name": "Chemical Sector",
       "relationship": "maps-to",
@@ -14,7 +14,7 @@
       "notes": "SRMA: Department of Homeland Security. Covers manufacturing, storing, and transporting chemical substances."
     },
     {
-      "source_tag": "vantacode:sector:critical-infrastructure=\"commercial-facilities\"",
+      "source_tag": "vantacode-sector:critical-infrastructure=\"commercial-facilities\"",
       "target_id": "CI-COMMERCIAL",
       "target_name": "Commercial Facilities Sector",
       "relationship": "maps-to",
@@ -22,7 +22,7 @@
       "notes": "SRMA: Department of Homeland Security. Covers sites drawing large crowds for shopping, business, entertainment, or lodging."
     },
     {
-      "source_tag": "vantacode:sector:critical-infrastructure=\"communications\"",
+      "source_tag": "vantacode-sector:critical-infrastructure=\"communications\"",
       "target_id": "CI-COMMUNICATIONS",
       "target_name": "Communications Sector",
       "relationship": "maps-to",
@@ -30,7 +30,7 @@
       "notes": "SRMA: Department of Homeland Security. Covers telecommunications, broadcasting, cable, and internet services."
     },
     {
-      "source_tag": "vantacode:sector:critical-infrastructure=\"critical-manufacturing\"",
+      "source_tag": "vantacode-sector:critical-infrastructure=\"critical-manufacturing\"",
       "target_id": "CI-MANUFACTURING",
       "target_name": "Critical Manufacturing Sector",
       "relationship": "maps-to",
@@ -38,7 +38,7 @@
       "notes": "SRMA: Department of Homeland Security. Covers production of essential materials and goods."
     },
     {
-      "source_tag": "vantacode:sector:critical-infrastructure=\"dams\"",
+      "source_tag": "vantacode-sector:critical-infrastructure=\"dams\"",
       "target_id": "CI-DAMS",
       "target_name": "Dams Sector",
       "relationship": "maps-to",
@@ -46,7 +46,7 @@
       "notes": "SRMA: Department of Homeland Security. Covers dam projects, navigation locks, levees, hurricane barriers."
     },
     {
-      "source_tag": "vantacode:sector:critical-infrastructure=\"defense-industrial-base\"",
+      "source_tag": "vantacode-sector:critical-infrastructure=\"defense-industrial-base\"",
       "target_id": "CI-DIB",
       "target_name": "Defense Industrial Base Sector",
       "relationship": "maps-to",
@@ -54,7 +54,7 @@
       "notes": "SRMA: Department of Defense. Covers research, development, production, delivery, and maintenance of military weapons systems."
     },
     {
-      "source_tag": "vantacode:sector:critical-infrastructure=\"emergency-services\"",
+      "source_tag": "vantacode-sector:critical-infrastructure=\"emergency-services\"",
       "target_id": "CI-EMERGENCY",
       "target_name": "Emergency Services Sector",
       "relationship": "maps-to",
@@ -62,7 +62,7 @@
       "notes": "SRMA: Department of Homeland Security. Covers resources providing response services during and after incidents."
     },
     {
-      "source_tag": "vantacode:sector:critical-infrastructure=\"energy\"",
+      "source_tag": "vantacode-sector:critical-infrastructure=\"energy\"",
       "target_id": "CI-ENERGY",
       "target_name": "Energy Sector",
       "relationship": "maps-to",
@@ -70,7 +70,7 @@
       "notes": "SRMA: Department of Energy. Covers electricity, oil, and natural gas infrastructure."
     },
     {
-      "source_tag": "vantacode:sector:critical-infrastructure=\"financial-services\"",
+      "source_tag": "vantacode-sector:critical-infrastructure=\"financial-services\"",
       "target_id": "CI-FINANCIAL",
       "target_name": "Financial Services Sector",
       "relationship": "maps-to",
@@ -78,7 +78,7 @@
       "notes": "SRMA: Department of the Treasury. Covers banks, credit unions, insurance, securities, and investment institutions."
     },
     {
-      "source_tag": "vantacode:sector:critical-infrastructure=\"food-agriculture\"",
+      "source_tag": "vantacode-sector:critical-infrastructure=\"food-agriculture\"",
       "target_id": "CI-FOOD-AG",
       "target_name": "Food and Agriculture Sector",
       "relationship": "maps-to",
@@ -86,7 +86,7 @@
       "notes": "SRMA: USDA / HHS. Covers farms, restaurants, and food manufacturing, processing, and storage."
     },
     {
-      "source_tag": "vantacode:sector:critical-infrastructure=\"government-facilities\"",
+      "source_tag": "vantacode-sector:critical-infrastructure=\"government-facilities\"",
       "target_id": "CI-GOVERNMENT",
       "target_name": "Government Facilities Sector",
       "relationship": "maps-to",
@@ -94,7 +94,7 @@
       "notes": "SRMA: DHS / GSA. Covers buildings and infrastructure owned by federal, state, local, tribal, or territorial governments."
     },
     {
-      "source_tag": "vantacode:sector:critical-infrastructure=\"healthcare-public-health\"",
+      "source_tag": "vantacode-sector:critical-infrastructure=\"healthcare-public-health\"",
       "target_id": "CI-HPH",
       "target_name": "Healthcare and Public Health Sector",
       "relationship": "maps-to",
@@ -102,7 +102,7 @@
       "notes": "SRMA: Department of Health and Human Services. Covers public and private healthcare providers, health insurance, medical equipment."
     },
     {
-      "source_tag": "vantacode:sector:critical-infrastructure=\"information-technology\"",
+      "source_tag": "vantacode-sector:critical-infrastructure=\"information-technology\"",
       "target_id": "CI-IT",
       "target_name": "Information Technology Sector",
       "relationship": "maps-to",
@@ -110,7 +110,7 @@
       "notes": "SRMA: Department of Homeland Security. Covers hardware, software, IT systems, and services including internet infrastructure."
     },
     {
-      "source_tag": "vantacode:sector:critical-infrastructure=\"nuclear\"",
+      "source_tag": "vantacode-sector:critical-infrastructure=\"nuclear\"",
       "target_id": "CI-NUCLEAR",
       "target_name": "Nuclear Reactors, Materials, and Waste Sector",
       "relationship": "maps-to",
@@ -118,7 +118,7 @@
       "notes": "SRMA: Department of Homeland Security. Covers nuclear power plants, research reactors, fuel cycle facilities, radioactive waste."
     },
     {
-      "source_tag": "vantacode:sector:critical-infrastructure=\"transportation-systems\"",
+      "source_tag": "vantacode-sector:critical-infrastructure=\"transportation-systems\"",
       "target_id": "CI-TRANSPORTATION",
       "target_name": "Transportation Systems Sector",
       "relationship": "maps-to",
@@ -126,7 +126,7 @@
       "notes": "SRMA: DHS / DOT. Covers aviation, highway, maritime, mass transit, pipeline, freight rail, and postal shipping."
     },
     {
-      "source_tag": "vantacode:sector:critical-infrastructure=\"water-wastewater\"",
+      "source_tag": "vantacode-sector:critical-infrastructure=\"water-wastewater\"",
       "target_id": "CI-WATER",
       "target_name": "Water and Wastewater Systems Sector",
       "relationship": "maps-to",
@@ -134,7 +134,7 @@
       "notes": "SRMA: Environmental Protection Agency. Covers drinking water and wastewater treatment and distribution systems."
     },
     {
-      "source_tag": "vantacode:sector:emerging=\"education\"",
+      "source_tag": "vantacode-sector:emerging=\"education\"",
       "target_id": "EMERGING-EDUCATION",
       "target_name": "Education",
       "relationship": "extends",
@@ -142,7 +142,7 @@
       "notes": "Not a PPD-21 designated sector. Increasingly targeted by ransomware and data theft campaigns. No formal SRMA designation."
     },
     {
-      "source_tag": "vantacode:sector:emerging=\"space-systems\"",
+      "source_tag": "vantacode-sector:emerging=\"space-systems\"",
       "target_id": "EMERGING-SPACE",
       "target_name": "Space Systems",
       "relationship": "extends",
@@ -150,7 +150,7 @@
       "notes": "Not a PPD-21 designated sector. Covered by Space Policy Directive 5 (SPD-5) for cybersecurity of space systems."
     },
     {
-      "source_tag": "vantacode:sector:emerging=\"cryptocurrency-defi\"",
+      "source_tag": "vantacode-sector:emerging=\"cryptocurrency-defi\"",
       "target_id": "EMERGING-CRYPTO",
       "target_name": "Cryptocurrency and DeFi",
       "relationship": "extends",
@@ -158,7 +158,7 @@
       "notes": "Not a PPD-21 designated sector. May overlap with Financial Services sector for regulated crypto entities."
     },
     {
-      "source_tag": "vantacode:sector:emerging=\"ai-systems\"",
+      "source_tag": "vantacode-sector:emerging=\"ai-systems\"",
       "target_id": "EMERGING-AI",
       "target_name": "AI Systems and Infrastructure",
       "relationship": "extends",

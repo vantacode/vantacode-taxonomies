@@ -491,14 +491,14 @@
       "value": "Jailbreak Vectors - MBT-2.7"
     },
     {
-      "description": "AI agent or model serving interface accessible from the public internet without authentication. DECLAWED research identified 145K+ exposed AI agent instances across 46.2K unique IPs in 82 countries with publicly accessible control panels, admin dashboards, and management interfaces. Exposed panels enable unauthorized model configuration, data access, agent manipulation, and full system compromise.",
+      "description": "AI agent or model serving interface accessible from the public internet without authentication. Exposed control panels enable unauthorized model configuration, data access, agent manipulation, and full system compromise. Default configurations for many self-hosted AI platforms bind to public interfaces and ship without authentication enabled, making this one of the most widespread misconfigurations in the AI deployment space.",
       "meta": {
         "kill_chain": [
           "vantacode-mbt:insecure-ai-deployment"
         ],
         "refs": [
-          "https://declawed.io",
-          "https://github.com/vantacode/vantacode-taxonomies"
+          "https://github.com/vantacode/vantacode-taxonomies",
+          "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
         ],
         "mitre-attack-id": [
           "T1190"
@@ -525,14 +525,14 @@
       "value": "Exposed Control Panel - MBT-3.1"
     },
     {
-      "description": "AI platform deployed with factory-default or well-known credentials that have not been changed. Default credentials on AI agent platforms enable complete takeover including model configuration, data access, agent instruction modification, and tool permission changes. DECLAWED data shows widespread use of default credentials across exposed AI agent deployments.",
+      "description": "AI platform deployed with factory-default or well-known credentials that have not been changed. Default credentials on AI agent platforms enable complete takeover including model configuration, data access, agent instruction modification, and tool permission changes. Widespread in self-hosted AI deployments where operators spin up containerized platforms without changing shipped defaults.",
       "meta": {
         "kill_chain": [
           "vantacode-mbt:insecure-ai-deployment"
         ],
         "refs": [
-          "https://declawed.io",
-          "https://github.com/vantacode/vantacode-taxonomies"
+          "https://github.com/vantacode/vantacode-taxonomies",
+          "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
         ],
         "mitre-attack-id": [
           "T1078.001"
@@ -565,8 +565,8 @@
           "vantacode-mbt:insecure-ai-deployment"
         ],
         "refs": [
-          "https://declawed.io",
-          "https://github.com/vantacode/vantacode-taxonomies"
+          "https://github.com/vantacode/vantacode-taxonomies",
+          "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
         ],
         "mitre-attack-id": [
           "T1190"
@@ -599,7 +599,6 @@
           "vantacode-mbt:insecure-ai-deployment"
         ],
         "refs": [
-          "https://declawed.io",
           "https://github.com/vantacode/vantacode-taxonomies"
         ],
         "mitre-attack-id": [
@@ -694,14 +693,14 @@
       "value": "Misconfigured Agent Tool Permissions - MBT-3.6"
     },
     {
-      "description": "AI agent skill or plugin distributed through agent marketplace (e.g., ClawHub) that contains backdoors, C2 callbacks, credential harvesting, or data exfiltration logic. Five confirmed malicious ClawHub skills with mapped C2 infrastructure identified by DECLAWED research. This is the AI-specific variant of software supply chain compromise targeting the emerging agent plugin ecosystem.",
+      "description": "AI agent skill or plugin distributed through an agent marketplace that contains backdoors, C2 callbacks, credential harvesting, or data exfiltration logic. This is the AI-specific variant of software supply chain compromise targeting the emerging agent plugin ecosystem, where third-party skills execute with the full permissions of the host agent runtime.",
       "meta": {
         "kill_chain": [
           "vantacode-mbt:insecure-ai-deployment"
         ],
         "refs": [
-          "https://declawed.io",
-          "https://github.com/vantacode/vantacode-taxonomies"
+          "https://github.com/vantacode/vantacode-taxonomies",
+          "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
         ],
         "mitre-attack-id": [
           "T1195.002",
@@ -716,7 +715,7 @@
         ],
         "severity": "critical",
         "examples": [
-          "ClawHub skill containing base64-encoded C2 callback URL",
+          "Agent marketplace skill containing base64-encoded C2 callback URL",
           "Agent plugin that exfiltrates .env files on first execution",
           "Skill that installs a reverse shell alongside legitimate functionality"
         ],
@@ -730,14 +729,14 @@
       "value": "Malicious Agent Skill/Plugin - MBT-3.7"
     },
     {
-      "description": "AI service listening on 0.0.0.0 exposing it to all network interfaces including the public internet. This is the most common misconfiguration found in DECLAWED research. Default configurations for many AI frameworks (Ollama, Gradio, vLLM) bind to all interfaces, and operators often deploy without changing this default. Combined with missing authentication, this creates fully open AI endpoints accessible to anyone on the internet.",
+      "description": "AI service listening on 0.0.0.0 exposing it to all network interfaces including the public internet. Default configurations for many AI frameworks (Ollama, Gradio, vLLM) bind to all interfaces, and operators often deploy without changing this default. Combined with missing authentication, this creates fully open AI endpoints accessible to anyone on the internet -- one of the most widespread AI deployment misconfigurations.",
       "meta": {
         "kill_chain": [
           "vantacode-mbt:insecure-ai-deployment"
         ],
         "refs": [
-          "https://declawed.io",
-          "https://github.com/vantacode/vantacode-taxonomies"
+          "https://github.com/vantacode/vantacode-taxonomies",
+          "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
         ],
         "mitre-attack-id": [
           "T1190"
